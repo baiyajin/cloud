@@ -1,0 +1,16 @@
+
+baiyajin:
+  ip: localhost
+  port: 9999
+
+server:
+  port: ${baiyajin.port}
+
+eureka:
+  instance:
+    hostname: ${baiyajin.ip}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${baiyajin.ip}:${baiyajin.port}/eureka/
