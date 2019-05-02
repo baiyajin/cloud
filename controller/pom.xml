@@ -20,7 +20,6 @@
 	</properties>
 
 	<dependencies>
-
 		<!--处理java.net.UnknownHostException-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

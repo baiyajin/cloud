@@ -1,0 +1,20 @@
+server:
+    port: 9991
+
+eureka:
+    instance:
+#        hostname: localhost
+        hostname: boos1
+        prefer-ip-address: true
+        instance-id: boss1
+    client:
+        registerWithEureka: false
+        fetchRegistry: false
+        serviceUrl:
+#            defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+            defaultZone: http://boos3:9993/eureka/,http://boos2:9992/eureka/
+info:
+    app.name: $project.name$
+    company.name: baiyajin
+    build.artifactId: $project.artifactId$
+    build.version: $project.version$

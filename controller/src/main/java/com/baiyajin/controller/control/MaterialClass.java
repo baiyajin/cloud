@@ -19,7 +19,7 @@ public class MaterialClass {
     @Autowired
     RestTemplate restTemplate;
 
-    private static final String Rest_url_prefix = "http://MATERIALS";
+    private static final String Rest_url_prefix = "http://controller";
 
     @RequestMapping(value = "/getMaterialClass2", method = {RequestMethod.GET})
     @Transactional(rollbackFor = Exception.class)
