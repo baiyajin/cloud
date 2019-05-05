@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baiyajin.report.mapper.PageReportMapper">
+    <!--分页查询报告-->
+    <select id="findList" parameterType="com.baiyajin.entity.bean.ReportVo" resultType="com.baiyajin.entity.bean.ReportVo">
+        SELECT
+        a.id AS "id",
+        a.`name` AS "title",
+        a.type AS "type",
+        a.userID,
+        a.createTime AS "createTime",
+        b.`name` as "materialName"
+        FROM page_report a
+        LEFT JOIN hlidx_category b ON a.materialClassID = b.id
+        WHERE
+        a.statusID = "qy"
+        <if test="type !=null and type != ''">
+            AND a.type = #{type}
+        </if>
+        <if test="type == null or type == ''">
+            AND (a.type = '1' or (a.type = '2' and a.userID = #{userID}))
+        </if>
+        <if test="title !=null and title != ''">
+            AND a.name LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="userID != null and userID != '' and type == 2">
+            AND a.userID = #{userID}
+        </if>
+        ORDER BY createTime DESC
+        LIMIT #{pageCurrent},#{pSize}
+    </select>
+
+    <!--查询总数-->
+    <select id="getCount" parameterType="com.baiyajin.entity.bean.ReportVo" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM page_report a
+        WHERE
+        a.statusID = "qy"
+        <if test="type != null and type != ''">
+            AND a.type = #{type}
+        </if>
+        <if test="type == null or type == ''">
+            AND (a.type = '1' or (a.type = '2' and a.userID = #{userID}))
+        </if>
+        <if test="title !=null and title != ''">
+            AND a.name LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="userID != null and userID != '' and type == 2">
+            AND a.userID = #{userID}
+        </if>
+    </select>
+
+
+    <update id="updateRemark" parameterType="java.util.Map">
+        update page_repor_remark
+        set mark = #{mark}
+        where reportId =#{reportId}
+        and userId =#{userId}
+    </update>
+
+    <select id="selectRemarkByReportId" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from page_repor_remark
+        where reportId = #{reportId}
+        and userId = #{userId}
+    </select>
+
+    <insert id="addRemark" parameterType="java.util.Map">
+        insert into page_repor_remark(userId,reportId,mark)
+        values(#{userId},#{reportId},#{mark})
+    </insert>
+
+    <select id="selectRemark" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageReport">
+    SELECT
+        m.id,
+        m.`type`,
+        m. NAME,
+        m.logo,
+        m.content,
+        ifnull(i.mark, m.mark) AS mark,
+        m.userID,
+        m.statusID,
+        m.createTime,
+        m.updateTime,
+        m.timeInterval,
+        m.materialClassID,
+        m.contrastRegionID
+    FROM
+        (
+            SELECT
+                *
+            FROM
+                page_report
+            WHERE
+                id = #{reportId}
+        ) m
+    LEFT JOIN (
+        SELECT
+            *
+        FROM
+            page_repor_remark
+        WHERE
+            userId = #{userId}
+    ) i ON m.id = i.reportId
+    </select>
+
+
+</mapper>
