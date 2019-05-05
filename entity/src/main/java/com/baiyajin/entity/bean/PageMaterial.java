@@ -3,14 +3,13 @@ package com.baiyajin.entity.bean;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
 @Data
 @TableName("page_material")
-public class PageMaterial  implements Serializable {
+public class PageMaterial {
   private String id;
   private String name;
   private BigDecimal price;

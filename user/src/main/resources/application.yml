@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9200
 
 web:
   IP: 182.247.245.27
@@ -9,7 +9,7 @@ web:
 
 spring:
   application:
-    name: controller
+    name: user
   datasource:
         username: root
         password: '%#$123456jijia'
@@ -18,7 +18,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
-    instance-id: controller
+    instance-id: user
   client:
     service-url:
       defaultZone: http://boos3.com:9993/eureka/,http://boos2.com:9992/eureka/,http://boos1.com:9991/eureka/
