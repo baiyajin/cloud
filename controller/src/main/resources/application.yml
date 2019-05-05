@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9220
 
 web:
   IP: 182.247.245.27
@@ -14,6 +14,17 @@ spring:
         username: root
         password: '%#$123456jijia'
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        dbcp2:
+          validation-query: SELECT 1
+          testWhileIdle: true
+          testOnBorrow: true
+          testOnReturn: true
+  redis:
+    host: ${web.IP}
+    password: baiyajin
+    database: 0
+    port: 6379
+    timeout: 100
 
 eureka:
   instance:

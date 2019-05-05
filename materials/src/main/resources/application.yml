@@ -1,5 +1,5 @@
 server:
-  port: 9100
+  port: 9111
 
 web:
   IP: 182.247.245.27
@@ -10,16 +10,15 @@ web:
 spring:
   application:
     name: materials
-#  redis:
-#    host: 182.247.245.27
-#    password: baiyajin
-#    database: 0
-#    port: 6379
-#    timeout: 100
   datasource:
         username: root
         password: '%#$123456jijia'
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        dbcp2:
+          validation-query: SELECT 1
+          testWhileIdle: true
+          testOnBorrow: true
+          testOnReturn: true
 
 eureka:
   instance:
@@ -27,6 +26,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://boos3.com:9993/eureka/,http://boos2.com:9992/eureka/,http://boos1.com:9991/eureka/
+
 
 
 

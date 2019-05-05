@@ -31,7 +31,7 @@ public class Material {
     @Autowired
     RestTemplate restTemplate;
 
-    private static final String Rest_url_prefix = "http://controller";
+    private static final String Rest_url_prefix = "http://materials";
 
     /**
      * 添加材料
