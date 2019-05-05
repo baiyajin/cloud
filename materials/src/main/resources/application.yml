@@ -33,7 +33,6 @@ eureka:
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-#  typeAliasesPackage: com.baiyajin.entity.bean
   global-config.refresh-mapper: true
 
 
