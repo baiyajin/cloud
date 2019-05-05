@@ -1,19 +1,19 @@
 server:
-  port: 9111
+  port: 9110
 
 web:
-#  IP: 182.247.245.27
-#  database: jijia_production
-  database: jijia_sys
-  IP: localhost
+  IP: 182.247.245.27
+  database: jijia_production
+#  database: jijia_sys
+#  IP: localhost
 
 spring:
   application:
     name: materials
   datasource:
         username: root
-#        password: '%#$123456jijia'
-        password: root
+        password: '%#$123456jijia'
+#        password: root
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         dbcp2:
           validation-query: SELECT 1
