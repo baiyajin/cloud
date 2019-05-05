@@ -6,18 +6,14 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@TableName("page_material_class")
-public class PageMaterialClass {
+@TableName("sys_user_type")
+public class SystemUserType {
   private String id;
   private String name;
+  private String jurisdictionID;
   private String statusID;
-
-
   private Timestamp createTime;
   private Timestamp updateTime;
-
-
-
 
 
 }
