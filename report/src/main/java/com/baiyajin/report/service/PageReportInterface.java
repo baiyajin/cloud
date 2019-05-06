@@ -20,5 +20,4 @@ public interface PageReportInterface extends IService<PageReport> {
     int addRemark(Map<String, Object> map);
 
     PageReport selectRemark(Map<String, Object> map);
-
 }

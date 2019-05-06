@@ -55,7 +55,8 @@
 
     <update id="updateRemark" parameterType="java.util.Map">
         update page_repor_remark
-        set mark = #{mark}
+        set mark = #{mark},
+            updateTime = #{updateTime}
         where reportId =#{reportId}
         and userId =#{userId}
     </update>
@@ -67,8 +68,8 @@
     </select>
 
     <insert id="addRemark" parameterType="java.util.Map">
-        insert into page_repor_remark(userId,reportId,mark)
-        values(#{userId},#{reportId},#{mark})
+        insert into page_repor_remark(userId,reportId,mark,createTime,updateTime)
+        values(#{userId},#{reportId},#{mark},#{createTime},#{updateTime})
     </insert>
 
     <select id="selectRemark" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageReport">
@@ -104,6 +105,5 @@
             userId = #{userId}
     ) i ON m.id = i.reportId
     </select>
-
 
 </mapper>

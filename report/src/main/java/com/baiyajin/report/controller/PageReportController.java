@@ -5,6 +5,7 @@ import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
 import com.baiyajin.report.service.PageReportInterface;
+import com.baiyajin.report.service.PageReportRemarkInterface;
 import com.baiyajin.util.u.*;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -33,6 +34,8 @@ public class PageReportController {
 
     @Autowired
     private PageReportInterface pageReportInterface;
+    @Autowired
+    private PageReportRemarkInterface pageReportRemarkInterface;
 
 
     @RequestMapping(value = "/", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -57,11 +60,14 @@ public class PageReportController {
     @ResponseBody
     public Object addReport (PageReport pageReport,@RequestParam("startTimeStr") String startTimeStr,@RequestParam("endTimeStr")String endTimeStr){
         String token = pageReport.getToken();
+        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> reMap = new HashMap<>();
         Claims claims = JWT.parseJWT(token);
         if (claims == null){
             return new Results(1,"请重新登录");
         }else {
             pageReport.setUserID(claims.getId());
+            map.put("userId",claims.getId());
         }
         if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
             pageReport.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
@@ -70,11 +76,29 @@ public class PageReportController {
             Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
             pageReport.setEndTime(endTimeDate);
         }
+        String id = IdGenerate.uuid();
         pageReport.setType("2");
-        pageReport.setId(IdGenerate.uuid());
+        pageReport.setId(id);
         pageReport.setStatusID("qy");
         pageReport.setCreateTime(new Timestamp(System.currentTimeMillis()));
         pageReport.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        map.put("reportId",id);
+        if (pageReport != null){
+            map.put("mark",pageReport.getMark());
+        }
+        reMap =  pageReportInterface.selectRemarkByReportId(map);
+        int i = 0;
+        if(reMap==null){
+            map.put("createTime",new Date());
+            map.put("updateTime",new Date());
+            i = pageReportInterface.addRemark(map);
+        }else{
+            map.put("updateTime",new Date());
+            i = pageReportInterface.updateRemark(map);
+        }
+        if(i==0){
+            return new Results(1,"fail");
+        }
         try {
             pageReportInterface.insert(pageReport);
         } catch (Exception e) {
@@ -105,6 +129,7 @@ public class PageReportController {
         pageReport.setStatusID("jy");
         try {
             pageReportInterface.updateById(pageReport);
+            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
         } catch (Exception e) {
             e.printStackTrace();
             return new Results(1,"fail");
@@ -148,19 +173,16 @@ public class PageReportController {
         reMap =  pageReportInterface.selectRemarkByReportId(map);
         int i = 0;
         if(reMap==null){
+            map.put("createTime",new Date());
+            map.put("updateTime",new Date());
             i = pageReportInterface.addRemark(map);
         }else{
+            map.put("updateTime",new Date());
             i = pageReportInterface.updateRemark(map);
         }
         if(i==0){
             return new Results(1,"fail");
         }
-//        try {
-//            pageReportInterface.updateById(pageReport);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new Results(1,"fail");
-//        }
         return new Results(0,"success");
     }
 
@@ -244,14 +266,10 @@ public class PageReportController {
             return new Results(1,"登录失效");
         }
         String userId = claims.getId();
-//        PageReport pageReport = pageReportInterface.selectById(id);
-
         Map<String,Object> map = new HashMap<>();
         map.put("reportId",id);
         map.put("userId",userId);
-
         PageReport pageReport = pageReportInterface.selectRemark(map);
-
         if (pageReport != null){
             pageReport.setContent(StringEscapeUtils.escapeHtml(pageReport.getContent()));
         }else {
