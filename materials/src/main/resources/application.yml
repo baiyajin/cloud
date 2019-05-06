@@ -20,7 +20,12 @@ spring:
           testWhileIdle: true
           testOnBorrow: true
           testOnReturn: true
-
+  redis:
+    host: ${web.IP}
+    password: baiyajin
+    database: 0
+    port: 6379
+    timeout: 100
 eureka:
   instance:
     prefer-ip-address: true
