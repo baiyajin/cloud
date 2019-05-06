@@ -10,6 +10,7 @@ public class ReportVo implements Serializable {
 
     private String id;  //id
     private String type;    //报告类型
+    private String dataType;  // 数据类型,1代表月度,2代表季度，3代表年度
     private String title;   //报告标题
     private String materialName;
     private Date createTime;  //时间
