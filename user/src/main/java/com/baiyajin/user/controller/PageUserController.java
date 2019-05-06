@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +29,23 @@ public class PageUserController {
     @Autowired
     private PageUserInterface pageUserInterface;
 
+    @RequestMapping(value = "/test", method = {RequestMethod.GET})
+    @Transactional(rollbackFor = Exception.class)
+    public Object test(HttpServletRequest request, HttpServletResponse response) {
 
+        String url = "";
+        url = request.getScheme() +"://" + request.getServerName()
+                + ":" +request.getServerPort()
+                + request.getServletPath();
+        if (request.getQueryString() != null){
+            url += "?" + request.getQueryString();
+        }
+        System.out.println("---------------------------");
+        System.out.println(url);
+        System.out.println("---------------------------");
+
+        return url;
+    }
 
 
     /**
@@ -138,14 +151,29 @@ public class PageUserController {
 
     /**
      * 提交修改，更新资料
-     * @param
-     * @return user
+     * @param user
+     * @return Object
      */
     @RequestMapping(value = "/updateUserInfo", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    public Object updateUserInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
-       return null;
+    public Object updateUserInfo(@RequestBody PageUser user) {
+        if(user.getToken() == null)return new Results(1,"token不允许为空");
+        if (JWT.parseJWT(user.getToken()) == null)return new Results(1,"token已过期,请重新登录");
+        if(user.getPhone() != null)return new Results(1,"此接口不允许修改手机号");
+        if(user.getPassword() != null)return new Results(1,"此接口不允许修改密码");
+
+        user.setPhone(null);
+        user.setStatusID(null);
+        user.setCreateTime(null);
+        user.setPassword(null);
+        user.setUpdateTime(null);
+        user.setUserTypeID(null);
+
+        user.setId(JWT.parseJWT(user.getToken()).getId());
+
+        pageUserInterface.updateById(user);
+        return new Results(0,"更新成功",user);
     }
 
 
