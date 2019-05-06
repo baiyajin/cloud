@@ -18,6 +18,11 @@ public class PageUser {
   @TableField(exist = false)
   private String token;
 
+  private String headPortrait;
+  private String location;
+  private String unit;
+  private String individualResume;
+
   private Timestamp createTime;
   private Timestamp updateTime;
 

@@ -5,6 +5,8 @@ import com.baiyajin.user.service.PageUserInterface;
 import com.baiyajin.util.u.HashSalt;
 import com.baiyajin.util.u.JWT;
 import com.baiyajin.util.u.PhoneUtils;
+import com.baiyajin.util.u.Results;
+import io.jsonwebtoken.Claims;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -134,6 +136,17 @@ public class PageUserController {
 
 
 
+    /**
+     * 提交修改，更新资料
+     * @param
+     * @return user
+     */
+    @RequestMapping(value = "/updateUserInfo", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public Object updateUserInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
+       return null;
+    }
 
 
 }
