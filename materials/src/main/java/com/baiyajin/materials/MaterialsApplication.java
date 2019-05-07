@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 //@EnableCaching
 @MapperScan(value = "com.baiyajin.materials.mapper")
 @SpringBootApplication
+@EnableCaching
 public class MaterialsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MaterialsApplication.class, args);

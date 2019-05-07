@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baiyajin.materials.mapper.PageMaterialUpdateMapper">
+
+
+    <select id="getMaterialtAvgPrice" resultType="java.util.Map" parameterType="java.util.Map">
+          select id,mid,city,area,avg(price) as price,mdate from (
+            select id,mid,city,area,price,mtime as mdate
+            from
+              hl_pinfb_price where mid = #{mid} and area = #{area} and year(mtime) =#{year} and month(mtime)=#{month}
+            union all
+            select id,mid,city,area,price,mdate
+            from
+              hl_main_price where mid = #{mid} and area = #{area} and year(mdate) =#{year}  and month(mdate)=#{month}
+            union all
+            select id,mid,city,area,price,mdate
+            from
+              material_price_info_update where mid = #{mid} and area = #{area} and year(mdate) =#{year}  and month(mdate)=#{month}
+          ) m group by mid,area,year(mdate),month(mdate)
+  </select>
+
+
+
+    <!--<update id="updateMaterialtPrice" parameterType="java.util.Map">-->
+        <!--update page_material_pice-->
+<!--set exponent = 195.900805793386000 / (exponent / 1000 * price)  * 1000-->
+<!--where -->
+<!--mid = 4  and area = 530102000000 and year(mdate) =2019  and month(mdate)=3-->
+    <!--</update>-->
+
+    <select id="getMaterialtPrice" resultType="com.baiyajin.entity.bean.PageMaterialPrice" parameterType="java.util.Map">
+        select * from
+          page_material_pice
+        where
+          mid = #{mid}
+          and area = #{area}
+          and year(mdate) = #{year}
+          and month(mdate) = #{month}
+          and type = 0
+    </select>
+
+
+
+
+    <select id="getMaterialtPriceByFilter" resultType="com.baiyajin.entity.bean.PageMaterialPrice" parameterType="java.util.Map">
+        select * from
+          page_material_pice
+        where mid = #{mid}  and area = #{area} and type = #{type}
+        <!--基价-->
+        <if test="dateType==1">
+            <![CDATA[
+              and concat(year(mdate),month(mdate)) < concat(#{year},#{month})
+            ]]>
+            order by mdate  limit 1
+        </if>
+        <!--环比 -->
+        <if test="dateType==2">
+            <![CDATA[
+                and concat(year(mdate),month(mdate)) < concat(#{year},#{month})
+            ]]>
+            order by mdate desc limit 1
+        </if>
+        <!--同比-->
+        <if test="dateType==3">
+            <![CDATA[
+              and year(mdate) <  #{year} and month(mdate) = #{month}
+            ]]>
+            order by mdate asc  limit 1
+        </if>
+
+    </select>
+
+
+
+</mapper>

@@ -1,5 +1,6 @@
 package com.baiyajin.materials.controller;
 
+
 import com.baiyajin.entity.bean.MaterialAndClass;
 import com.baiyajin.entity.bean.MaterialVo;
 import com.baiyajin.entity.bean.PageMaterial;
@@ -11,10 +12,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api("材料")
-@RestController
+@Controller
 @RequestMapping("/PageMaterialController")
 public class PageMaterialController {
 
@@ -68,7 +71,6 @@ public class PageMaterialController {
      */
     @RequestMapping(value = "/findByTime",method = RequestMethod.POST)
     @ResponseBody
-//    @Cacheable(cacheNames={"findByTime"},key = "#reslut.id")
     public Object findByTime(MaterialVo materialVo){
         List<MaterialVo> materialVoList = pageMaterialInterface.findByTime(materialVo);
         if (materialVoList == null || materialVoList.size() == 0){
@@ -80,7 +82,6 @@ public class PageMaterialController {
     @RequestMapping(value = "/getMaterials", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-//    @Cacheable(cacheNames={"getMaterials"},key = "#map.get('id')")
     public Object getMaterials(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         Map<String,Object> pMap = new HashMap<String,Object>();
         pMap.put("id",map.get("id"));
@@ -105,13 +106,13 @@ public class PageMaterialController {
     @RequestMapping(value = "/getMaterialsClass", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-//    @Cacheable(cacheNames={"getMaterialsClass"},key = "getMaterialsClass")
     public List<MaterialAndClass> getMaterialsClass(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         return pageMaterialInterface.getMaterialsClass(map);
     }
 
     //	"type":"1","pid":"0",, "area":"530112000000", "stratDate":"2019-01-01", "endDate":"2019-04-02"
 
+    private int cou = 0;
     @ApiOperation(value = "获取材料价格信息",notes = "获取材料价格及统计数据，请求类型json")
     @ApiImplicitParams({@ApiImplicitParam(name = "pid,area,id,type,stratDate,endDate，number,level",value =  "分类id默认（查询一级分类）" +
             "区域地址id（默认查询云南地区），材料id指定查询该材料的信息,查询方式type=1查询月份（默认）type=2查询季度type=3查询年，" +
@@ -119,8 +120,8 @@ public class PageMaterialController {
     @RequestMapping(value = "/getMaterialsInfo", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-//    @Cacheable(cacheNames={"getMaterialsInfo"},key = "#map.get('type')")
     public List<Map<String,Object>> getMaterialsInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        System.out.println(cou++);
         return pageMaterialInterface.getMaterialsInfo(map);
     }
 
@@ -129,13 +130,13 @@ public class PageMaterialController {
     @RequestMapping(value = "/getMaterialsInfoByArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-//    @Cacheable(cacheNames={"getMaterialsInfoByArea"},key = "#map.get('area')")
     public List<Map<String,Object>> getMaterialsInfoByArea(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
 
             return pageMaterialInterface.getMaterialsInfoByArea(map);
 
 
     }
+
 
 
 
@@ -148,14 +149,7 @@ public class PageMaterialController {
 
     }*/
 
-    @ApiOperation(value = "获取材料分类",notes = "获取材料分类信息（1,2级材料），请求类型json")
-    @ApiImplicitParams({@ApiImplicitParam(name = "无需参数",value =  "如：\t {}",dataType = "String")})
-    @RequestMapping(value = "/getMaterialsClass2", method = {RequestMethod.GET})
-    @Transactional(rollbackFor = Exception.class)
-//    @Cacheable(cacheNames={"getMaterialsClass"},key = "getMaterialsClass")
-    public List<MaterialAndClass> getMaterialsClass2(HttpServletRequest request, HttpServletResponse response) {
-        return pageMaterialInterface.getMaterialsClass(new HashMap<>());
-    }
+
 
 }
 

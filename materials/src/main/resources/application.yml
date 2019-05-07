@@ -2,8 +2,9 @@ server:
   port: 9102
 
 web:
-  IP: 182.247.245.27
-  database: jijia_production
+  IP: 192.168.8.19
+#  IP: 127.0.0.1
+  database: jijia_test
 #  database: jijia_test
 #  IP: localhost
 
@@ -20,13 +21,18 @@ spring:
         username: root
         password: '%#$123456jijia'
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password:
+    port: 6379
 
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://boos3:9993/eureka/,http://boos2:9992/eureka/,http://boos1:9991/eureka/
+      defaultZone: http://127.0.0.1:9991/eureka/
 
 
 
@@ -42,3 +48,7 @@ info:
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+logging:
+  level:
+     com.baiyajin.materials.mapper : debug
