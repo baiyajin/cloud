@@ -45,7 +45,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
             PageMaterialUpdata a = list.get(0);
             cal.setTime(a.getMdate());
             int year = cal.get(Calendar.YEAR);
-            int month =cal.get( Calendar.MONTH);
+            int month =cal.get( Calendar.MONTH)+1;
             matparMap.put("year",year);
             matparMap.put("month",month);
             matparMap.put("mid",a.getMid());
@@ -62,6 +62,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
                //设置价格
                 pageMaterialPrice.setPrice(price);
                 matparMap.put("type",0);
+                System.out.println(pageMaterialPrice);
                 pageMaterialPrice = dataComputer(pageMaterialPrice,matparMap);
                 System.out.println(pageMaterialPrice);
 //                pageMaterialPriceInterface.updateById(pageMaterialPrice);
