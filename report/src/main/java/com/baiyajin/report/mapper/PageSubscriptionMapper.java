@@ -10,4 +10,6 @@ import java.util.List;
 public interface PageSubscriptionMapper extends BaseMapper<PageSubscription> {
 
     List<SubscriptionVo> findList(SubscriptionVo subscriptionVo);
+
+    int getCount(SubscriptionVo subscriptionVo);
 }

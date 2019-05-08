@@ -142,11 +142,11 @@ public class PageReportRemarkController {
     @RequestMapping(value = "/updateRemark",method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object updateRemark(@RequestBody Map<String,Object> map){
-        String token = String.valueOf(map.get("token"));
+        String token = map.get("token")==null?null:map.get("token").toString();
         if (StringUtils.isBlank(token)){
             return new Results(1,"登录失效，青重新登录");
         }
-        String mark = String.valueOf(map.get("mark"));
+        String mark = map.get("mark")==null?null:map.get("mark").toString();
         if (StringUtils.isBlank(mark)){
             return new Results(1,"备注内容不能为空");
         }else {
@@ -154,7 +154,7 @@ public class PageReportRemarkController {
                 return new Results(1,"备注内容字数不能超过2000");
             }
         }
-        String id = String.valueOf(map.get("id"));
+        String id = map.get("id")==null?null:map.get("id").toString();
         if (StringUtils.isBlank(id)){
             return new Results(1,"请选择需要修改的备注");
         }
@@ -186,9 +186,9 @@ public class PageReportRemarkController {
     @RequestMapping(value = "/findList",method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object findList(@RequestBody Map<String,Object> map){
-        String token = String.valueOf(map.get("token"));
+        String token = map.get("token")==null?null:map.get("token").toString();
         if (StringUtils.isBlank(token)){
-            return new Results(1,"登录失效，青重新登录");
+            return new Results(1,"登录失效，重新登录");
         }
         Claims claims = JWT.parseJWT(token);
         ReportRemarkVo reportRemarkVo = new ReportRemarkVo();
@@ -197,10 +197,16 @@ public class PageReportRemarkController {
         }else {
             reportRemarkVo.setUserId(claims.getId());
         }
-        String reportId = String.valueOf(map.get("reportId"));
-        if (null == pageReportInterface.selectById(reportId)){
-            return new Results(1,"该报告不存在");
+        String reportId = map.get("reportId")==null?null:map.get("reportId").toString();
+
+        if (StringUtils.isBlank(reportId)){
+            return new Results(1,"请传入报告ID");
+        }else {
+            if (null == pageReportInterface.selectById(reportId)){
+                return new Results(1,"该报告不存在");
+            }
         }
+
         reportRemarkVo.setReportId(reportId);
         List<ReportRemarkVo> reportRemarkVoList = pageReportRemarkInterface.findList(reportRemarkVo);
         if (reportRemarkVoList == null || reportRemarkVoList.size()<=0){

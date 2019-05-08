@@ -6,13 +6,13 @@ import com.baiyajin.entity.bean.PageSubscription;
 import com.baiyajin.entity.bean.SubscriptionVo;
 import com.baiyajin.report.service.PageSubscriptionInterface;
 import com.baiyajin.util.u.*;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,12 +46,13 @@ public class PageSubscriptionController {
      * @return
      */
     @ApiOperation(value = "新增订阅" ,notes = "新增订阅默认状态ID为启用(qy)，若不默认可传入statusID：jy，isPush代表是否推送(0代表已推送，1代表未推送)，bookPrice代表订阅是材料价格")
-    @ApiImplicitParams({@ApiImplicitParam(name = "title（必填),materialID(必填),areaID（必填）token（必填），remark（非必填），isPush(必填),bookPrice(必填)，bookDate(订阅要关注的数据的时间)"
-            ,value =  "title:jijkokie,materialID:1dsfs3,areaID:sa132546fdaf/sfsa.*,token:asasdffa,remark:s546daf,bookDate：20190-04-15",dataType = "String",paramType = "body")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "title（必填),materialID(必填),areaID（必填）token（必填），remark（非必填），isPush(必填)," +
+            "bookDateStr(必填,订阅关注数据的时间)"
+            ,value =  "title:订阅1,materialID:123,456,areaID:132,123,token:asasdffa,remark:s546daf,bookDateStr：20190-01-15",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    public Object add(PageSubscription pageSubscription, @RequestParam("startTimeStr") String startTimeStr, @RequestParam("endTimeStr")String endTimeStr){
+    public Object add(PageSubscription pageSubscription,@RequestParam(value = "bookDateStr",required = false) String bookDateStr){
         String token = pageSubscription.getToken();
         Claims claims = JWT.parseJWT(token);
         if (claims == null){
@@ -59,13 +60,40 @@ public class PageSubscriptionController {
         }else {
             pageSubscription.setUserID(claims.getId());
         }
-        if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
-            pageSubscription.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
-            Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
-            String lastDay = DateUtils.getDateLastDay(endDate);
-            Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
-            pageSubscription.setEndTime(DateUtils.parseDate(lastDay,"yyyy-MM-dd"));
+        if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getTitle())){
+            return new Results(1,"请输入订阅标题");
         }
+        if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getMaterialID())){
+            return new Results(1,"请选择材料类型");
+        }
+        if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getAreaID())){
+            return new Results(1,"请选择区域");
+        }
+        if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getIsPush())){
+            return new Results(1,"请选择是否推送");
+        }
+
+        if (StringUtils.isNotBlank(bookDateStr)){
+            pageSubscription.setBookDate(DateUtils.parseDate(bookDateStr,"yyyy-MM-dd"));
+        }else {
+            return new Results(1,"请选择时间");
+        }
+
+//        if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
+//            pageSubscription.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
+//            Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
+//            String lastDay = DateUtils.getDateLastDay(endDate);
+//            Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
+//            pageSubscription.setEndTime(DateUtils.parseDate(lastDay,"yyyy-MM-dd"));
+//        }else {
+//            if (StringUtils.isBlank(startTimeStr)){
+//                return new Results(1,"请选择起始时间");
+//            }
+//            if (StringUtils.isBlank(endTimeStr)){
+//                return new Results(1,"请选择结束时间");
+//            }
+//
+//        }
         pageSubscription.setId(IdGenerate.uuid());
         pageSubscription.setCreateTime(new Timestamp(System.currentTimeMillis()));
         pageSubscription.setUpdateTime(new Timestamp(System.currentTimeMillis()));
@@ -90,7 +118,14 @@ public class PageSubscriptionController {
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    public Object delete(String id){
+    public Object delete(String id,String token){
+        if (StringUtils.isBlank(token)){
+            return new Results(1,"登录失效，请重新登录");
+        }
+        Claims claims = JWT.parseJWT(token);
+        if (claims == null){
+            return new Results(1,"登录失效，请重新登录");
+        }
         PageSubscription pageSubscription = new PageSubscription();
         pageSubscription.setId(id);
         pageSubscription.setStatusID("jy");
@@ -110,22 +145,23 @@ public class PageSubscriptionController {
      * @param pageSize
      * @return
      */
-    @ApiOperation(value = "分页查询订阅" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据,num为非必填，填入以后只查询该编号的文章，num为数字")
-    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)，token（必填）",value =  "token:sdfsadfsa,pageNum:1,pageNum:5",dataType = "String",paramType = "body")})
+    @ApiOperation(value = "分页查询订阅" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)，token（必填）,areaId(非必填，区域ID，多个用逗号隔开)," +
+            "maId(非必填，材料ID，多个用逗号隔开),month(非必填，输入月份，如:2019.04)",value =  "token:sdfsadfsa,pageNum:1,pageNum:5",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findPage",method = RequestMethod.POST)
     @ResponseBody
     public Object findPage(SubscriptionVo subscriptionVo, String pageNum, String pageSize){
         Page<SubscriptionVo> p = new Page();
-        PageSubscription pageSubscription = new PageSubscription();
             String token = subscriptionVo.getToken();
-            Claims claims = JWT.parseJWT(token);
-            if (claims == null){
-                return new Results(1,"请重新登录");
-            }else {
-                pageSubscription.setUserID(claims.getId());
-                subscriptionVo.setUserID(claims.getId());
-            }
-
+        if (StringUtils.isBlank(token)){
+            return new Results(1,"登录失效，重新登录");
+        }
+        Claims claims = JWT.parseJWT(token);
+        if (claims == null){
+            return new Results(1,"登录失效，青重新登录");
+        }else {
+            subscriptionVo.setUserID(claims.getId());
+        }
         if (StringUtils.isNotBlank(pageNum)&& StringUtils.isNotBlank(pageSize)){
             if ("0".equals(pageNum)){
                 pageNum = "1";
@@ -142,14 +178,16 @@ public class PageSubscriptionController {
         }
         String number = subscriptionVo.getNumber();
         if (StringUtils.isNotBlank(number)){
-            pageSubscription.setNumber(number);
         }
-        pageSubscription.setStatusID("qy");
-        int count = pageSubscriptionInterface.selectCount(new EntityWrapper<>(pageSubscription));
+        int count = pageSubscriptionInterface.getCount(subscriptionVo);
         Page<SubscriptionVo> page = pageSubscriptionInterface.findList(p,subscriptionVo);
         if (page == null || page.getList() == null ||page.getList().size() == 0){
             return new Results(1,"暂无数据");
         }
+//        for (SubscriptionVo s : page.getList()){
+//            String content = "《"+s.getTitle()+"》"+s.getArea()+s.getMaName()+","+((DateFormatUtils.format(s.getStartTime(),"yyyy-MM-dd"))+"至"+DateFormatUtils.format(s.getEndTime(),"yyyy-MM-dd"))+"价格指数：";
+//            s.setContent(content);
+//        }
         page.setCount(count);
         return page;
     }
@@ -161,11 +199,19 @@ public class PageSubscriptionController {
      */
     @ApiOperation(value = "查询订阅详情" ,notes = "ID查询，只要ID能获取到就能查到文章，无论是否被删除")
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
-    @RequestMapping(value = "/findPageById",method = RequestMethod.POST)
+    @RequestMapping(value = "/findById",method = RequestMethod.POST)
     @ResponseBody
-    public Object findPageById(String id){
+    public Object findPageById(String id,String token){
+        if (StringUtils.isBlank(token)){
+            return new Results(1,"请重新登录");
+        }
+        Claims claims = JWT.parseJWT(token);
+        if (claims == null){
+            return new Results(1,"请重新登录");
+        }
+
         PageSubscription pageSubscription = pageSubscriptionInterface.selectById(id);
-        if (pageSubscription != null){
+        if (pageSubscription == null){
             return new Results(1,"没有该订阅消息");
         }
         return pageSubscription;

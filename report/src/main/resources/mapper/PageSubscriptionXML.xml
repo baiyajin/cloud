@@ -5,25 +5,68 @@
     <!--分页查询报告-->
     <select id="findList" parameterType="com.baiyajin.entity.bean.SubscriptionVo" resultType="com.baiyajin.entity.bean.SubscriptionVo">
         SELECT
-        a.id as "id",
-        a.number as "number",
-        a.title AS "title",
-        a.createTime AS "createTime",
-        a.updateTime as "updateTime",
-        a.bookDate AS "bookDate",
-        a.bookPrice as "bookPrice",
-        a.isPush as "isPush"
-        FROM page_subscription a
+            a.areaID as "areaId",
+            a.materialID as "maId",
+            a.id AS "id",
+            a.number AS "number",
+            a.title AS "title",
+            group_concat(b. NAME) AS "maName",
+            group_concat(c. NAME) AS "area",
+            a.statusID AS "status",
+            a.isPush AS "isPush",
+            a.createTime AS "createTime",
+            a.bookDate AS "bookDate",
+            a.updateTime AS "updateTime"
+        FROM
+            page_subscription a
+        LEFT JOIN hlidx_category b ON b.id = find_in_set(b.id, a.materialID)
+        LEFT JOIN page_user d ON d.id = a.userID
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id, a.areaID)
         WHERE
-        a.statusID = "qy"
-        <if test="number !=null and number != ''">
-            AND a.number = #{number}
+            a.statusID = 'qy'
+        <if test="areaId !=null and areaId != ''">
+            AND a.areaID LIKE CONCAT('%', #{areaId},'%')
+        </if>
+        <if test="maId !=null and maId != ''">
+            AND a.materialID LIKE CONCAT('%', #{maId},'%')
         </if>
         <if test="userID !=null and userID != ''">
             AND a.userID = #{userID}
         </if>
+        <if test="month !=null and month != ''">
+            AND
+            DATE_FORMAT(a.createTime,'%Y.%m') = #{month}
+        </if>
+        group by id
         ORDER BY createTime DESC
         LIMIT #{pageCurrent},#{pSize}
+    </select>
+
+
+    <!--查询订阅详情-->
+    <select id="findPageById" parameterType="java.lang.String" resultType="com.baiyajin.entity.bean.SubscriptionVo">
+
+    </select>
+
+    <!--查询总数-->
+    <select id="getCount" parameterType="com.baiyajin.entity.bean.SubscriptionVo" resultType="java.lang.Integer">
+        select
+        COUNT(*)
+        FROM page_subscription a
+        WHERE a.statusID = 'qy'
+        <if test="areaId !=null and areaId != ''">
+            AND a.areaID LIKE CONCAT('%', #{areaId},'%')
+        </if>
+        <if test="maId !=null and maId != ''">
+            AND a.materialID LIKE CONCAT('%', #{maId},'%')
+        </if>
+        <if test="month !=null and month != ''">
+            AND
+            DATE_FORMAT(a.createTime,'%Y.%m') = #{month}
+        </if>
+        <if test="userID !=null and userID != ''">
+            AND a.userID = #{userID}
+        </if>
     </select>
 
 </mapper>
