@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -46,13 +47,12 @@ public class PageSubscriptionController {
      * @return
      */
     @ApiOperation(value = "新增订阅" ,notes = "新增订阅默认状态ID为启用(qy)，若不默认可传入statusID：jy，isPush代表是否推送(0代表已推送，1代表未推送)，bookPrice代表订阅是材料价格")
-    @ApiImplicitParams({@ApiImplicitParam(name = "title（必填),materialID(必填),areaID（必填）token（必填），remark（非必填），isPush(必填)," +
-            "bookDateStr(必填,订阅关注数据的时间)"
-            ,value =  "title:订阅1,materialID:123,456,areaID:132,123,token:asasdffa,remark:s546daf,bookDateStr：20190-01-15",dataType = "String",paramType = "body")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "title（必填),materialID(必填),areaID（必填）token（必填），remark（非必填），isPush(必填),bookPrice(必填)，bookDate(订阅要关注的数据的时间)"
+            ,value =  "title:jijkokie,materialID:1dsfs3,areaID:sa132546fdaf/sfsa.*,token:asasdffa,remark:s546daf,bookDate：20190-04-15",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    public Object add(PageSubscription pageSubscription,@RequestParam(value = "bookDateStr",required = false) String bookDateStr){
+    public Object add(PageSubscription pageSubscription, @RequestParam("startTimeStr") String startTimeStr,@RequestParam("endTimeStr")String endTimeStr,@RequestParam(value = "bookDateStr",required = false)String bookDateStr){
         String token = pageSubscription.getToken();
         Claims claims = JWT.parseJWT(token);
         if (claims == null){
@@ -73,27 +73,27 @@ public class PageSubscriptionController {
             return new Results(1,"请选择是否推送");
         }
 
-        if (StringUtils.isNotBlank(bookDateStr)){
-            pageSubscription.setBookDate(DateUtils.parseDate(bookDateStr,"yyyy-MM-dd"));
-        }else {
-            return new Results(1,"请选择时间");
-        }
-
-//        if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
-//            pageSubscription.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
-//            Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
-//            String lastDay = DateUtils.getDateLastDay(endDate);
-//            Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
-//            pageSubscription.setEndTime(DateUtils.parseDate(lastDay,"yyyy-MM-dd"));
+//        if (StringUtils.isNotBlank(bookDateStr)){
+//            pageSubscription.setBookDate(DateUtils.parseDate(bookDateStr,"yyyy-MM-dd"));
 //        }else {
-//            if (StringUtils.isBlank(startTimeStr)){
-//                return new Results(1,"请选择起始时间");
-//            }
-//            if (StringUtils.isBlank(endTimeStr)){
-//                return new Results(1,"请选择结束时间");
-//            }
-//
+//            return new Results(1,"请选择时间");
 //        }
+
+        if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
+            pageSubscription.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
+            Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
+            String lastDay = DateUtils.getDateLastDay(endDate);
+            Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
+            pageSubscription.setEndTime(DateUtils.parseDate(lastDay,"yyyy-MM-dd"));
+        }else {
+            if (StringUtils.isBlank(startTimeStr)){
+                return new Results(1,"请选择起始时间");
+            }
+            if (StringUtils.isBlank(endTimeStr)){
+                return new Results(1,"请选择结束时间");
+            }
+
+        }
         pageSubscription.setId(IdGenerate.uuid());
         pageSubscription.setCreateTime(new Timestamp(System.currentTimeMillis()));
         pageSubscription.setUpdateTime(new Timestamp(System.currentTimeMillis()));
@@ -152,7 +152,7 @@ public class PageSubscriptionController {
     @ResponseBody
     public Object findPage(SubscriptionVo subscriptionVo, String pageNum, String pageSize){
         Page<SubscriptionVo> p = new Page();
-            String token = subscriptionVo.getToken();
+        String token = subscriptionVo.getToken();
         if (StringUtils.isBlank(token)){
             return new Results(1,"登录失效，重新登录");
         }
@@ -199,9 +199,9 @@ public class PageSubscriptionController {
      */
     @ApiOperation(value = "查询订阅详情" ,notes = "ID查询，只要ID能获取到就能查到文章，无论是否被删除")
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
-    @RequestMapping(value = "/findById",method = RequestMethod.POST)
+    @RequestMapping(value = "/getInfoById",method = RequestMethod.POST)
     @ResponseBody
-    public Object findPageById(String id,String token){
+    public Object getInfoById(String id,String token){
         if (StringUtils.isBlank(token)){
             return new Results(1,"请重新登录");
         }
@@ -210,11 +210,55 @@ public class PageSubscriptionController {
             return new Results(1,"请重新登录");
         }
 
-        PageSubscription pageSubscription = pageSubscriptionInterface.selectById(id);
-        if (pageSubscription == null){
+        SubscriptionVo subscriptionVo  = pageSubscriptionInterface.getInfoById(id);
+        if (subscriptionVo == null){
             return new Results(1,"没有该订阅消息");
         }
-        return pageSubscription;
+        if (StringUtils.isBlank(subscriptionVo.getMaId())){
+            return new Results(1,"材料编号为空");
+        }
+        String[] maIds = subscriptionVo.getMaId().split(",");
+        if (maIds != null && maIds.length > 0) {
+            List<String> maIdList = new ArrayList<>();
+            for (String m : maIds) {
+                maIdList.add(m);
+            }
+            subscriptionVo.setMaIdList(maIdList);
+        }
+        if (StringUtils.isBlank(subscriptionVo.getMaName())){
+            return new Results(1,"材料为空");
+        }
+        String[] maNames = subscriptionVo.getMaName().split(",");
+        if (maNames != null && maNames.length > 0) {
+            List<String> maNameList = new ArrayList<>();
+            for (String m : maNames) {
+                maNameList.add(m);
+            }
+            subscriptionVo.setMaNameList(maNameList);
+        }
+        if (StringUtils.isBlank(subscriptionVo.getAreaId())){
+            return new Results(1,"区域ID为空");
+        }
+        String[] areaIds = subscriptionVo.getAreaId().split(",");
+        if (areaIds != null && areaIds.length > 0) {
+            List<String> areaIdList = new ArrayList<>();
+            for (String a : areaIds) {
+                areaIdList.add(a);
+            }
+            subscriptionVo.setAreaIdList(areaIdList);
+        }
+        if (StringUtils.isBlank(subscriptionVo.getArea())){
+            return new Results(1,"区域为空");
+        }
+        String[] areaNames = subscriptionVo.getArea().split(",");
+        if (areaNames != null && areaNames.length > 0) {
+            List<String> areaNameList = new ArrayList<>();
+            for (String a : areaNames) {
+                areaNameList.add(a);
+            }
+            subscriptionVo.setAreaNameList(areaNameList);
+        }
+        return subscriptionVo;
     }
 
 

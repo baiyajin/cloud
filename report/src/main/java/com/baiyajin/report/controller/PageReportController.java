@@ -22,10 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
 
 @Api("报告")
 @Controller
@@ -50,15 +48,15 @@ public class PageReportController {
      * @param pageReport
      * @return
      */
-    @ApiOperation(value = "新增报告" ,notes = "新增报告默认状态ID为启用(qy)，type（1 平台发布,2 我的,3 全部），logo为图片上传，状态默认为qy，若不默认可传入statusID：jy")
-    @ApiImplicitParams({@ApiImplicitParam(name = "name(必填),logo（必填），content(必填),publishState(非必填)，" +
-            "startTimeStr(报告中材料的开始时间，非必填),endTimeStr(报告中材料的结束时间，非必填),报告数据类型dataType(必填)，1代表月度,2代表季度，3代表年度" +
-            "mark(非必填)，token（必填）,materialClassID(材料类型ID，选择传入,可多个，用逗号隔开)，contrastRegionID(对比地区，可多个，用逗号隔开)"
-            ,value =  "name:123,logo:safdaf/sfsa.*,content:asfa,mark:sdaf，materialClassID：12346，dataType：1，contrastRegionID：132,asdf,123",dataType = "String",paramType = "body")})
+    @ApiOperation(value = "新增报告" ,notes = "新增报告默认状态ID为启用(qy)，type（1 平台发布,2 我的）,状态默认为qy，若不默认可传入statusID：jy")
+    @ApiImplicitParams({@ApiImplicitParam(name = "name(必填,由用户选择以后前端进行拼接传回)，" +
+            "报告数据类型 dataType(必填)，1代表月度,2代表季度，3代表年度" +
+            "mark(非必填)，token（必填）,timeInterval(订阅的时间点，必填),materialClassID(材料类型ID，选择传入,可多个，用逗号隔开)，contrastRegionID(对比地区，可多个，用逗号隔开)"
+            ,value =  "name:123,logo:safdaf/sfsa.*,content:asfa,mark:sdaf，materialClassID：12346，dataType：1，contrastRegionID：132,asdf,123",dataType = "String",paramType = "form-data")})
     @RequestMapping(value = "/addReport",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    public Object addReport (PageReport pageReport,@RequestParam("startTimeStr") String startTimeStr,@RequestParam("endTimeStr")String endTimeStr){
+    public Object addReport (PageReport pageReport) throws ParseException {
         String token = pageReport.getToken();
         Map<String,Object> map = new HashMap<>();
         Map<String,Object> reMap = new HashMap<>();
@@ -69,13 +67,22 @@ public class PageReportController {
             pageReport.setUserID(claims.getId());
             map.put("userId",claims.getId());
         }
-        if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
-            pageReport.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
-            Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
-            String lastDay = DateUtils.getDateLastDay(endDate);
-            Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
-            pageReport.setEndTime(endTimeDate);
+        String dataType = pageReport != null ? pageReport.getDataType():null;
+        if (StringUtils.isBlank(dataType)){
+            return new Results(1,"请选择智能报告数据类型");
         }
+        String timeInterval = pageReport != null ? pageReport.getTimeInterval():null;
+        if (StringUtils.isBlank(timeInterval)){
+            return new Results(1,"请选择智能报告时间点");
+        }
+        Map<String,Date> m = DateFormatUtil.getStAndEndTime(Integer.valueOf(dataType),timeInterval);
+        Date startTime = m.get("startDate") != null ? m.get("startDate"):null;
+        Date endTime = m.get("endDate") != null ? m.get("endDate"):null;
+        if (startTime != null && endTime != null){
+            pageReport.setStartTime(startTime);
+            pageReport.setEndTime(endTime);
+        }
+
         String id = IdGenerate.uuid();
         pageReport.setType("2");
         pageReport.setId(id);
@@ -91,9 +98,11 @@ public class PageReportController {
         if(reMap==null){
             map.put("createTime",new Date());
             map.put("updateTime",new Date());
+            map.put("id",IdGenerate.uuid());
             i = pageReportInterface.addRemark(map);
         }else{
             map.put("updateTime",new Date());
+            map.put("id",reMap.get("id").toString());
             i = pageReportInterface.updateRemark(map);
         }
         if(i==0){
@@ -148,20 +157,13 @@ public class PageReportController {
     @RequestMapping(value = "/updateReport",method = RequestMethod.POST)
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
-    public Object updateReport(PageReport pageReport,@RequestParam(value = "startTimeStr",required = false) String startTimeStr,@RequestParam(value = "endTimeStr",required = false)String endTimeStr,String token){
+    public Object updateReport(PageReport pageReport,String token){
         String id = pageReport.getId();
         Claims claims = JWT.parseJWT(token);
         String userId = claims.getId();
         PageReport p = pageReportInterface.selectById(id);
         if(p == null){
             return new Results(1,"该报告不存在");
-        }
-        if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
-            pageReport.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
-            Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
-            String lastDay = DateUtils.getDateLastDay(endDate);
-            Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
-            pageReport.setEndTime(endTimeDate);
         }
 
         Map<String,Object> map = new HashMap<>();
@@ -256,39 +258,87 @@ public class PageReportController {
      * @param id
      * @return
      */
-    @ApiOperation(value = "获取报告详情" ,notes = "ID查询，只要ID能获取到就能查到文章，无论是否被删除")
+    @ApiOperation(value = "获取报告详情" ,notes = "ID查询，只要ID能获取到就能查到文章")
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
-    @RequestMapping(value = "/getReportById",method = RequestMethod.POST)
+    @RequestMapping(value = "/getReportByInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Object getReportById(String id,String token){
+    public Object getReportById(String id,String token) throws ParseException {
         Claims claims = JWT.parseJWT(token);
-        if(claims==null){
-            return new Results(1,"登录失效");
+        if (claims == null) {
+            return new Results(1, "登录失效");
         }
-        String userId = claims.getId();
-        Map<String,Object> map = new HashMap<>();
-        map.put("reportId",id);
-        map.put("userId",userId);
-        PageReport pageReport = pageReportInterface.selectRemark(map);
-        if (pageReport != null){
-            pageReport.setContent(StringEscapeUtils.escapeHtml(pageReport.getContent()));
-        }else {
-            return new Results(1,"该报告不存在");
+        ReportVo reportVo = pageReportInterface.getReportInfoById(id);
+        if (reportVo == null) {
+            return new Results(1, "该报告不存在");
         }
-        return pageReport;
+        String[] maIds = reportVo.getMaterialClassID().split(",");
+        if (maIds != null && maIds.length > 0) {
+            List<String> maIdList = new ArrayList<>();
+            for (String m : maIds) {
+                maIdList.add(m);
+            }
+            reportVo.setMaIdList(maIdList);
+        }
+        String[] maNames = reportVo.getMaterialName().split(",");
+        if (maNames != null && maNames.length > 0) {
+            List<String> maNameList = new ArrayList<>();
+            for (String m : maNames) {
+                maNameList.add(m);
+            }
+            reportVo.setMaNameList(maNameList);
+        }
+        String[] areaIds = reportVo.getContrastRegionID().split(",");
+        if (areaIds != null && areaIds.length > 0) {
+            List<String> areaIdList = new ArrayList<>();
+            for (String a : areaIds) {
+                areaIdList.add(a);
+            }
+            reportVo.setAreaIdList(areaIdList);
+        }
+        String[] areaNames = reportVo.getAreaName().split(",");
+        if (areaNames != null && areaNames.length > 0) {
+            List<String> areaNameList = new ArrayList<>();
+            for (String a : areaNames) {
+                areaNameList.add(a);
+            }
+            reportVo.setAreaNameList(areaNameList);
+        }
+        String dataType = reportVo.getDataType();
+        if ("1".equals(dataType)) {
+            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+            int year = map.get("year");
+            int month = map.get("month");
+            List<String> titleList = new ArrayList<>();
+            for (String s : maNames) {
+                titleList.add(year + "年" + month + "月," + s + "月度数据报告");
+            }
+            reportVo.setTitleList(titleList);
+        }
+        if ("2".equals(dataType)) {
+            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+            int year = map.get("year");
+            List<String> titleList = new ArrayList<>();
+            for (String s : maNames) {
+                titleList.add(year + "年第" + reportVo.getTimeInterval() + "季度" + s + "季度数据报告");
+            }
+            reportVo.setTitleList(titleList);
+        }
+        if ("3".equals(dataType)) {
+            if ("3".equals(dataType)) {
+                Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                int year = map.get("year");
+                List<String> titleList = new ArrayList<>();
+                for (String s : maNames) {
+                    titleList.add(year + "年" + s + "年度数据报告");
+                }
+                reportVo.setTitleList(titleList);
+            }
+        }
+            return reportVo;
+        }
 
     }
 
-
-
-
-
-
-
-
-
-
-}
 
 
 

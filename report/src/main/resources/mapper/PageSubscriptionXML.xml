@@ -19,7 +19,7 @@
             a.updateTime AS "updateTime"
         FROM
             page_subscription a
-        LEFT JOIN hlidx_category b ON b.id = find_in_set(b.id, a.materialID)
+        LEFT JOIN hlidx_category b ON find_in_set(b.id, a.materialID)
         LEFT JOIN page_user d ON d.id = a.userID
         LEFT JOIN hlidx_areas c ON find_in_set(c.id, a.areaID)
         WHERE
@@ -67,6 +67,24 @@
         <if test="userID !=null and userID != ''">
             AND a.userID = #{userID}
         </if>
+    </select>
+
+    <!--插叙你订阅详情-->
+    <select id="getInfoById" parameterType="java.lang.String" resultType="com.baiyajin.entity.bean.SubscriptionVo">
+        SELECT
+            a.title AS "title",
+            a.startTime AS "startTime",
+            a.endTime AS "endTime",
+            group_concat(DISTINCT c. NAME) AS "area",
+            a.areaID AS "areaID",
+            group_concat(DISTINCT b. NAME) AS "maName",
+            a.materialID AS "maId"
+        FROM
+	        page_subscription a
+            LEFT JOIN hlidx_category b ON find_in_set(b.id, a.materialID)
+            LEFT JOIN hlidx_areas c ON find_in_set(c.id, a.areaID)
+        WHERE a.statusID = 'qy'
+            AND a.id = #{id}
     </select>
 
 </mapper>

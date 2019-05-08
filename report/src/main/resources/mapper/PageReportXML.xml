@@ -57,8 +57,7 @@
         update page_repor_remark
         set mark = #{mark},
             updateTime = #{updateTime}
-        where reportId =#{reportId}
-        and userId =#{userId}
+        where id =#{id}
     </update>
 
     <select id="selectRemarkByReportId" parameterType="java.util.Map" resultType="java.util.Map">
@@ -68,8 +67,8 @@
     </select>
 
     <insert id="addRemark" parameterType="java.util.Map">
-        insert into page_repor_remark(userId,reportId,mark,createTime,updateTime)
-        values(#{userId},#{reportId},#{mark},#{createTime},#{updateTime})
+        insert into page_repor_remark(id,userId,reportId,mark,createTime,updateTime)
+        values(#{id},#{userId},#{reportId},#{mark},#{createTime},#{updateTime})
     </insert>
 
     <select id="selectRemark" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageReport">
@@ -106,4 +105,24 @@
     ) i ON m.id = i.reportId
     </select>
 
+    <!--获取报告详情-->
+    <select id="getReportInfoById" parameterType="java.lang.String" resultType="com.baiyajin.entity.bean.ReportVo">
+        SELECT
+            a.id AS "id",
+            a.`name` AS "title",
+            a.dataType AS "dataType",
+            a.type AS "type",
+            a.contrastRegionID as "contrastRegionID",
+            a.materialClassID as "materialClassID",
+            group_concat(DISTINCT b. NAME) AS "materialName",
+            group_concat(DISTINCT c. NAME) AS "areaName",
+            a.timeInterval as  "timeInterval",
+            a.startTime AS "startTime",
+            a.endTime AS "endTime"
+        FROM page_report a
+        LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
+        WHERE a.statusID = 'qy'
+            and a.id = #{id}
+    </select>
 </mapper>

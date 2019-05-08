@@ -28,4 +28,9 @@ public class PageSubscriptionService extends ServiceImpl<PageSubscriptionMapper,
     public int getCount(SubscriptionVo subscriptionVo) {
         return baseMapper.getCount(subscriptionVo);
     }
+
+    @Override
+    public SubscriptionVo getInfoById(String id) {
+        return baseMapper.getInfoById(id);
+    }
 }

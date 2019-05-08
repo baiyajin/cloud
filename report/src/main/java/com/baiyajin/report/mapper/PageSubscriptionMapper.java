@@ -12,4 +12,6 @@ public interface PageSubscriptionMapper extends BaseMapper<PageSubscription> {
     List<SubscriptionVo> findList(SubscriptionVo subscriptionVo);
 
     int getCount(SubscriptionVo subscriptionVo);
+
+    SubscriptionVo getInfoById(String id);
 }

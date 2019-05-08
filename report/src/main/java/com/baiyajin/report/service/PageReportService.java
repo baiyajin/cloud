@@ -47,4 +47,9 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
         return baseMapper.selectRemark(map);
     }
 
+    @Override
+    public ReportVo getReportInfoById(String id) {
+        return baseMapper.getReportInfoById(id);
+    }
+
 }
