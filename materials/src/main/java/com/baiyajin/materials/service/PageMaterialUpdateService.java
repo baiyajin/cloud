@@ -108,6 +108,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     }
 
 
+
     @Override
     public List<Map<String, Object>> getMaterialtAvgPrice(Map<String, Object> map) {
         return baseMapper.getMaterialtAvgPrice(map);

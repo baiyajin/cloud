@@ -3,11 +3,12 @@ package com.baiyajin.util.u;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 public class DateFormatUtil {
+
+
+
 
 	/**
 	 * 设置日期时间
@@ -197,7 +198,37 @@ public class DateFormatUtil {
 //	}
 
 
+	public static Map<String,Date> getDateByYear(int year)  {
+		Map<String,Date> map = new HashMap<>();
+		Date stDate =  new Date();
+		Date endDate =  new Date();
+		stDate = setDate(stDate,1,year);
+		stDate = setDate(stDate,2,1);
+		stDate = setDate(stDate,5,1);
+		endDate = setDate(stDate,1,year);
+		endDate = setDate(stDate,2,31);
+		map.put("startDate",stDate);
+		map.put("endDate",endDate);
+		return map;
+	}
 
+
+	public static Map<String,Date> getDateByQuarter(int quarter,int year){
+		Map<String,Date> map = new HashMap<>();
+		int stMonth = quarter * 3 - 2;
+		int endMonth = stMonth + 2;
+		Date stDate =  new Date();
+		Date endDate =  new Date();
+		stDate = setDate(stDate,1,year);
+		stDate = setDate(stDate,2,stMonth);
+		stDate = setDate(stDate,5,1);
+		endDate = setDate(stDate,1,year);
+		endDate = setDate(stDate,2,endMonth);
+		endDate = setDate(stDate,5,Integer.parseInt(getDateLastDay(endDate)));
+		map.put("startDate",stDate);
+		map.put("endDate",endDate);
+		return map;
+	}
 
 
 
@@ -207,7 +238,7 @@ public class DateFormatUtil {
 	public static Integer getQuarter(Date date) {
 		Calendar cal=Calendar.getInstance();
 		cal.setTime(date);
-		return getQuarter( Calendar.getInstance());
+		return getQuarter(cal);
 	}
 
 
@@ -215,6 +246,7 @@ public class DateFormatUtil {
 	 * 获取季度
 	 */
 	public static Integer getQuarter(Calendar c) {
+
 		int month = c.get(c.MONTH) + 1;
 		int quarter = 0;
 		if (month >= 1 && month <= 3) {
