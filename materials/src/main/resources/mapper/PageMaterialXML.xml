@@ -210,6 +210,20 @@
     </select>
 
 
+    <select id="getMaterialCountByMap" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.MaterialCount">
+      select id,mid,area,sum(count) as count from materialcount
+      <where>
+          and mid = #{mid}
+          <if test="type == 0">
+              and area = #{area}
+          </if>
+          <!--其他区域-->
+          <if test="type == 1">
+              and area != #{area}
+          </if>
+      </where>
+
+    </select>
 
 
 </mapper>
