@@ -23,7 +23,9 @@ public class ReportVo implements Serializable {
     private List<String> areaIdList;
     private List<String> titleList;
     private Date startTime;
+    private String startTimeStr;
     private Date endTime;
+    private String endTimeStr;
     private String timeInterval;
     private Date createTime;  //时间
     private String userID;

@@ -4,17 +4,21 @@
     <!--分页查询报告-->
     <select id="findList" parameterType="com.baiyajin.entity.bean.ReportVo" resultType="com.baiyajin.entity.bean.ReportVo">
         SELECT
-        a.id AS "id",
-        a.`name` AS "title",
-        a.type AS "type",
-        a.dataType as "dataType",
-        a.userID,
-        a.createTime AS "createTime",
-        b.`name` as "materialName"
+            a.id AS "id",
+            a.`name` AS "title",
+            a.type AS "type",
+            a.dataType as "dataType",
+            a.userID,
+            a.createTime AS "createTime",
+            a.materialClassID as "materialClassID",
+            a.contrastRegionID as "contrastRegionID",
+            group_concat(DISTINCT b. NAME) AS "materialName",
+            group_concat(DISTINCT c. NAME) AS "areaName"
         FROM page_report a
-        LEFT JOIN hlidx_category b ON a.materialClassID = b.id
+        LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
         WHERE
-        a.statusID = "qy"
+            a.statusID = "qy"
         <if test="type !=null and type != ''">
             AND a.type = #{type}
         </if>
@@ -27,6 +31,7 @@
         <if test="userID != null and userID != '' and type == 2">
             AND a.userID = #{userID}
         </if>
+        group by id
         ORDER BY createTime DESC
         LIMIT #{pageCurrent},#{pSize}
     </select>

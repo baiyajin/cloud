@@ -7,6 +7,7 @@ import com.baiyajin.entity.bean.PageHelper;
 import com.baiyajin.report.service.PageHelperInterface;
 import com.baiyajin.util.u.IdGenerate;
 import com.baiyajin.util.u.PageUtils;
+import com.baiyajin.util.u.ReflectUtil;
 import com.baiyajin.util.u.Results;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import io.swagger.annotations.Api;
@@ -18,11 +19,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 @Api("帮助")
 @Controller
@@ -144,16 +147,18 @@ public class PageHelperController {
 
     /**
      * 分页查询帮助文章
-     * @param helperVo
-     * @param pageNum
-     * @param pageSize
+     * @param map
      * @return
      */
     @ApiOperation(value = "查询帮助中心文章列表" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据,num为非必填，填入以后只查询该编号的文章，num为数字")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)",value =  "pageNum:1,pageNum:5",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findHelperByPage",method = RequestMethod.POST)
     @ResponseBody
-    public Object findHelperByPage(HelperVo helperVo, String pageNum, String pageSize){
+//    public Object findHelperByPage(@RequestBody Map<String,Object> map){
+    public Object findHelperByPage(Map<String,Object> map){
+        HelperVo helperVo = ReflectUtil.mapToObjcet(map,HelperVo.class);
+        String pageNum = map.get("pageNum") != null ? map.get("pageNum").toString():null;
+        String pageSize = map.get("pageSize") != null ? map.get("pageSize").toString():null;
         Page<HelperVo> p = new Page();
         if (StringUtils.isNotBlank(pageNum)&& StringUtils.isNotBlank(pageSize)){
             if ("0".equals(pageNum)){

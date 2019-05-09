@@ -212,6 +212,7 @@ public class DateFormatUtil {
 	}
 
 
+
 	public static Map<String,Date> getDateByQuarter(int quarter,int year){
 		Map<String,Date> map = new HashMap<>();
 		int stMonth = quarter * 3 - 2;
@@ -219,10 +220,10 @@ public class DateFormatUtil {
 		Date stDate =  new Date();
 		Date endDate =  new Date();
 		stDate = setDate(stDate,1,year);
-		stDate = setDate(stDate,2,stMonth);
+		stDate = setDate(stDate,2,stMonth-1);
 		stDate = setDate(stDate,5,1);
 		endDate = setDate(stDate,1,year);
-		endDate = setDate(stDate,2,endMonth);
+		endDate = setDate(stDate,2,endMonth-1);
 		endDate = DateUtils.parseDate(getDateLastDay(endDate),"yyyy-MM-dd");
 		map.put("startDate",stDate);
 		map.put("endDate",endDate);
@@ -362,8 +363,11 @@ public class DateFormatUtil {
 		stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
 
 		System.out.println(DateFormatUtil.dateToString(stDate1));*/
+		Map<String,Date> map = getDateByQuarter(3,2019);
+		System.out.println(dateToString(map.get("startDate")));
+		System.out.println(dateToString(map.get("endDate")));
 
-		System.out.println(DateFormatUtil.getDateLastDay(new Date()));
+
 	}
 
 }

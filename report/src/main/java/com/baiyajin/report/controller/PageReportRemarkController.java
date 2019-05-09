@@ -48,7 +48,7 @@ public class PageReportRemarkController {
             "\t\"mark\":\"报告备注\",\n" +
             "\t\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwOTdmMGRkOWUyMjc0Y2NmYjc2ZjRmYWMxNDQxNjMzOSIsImV4cCI6MTU1NzIwNzk4OSwibmJmIjoxNTU3MTIxNTg5fQ.terrsjOFp7KcCRQa5--eMxWwjpLxCZKJEXPmmayWy70\",\n" +
             "\t\"reportId\":\"8124ac8bf4ff4407a635fd34a91a74a9\"\n" + "}",dataType = "String")})
-    @RequestMapping(value = "/add",method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/add",method = {RequestMethod.POST},produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public Object addReportRemark(@RequestBody Map<String,Object> map){
@@ -134,7 +134,7 @@ public class PageReportRemarkController {
      * @return
      */
     @ApiOperation(value = "修改备注",notes = "修改备注，请求类型json")
-    @ApiImplicitParams({@ApiImplicitParam(name = "token,,reportId " +
+    @ApiImplicitParams({@ApiImplicitParam(name = "token,,id " +
             "如:{\n" +
             "\t\"id\":\"0b3ac13d0a484b89bfc338c685a25fa0\",\n" +
             "\t\"mark\":\"报告备注修改\"\n" +
@@ -150,7 +150,7 @@ public class PageReportRemarkController {
         if (StringUtils.isBlank(mark)){
             return new Results(1,"备注内容不能为空");
         }else {
-            if (mark.length() >= 2000){
+            if (mark.length() > 2000){
                 return new Results(1,"备注内容字数不能超过2000");
             }
         }
@@ -163,6 +163,7 @@ public class PageReportRemarkController {
             return new Results(1,"该备注不存在");
         }
         pageReportRemark.setMark(mark);
+        pageReportRemark.setUpdateTime(new Date());
         try {
             pageReportRemarkInterface.updateById(pageReportRemark);
         } catch (Exception e) {

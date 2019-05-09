@@ -2,12 +2,12 @@ server:
   port: 9330
 
 web:
-#  IP: 182.247.245.27
-  IP: localhost
+  IP: 182.247.245.27
+#  IP: localhost
   database: jijia_production
   redisIP: localhost
 #  database: jijia_test
-#  IP: localhost
+#  IP: 192.168.8.19
 
 spring:
   application:

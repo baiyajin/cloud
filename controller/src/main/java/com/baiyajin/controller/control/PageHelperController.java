@@ -4,9 +4,7 @@ package com.baiyajin.controller.control;
 import com.baiyajin.entity.bean.HelperVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageHelper;
-import com.baiyajin.util.u.IdGenerate;
-import com.baiyajin.util.u.PageUtils;
-import com.baiyajin.util.u.Results;
+import com.baiyajin.util.u.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,12 +15,15 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 @Api("帮助")
 @Controller
@@ -93,17 +94,18 @@ public class PageHelperController {
 
     /**
      * 分页查询帮助文章
-     * @param helperVo
-     * @param pageNum
-     * @param pageSize
+     * @param
      * @return
      */
     @ApiOperation(value = "查询帮助中心文章列表" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据,num为非必填，填入以后只查询该编号的文章，num为数字")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)",value =  "pageNum:1,pageNum:5",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findHelperByPage",method = RequestMethod.POST)
     @ResponseBody
-    public Object findHelperByPage(HelperVo helperVo, String pageNum, String pageSize){
-        return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/findHelperByPage",helperVo,Object.class,pageNum,pageSize);
+    public Object findHelperByPage(HelperVo helperVo,String pageNum,String pageSize){
+        Map<String, Object> map = ReflectUtil.objcetToMap(helperVo);
+        map.put("pageNum",pageNum);
+        map.put("pageSize",pageSize);
+        return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/findHelperByPage",map,Object.class);
     };
 
     /**

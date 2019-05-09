@@ -2,10 +2,10 @@ server:
   port: 9440
 
 web:
-  IP: 182.247.245.27
-  database: jijia_production
-#  database: jijia_sys
-#  IP: localhost
+#  IP: 182.247.245.27
+#  database: jijia_production
+  database: jijia_test
+  IP: 192.168.8.19
 
 spring:
   application:

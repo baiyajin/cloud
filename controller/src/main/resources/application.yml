@@ -3,9 +3,9 @@ server:
 
 web:
 #  IP: 182.247.245.27
-  IP: localhost
-  database: jijia_production
-#  database: jijia_test
+  IP: 192.168.8.19
+#  database: jijia_production
+  database: jijia_test
 #  IP: localhost
 
 spring:
