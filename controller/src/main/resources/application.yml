@@ -2,7 +2,8 @@ server:
   port: 9220
 
 web:
-  IP: 182.247.245.27
+#  IP: 182.247.245.27
+  IP: localhost
   database: jijia_production
 #  database: jijia_test
 #  IP: localhost
@@ -19,12 +20,6 @@ spring:
           testWhileIdle: true
           testOnBorrow: true
           testOnReturn: true
-  redis:
-    host: ${web.IP}
-    password: baiyajin
-    database: 0
-    port: 6379
-    timeout: 100
 
 eureka:
   instance:

@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="boss1" />
         <module name="controller" />
+        <module name="echarts" />
         <module name="entity" />
         <module name="materials" />
         <module name="report" />
@@ -18,6 +19,7 @@
     <bytecodeTargetLevel target="8">
       <module name="boss1" target="1.8" />
       <module name="controller" target="1.8" />
+      <module name="echarts" target="1.8" />
       <module name="entity" target="1.8" />
       <module name="materials" target="1.8" />
       <module name="report" target="1.8" />
