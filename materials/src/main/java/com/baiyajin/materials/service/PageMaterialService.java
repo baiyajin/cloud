@@ -1,6 +1,7 @@
 package com.baiyajin.materials.service;
 
 import com.baiyajin.entity.bean.MaterialAndClass;
+import com.baiyajin.entity.bean.MaterialCount;
 import com.baiyajin.entity.bean.MaterialVo;
 import com.baiyajin.entity.bean.PageMaterial;
 import com.baiyajin.materials.mapper.PageMaterialMapper;
@@ -114,6 +115,15 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 //        map.put("areas",areas);
         return  baseMapper.getMaterialsInfoByArea(map);
     }
+
+
+    @Override
+    public MaterialCount getMaterialCount(Map<String, Object> map) {
+        List<MaterialCount> materialCountList = baseMapper.getMaterialCountByMap(map);
+        return materialCountList.size()>0?materialCountList.get(0):null;
+    }
+
+
 
 
     private List<Map<String, Object>> getMaterialsInfoByYear(Map<String, Object> map) {

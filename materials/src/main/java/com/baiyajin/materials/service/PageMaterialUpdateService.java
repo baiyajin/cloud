@@ -29,47 +29,53 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     public int receiveMaterialtPrice(Map<String,Object> map) {
             String dataSt = map.get("data").toString();
             //  String dataSt = "\"[{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2014\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"120\",\"mdate\":\"2019-04-30},{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2011\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"100\",\"mdate\":\"2019-04-30}]\"";
-
             //解析json内容
             List<PageMaterialUpdata> list = JsonUtil.jsonToList(dataSt, PageMaterialUpdata.class);
             //统一单位
-            list = MunitUnified(list);
-
+          //  list = MunitUnified(list);
 //            //保存
             for (PageMaterialUpdata l : list) {
                 baseMapper.insert(l);
             }
-
-            Map<String,Object> matparMap = new HashMap<>();
-            Calendar cal=Calendar.getInstance();
-            PageMaterialUpdata a = list.get(0);
-            cal.setTime(a.getMdate());
-            int year = cal.get(Calendar.YEAR);
-            int month =cal.get( Calendar.MONTH);
-            matparMap.put("year",year);
-            matparMap.put("month",month);
-            matparMap.put("mid",a.getMid());
-            matparMap.put("area",a.getArea());
-            //计算平均值
-            List<Map<String,Object>> listmap =  getMaterialtAvgPrice(matparMap);
-            System.out.println(listmap.get(0));
-            //获取到历史月度数据（更新）
-        PageMaterialPrice pageMaterialPrice = this.getMaterialtPrice(matparMap);
-
-            if(pageMaterialPrice!=null){
-               String priceSt =  listmap.get(0).get("price").toString();
-               BigDecimal price = new BigDecimal(priceSt);
-               //设置价格
-                pageMaterialPrice.setPrice(price);
-                matparMap.put("type",0);
-                pageMaterialPrice = dataComputer(pageMaterialPrice,matparMap);
-                System.out.println(pageMaterialPrice);
-//                pageMaterialPriceInterface.updateById(pageMaterialPrice);
-
-            }
         return 0;
     }
 
+
+
+    public void aaa(List<PageMaterialUpdata>  list){
+        Map<String,Object> matparMap = new HashMap<>();
+        Calendar cal=Calendar.getInstance();
+        PageMaterialUpdata a = list.get(0);
+        cal.setTime(a.getMdate());
+        int year = cal.get(Calendar.YEAR);
+        int month =cal.get( Calendar.MONTH)+1;
+        matparMap.put("year",year);
+        matparMap.put("month",month);
+        matparMap.put("mid",a.getMid());
+        matparMap.put("area",a.getArea());
+
+
+        //计算平均值
+        List<Map<String,Object>> listmap =  getMaterialtAvgPrice(matparMap);
+
+
+
+        System.out.println(listmap.get(0));
+        //获取到历史月度数据（更新）
+        PageMaterialPrice pageMaterialPrice = this.getMaterialtPrice(matparMap);
+
+        if(pageMaterialPrice!=null){
+            String priceSt =  listmap.get(0).get("price").toString();
+            BigDecimal price = new BigDecimal(priceSt);
+            //设置价格
+            pageMaterialPrice.setPrice(price);
+            matparMap.put("type",0);
+            System.out.println(pageMaterialPrice);
+            pageMaterialPrice = dataComputer(pageMaterialPrice,matparMap);
+            System.out.println(pageMaterialPrice);
+//                pageMaterialPriceInterface.updateById(pageMaterialPrice);
+        }
+    }
     /**
      * 计算指数，环比，同比
      * @param pageMaterialPrice
@@ -111,7 +117,10 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
     @Override
     public List<Map<String, Object>> getMaterialtAvgPrice(Map<String, Object> map) {
-        return baseMapper.getMaterialtAvgPrice(map);
+
+        List<Map<String, Object>> lm =  baseMapper.getMaterialtAvgPrice(map);
+
+        return null;
     }
 
     @Override
@@ -146,6 +155,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
                 for(PageMunitUnifiedRule rl:ruleList){
                     if(rl.getMatchedNames().indexOf(l.getMunit())!=-1){
                         l.setMunit(rl.getMunitName());
+                        System.out.println(rl);
                         l.setPrice(l.getPrice().multiply(rl.getCoefficient()));
                     }
                 }

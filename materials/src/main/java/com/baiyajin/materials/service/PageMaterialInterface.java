@@ -1,6 +1,7 @@
 package com.baiyajin.materials.service;
 
 import com.baiyajin.entity.bean.MaterialAndClass;
+import com.baiyajin.entity.bean.MaterialCount;
 import com.baiyajin.entity.bean.MaterialVo;
 import com.baiyajin.entity.bean.PageMaterial;
 import com.baomidou.mybatisplus.service.IService;
@@ -26,6 +27,7 @@ public interface PageMaterialInterface extends IService<PageMaterial> {
 
     public List<Map<String,Object>> getMaterialsInfoByArea(Map<String,Object> map) throws ParseException;
 
+    public MaterialCount getMaterialCount(Map<String, Object> map);
 
 
 

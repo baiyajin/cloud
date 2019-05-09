@@ -1,11 +1,13 @@
 package com.baiyajin.materials.controller;
 
 import com.baiyajin.entity.bean.MaterialAndClass;
+import com.baiyajin.entity.bean.MaterialCount;
 import com.baiyajin.entity.bean.MaterialVo;
 import com.baiyajin.entity.bean.PageMaterial;
 import com.baiyajin.materials.service.PageMaterialInterface;
 import com.baiyajin.util.u.IdGenerate;
 import com.baiyajin.util.u.Results;
+import com.baiyajin.util.u.ReturnModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -134,6 +136,31 @@ public class PageMaterialController {
 
             return pageMaterialInterface.getMaterialsInfoByArea(map);
 
+    }
+
+
+    @RequestMapping(value = "/getMaterialCount", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialCount( @RequestBody Map<String, Object> map) {
+        Map<String, Object> reMap = new HashMap<>();
+        try {
+            map.put("type", 0);
+            MaterialCount kmMaterialCount = pageMaterialInterface.getMaterialCount(map);
+            map.put("type", 1);
+            MaterialCount otherMaterialCount = pageMaterialInterface.getMaterialCount(map);
+            map.remove("type");
+            map.put("area", "53");
+            map.put("mid", 0);
+            MaterialCount materialCountAll = pageMaterialInterface.getMaterialCount(map);
+            reMap.put("km", kmMaterialCount);
+            reMap.put("other", otherMaterialCount);
+            reMap.put("all", materialCountAll);
+        }catch (Exception e){
+            return new ReturnModel(0,null);
+        }
+        ReturnModel aaa =new ReturnModel(1,reMap);
+        System.out.println(aaa);
+        return aaa;
 
     }
 
