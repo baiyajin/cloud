@@ -126,6 +126,32 @@ public class PageMaterialController {
         return pageMaterialInterface.getMaterialsInfo(map);
     }
 
+    /**
+     * 获取最近一次一级分类材料数据
+     * @param request
+     * @param response
+     * @param map
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/getMaterialsInfoByRecent", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public List<Map<String,Object>> getMaterialsInfoByRecent(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+
+
+        map.put("level","1");
+        map.put("type",0);
+        map.put("startDate","2019-03");
+        map.put("endDate","2019-03");
+      return pageMaterialInterface.getMaterialsInfo(map);
+
+    }
+
+
+
+
+
     @ApiOperation(value = "",notes = "json")
     @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
     @RequestMapping(value = "/getMaterialsInfoByArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")

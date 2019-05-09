@@ -47,6 +47,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
    @Cacheable(value ="getMaterialsInfo1")
     public List<Map<String,Object>> getMaterialsInfo(Map<String,Object> map) throws ParseException {
         Map<String,Object> mapp = new HashMap<>();
+
         mapp.putAll(map);
         //默认查询一级分类
         if(mapp.get("level")==null){
@@ -62,7 +63,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
             //计算单位为月份
             if(mapp.get("type")==null || mapp.get("type").toString().equals("1")){
                 Date stDate = DateFormatUtil.dateCompute(nowDate,2,Integer.parseInt(number));
-                mapp.put("stratDate",stDate);
+                mapp.put("startDate",stDate);
             }
             //计算单位为年
             if(mapp.get("type")!=null && mapp.get("type").toString().equals("3")){
@@ -70,17 +71,20 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
                 mapp.put("stratDate",stDate);
             }
         }
-
-        if(mapp.get("startDate")!=null && "".equals(mapp.get("startDate").toString())){
+System.out.println("aa"+mapp.get("startDate")!=null );
+        System.out.println("bb"+"".equals(mapp.get("startDate").toString()) );
+        if(mapp.get("startDate")!=null && !"".equals(mapp.get("startDate").toString())){
             Date stDate1 =  DateFormatUtil.stringToDate(mapp.get("startDate").toString(),"yyyy-MM");
             stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
             mapp.put("startDate",DateFormatUtil.dateToString(stDate1));
         }
-        if(mapp.get("endDate")!=null && "".equals(mapp.get("startDate").toString())){
+        if(mapp.get("endDate")!=null && !"".equals(mapp.get("endDate").toString())){
             Date endDate =  DateFormatUtil.stringToDate(mapp.get("endDate").toString(),"yyyy-MM");
             String lastDay = DateFormatUtil.getDateLastDay(endDate);
             mapp.put("endDate",lastDay);
         }
+
+
 
 
         //默认云南地区
@@ -90,7 +94,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
         //type=0查询月份（默认），1查询季度，2查询年
         if(mapp.get("type")==null || mapp.get("type").toString().equals("0")  ){
             //直接查询返回结果(否则统计后返回)
-            return baseMapper.getMaterialsInfo(map);
+            return baseMapper.getMaterialsInfo(mapp);
         }
        /* if(map.get("type").toString().equals("2")  ){
                 map.put("type","quarter");
