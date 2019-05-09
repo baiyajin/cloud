@@ -1,13 +1,16 @@
 package com.baiyajin.util.u;
 
+import org.apache.poi.ss.usermodel.DateUtil;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 public class DateFormatUtil {
+
+
+
 
 	/**
 	 * 设置日期时间
@@ -197,7 +200,61 @@ public class DateFormatUtil {
 //	}
 
 
+	public static Map<String,Date> getDateByYear(int year) throws ParseException {
+		//设置的类型 （1：年，2月，5天，10小时，12分，13秒）
+		Map<String,Date> map = new HashMap<>();
+		Date stDate =  stringToDate(year+"-01-01 00:00:00");
 
+		Date endDate = stringToDate(year+"-12-31 23:59:59");
+		map.put("startDate",stDate);
+		map.put("endDate",endDate);
+		return map;
+	}
+
+
+	public static Map<String,Date> getDateByQuarter(int quarter,int year){
+		Map<String,Date> map = new HashMap<>();
+		int stMonth = quarter * 3 - 2;
+		int endMonth = stMonth + 2;
+		Date stDate =  new Date();
+		Date endDate =  new Date();
+		stDate = setDate(stDate,1,year);
+		stDate = setDate(stDate,2,stMonth);
+		stDate = setDate(stDate,5,1);
+		endDate = setDate(stDate,1,year);
+		endDate = setDate(stDate,2,endMonth);
+		endDate = DateUtils.parseDate(getDateLastDay(endDate),"yyyy-MM-dd");
+		map.put("startDate",stDate);
+		map.put("endDate",endDate);
+		return map;
+	}
+
+	/**
+	 * 获取起始时间
+	 * @param type 1代表月度，2代表季度，3代表年度
+	 * @param param
+	 * @return
+	 */
+	public static Map<String,Date> getStAndEndTime(int type,String param) throws ParseException {
+		Map<String,Date> map = new HashMap<>();
+		if (type == 1){
+			Date stDate =  new Date();
+			Date endDate =  new Date();
+			stDate = setDate(DateUtils.parseDate(param,"yyyy-MM"),5,1);
+			endDate = DateUtils.parseDate(getDateLastDay(DateUtils.parseDate(param,"yyyy-MM")),"yyyy-MM-dd");
+			map.put("startDate",stDate);
+			map.put("endDate",endDate);
+			return map;
+		}
+		if (type == 2){
+			return DateFormatUtil.getDateByQuarter(Integer.valueOf(param),DateUtils.getCurrentYear());
+		}
+
+		if (type == 3){
+			return  DateFormatUtil.getDateByYear(Integer.valueOf(param));
+		}
+		return null;
+	}
 
 
 
@@ -207,7 +264,7 @@ public class DateFormatUtil {
 	public static Integer getQuarter(Date date) {
 		Calendar cal=Calendar.getInstance();
 		cal.setTime(date);
-		return getQuarter( Calendar.getInstance());
+		return getQuarter(cal);
 	}
 
 
@@ -215,6 +272,7 @@ public class DateFormatUtil {
 	 * 获取季度
 	 */
 	public static Integer getQuarter(Calendar c) {
+
 		int month = c.get(c.MONTH) + 1;
 		int quarter = 0;
 		if (month >= 1 && month <= 3) {
@@ -266,8 +324,33 @@ public class DateFormatUtil {
 
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd ");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
 		return format.format(calendar.getTime());
+	}
+
+	/**
+	 * 日期转换成字符串
+	 * @param date
+	 * @return str
+	 */
+	public static String dateToStr(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String str = format.format(date);
+		return str;
+	}
+
+
+	public static Map<String,Integer> getYearByDate(Date endDate) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(DateFormatUtil.dateToStr(endDate));
+		Calendar now = Calendar.getInstance();
+		now.setTime(date);
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH) + 1; // 0-based!
+		int day = now.get(Calendar.DAY_OF_MONTH);
+		Map<String,Integer> map = new HashMap<>();
+		map.put("year",year);
+		map.put("month",month);
+		return map;
 	}
 
 

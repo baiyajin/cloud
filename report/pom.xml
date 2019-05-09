@@ -11,7 +11,7 @@
 	<groupId>com.baiyajin</groupId>
 	<artifactId>report</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>materials</name>
+	<name>report</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

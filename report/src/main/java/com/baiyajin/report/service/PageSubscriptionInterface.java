@@ -9,4 +9,8 @@ import com.baomidou.mybatisplus.service.IService;
 public interface PageSubscriptionInterface extends IService<PageSubscription> {
 
     Page<SubscriptionVo> findList(Page<SubscriptionVo> page, SubscriptionVo subscriptionVo);
+
+    int getCount(SubscriptionVo subscriptionVo);
+
+    SubscriptionVo getInfoById(String id);
 }

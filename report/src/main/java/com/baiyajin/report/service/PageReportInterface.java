@@ -21,4 +21,5 @@ public interface PageReportInterface extends IService<PageReport> {
 
     PageReport selectRemark(Map<String, Object> map);
 
+    ReportVo getReportInfoById(String id);
 }

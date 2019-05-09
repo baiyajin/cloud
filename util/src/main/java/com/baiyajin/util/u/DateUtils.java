@@ -62,6 +62,12 @@ public class DateUtils {
         return gc.getTime();
     }
 
+    public static  int getCurrentYear(){
+        Calendar date = Calendar.getInstance();
+        String year = String.valueOf(date.get(Calendar.YEAR));
+        return Integer.valueOf(year);
+    }
+
 
 
 }
