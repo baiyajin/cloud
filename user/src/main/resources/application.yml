@@ -1,5 +1,5 @@
 server:
-  port: 9333
+  port: 9330
 
 web:
 #  IP: 182.247.245.27

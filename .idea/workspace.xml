@@ -2,50 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f2729519-934a-4030-8608-0eb4d6df9502" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageHelperController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMessageController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageReportController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageReportRemarkController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageSubscriptionController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMaterialPrice.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMaterialUpdata.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMunitUnifiedRule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageReportRemark.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/ReportRemarkVo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialUpdateMapper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialPriceInterface.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateInterface.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMunitUnifiedRule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMunitUnifiedRuleInterface.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageReportRemarkController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageReportRemarkMapper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportRemarkInterface.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportRemarkService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/src/main/resources/mapper/PageReportRemarkXML.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/JsonUtil.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_5_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_2_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_starter_2_0_1.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageReport.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageReport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageSubscription.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageSubscription.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/ReportVo.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/ReportVo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/SubscriptionVo.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/SubscriptionVo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/pom.xml" afterPath="$PROJECT_DIR$/materials/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/pom.xml" afterPath="$PROJECT_DIR$/report/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageReportController.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageReportController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageSubscriptionController.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageSubscriptionController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageReportMapper.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageReportMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageSubscriptionMapper.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageSubscriptionMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportInterface.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportService.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageSubscriptionInterface.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageSubscriptionInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageSubscriptionService.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageSubscriptionService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/mapper/PageReportXML.xml" afterPath="$PROJECT_DIR$/report/src/main/resources/mapper/PageReportXML.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/mapper/PageSubscriptionXML.xml" afterPath="$PROJECT_DIR$/report/src/main/resources/mapper/PageSubscriptionXML.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/controller/PageUserController.java" afterPath="$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/controller/PageUserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/DateFormatUtil.java" afterPath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/DateFormatUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/DateUtils.java" afterPath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/DateUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/report/src/main/resources/application.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" />
     </list>
     <ignored path="$PROJECT_DIR$/boss1/target/" />
     <ignored path="$PROJECT_DIR$/controller/target/" />
@@ -77,7 +36,110 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/user/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PageUserController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageUserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="665">
+              <caret line="59" column="114" lean-forward="true" selection-start-line="59" selection-start-column="114" selection-end-line="59" selection-end-column="114" />
+              <folding>
+                <element signature="e#1652#2184#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SystemUserController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/SystemUserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/materials/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="1" column="12" lean-forward="true" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/report/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="5" column="28" lean-forward="true" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SystemUserTypeController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/SystemUserTypeController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerApplication.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/ControllerApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PageReportRemarkController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageReportRemarkController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PageSubscriptionController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageSubscriptionController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -138,7 +200,6 @@
         <option value="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/SystemUserController.java" />
         <option value="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/SystemUserTypeController.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/report/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/materials/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageUser.java" />
         <option value="$PROJECT_DIR$/controller/pom.xml" />
@@ -152,7 +213,6 @@
         <option value="$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/UserApplication.java" />
         <option value="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageUserController.java" />
         <option value="$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/controller/PageUserController.java" />
-        <option value="$PROJECT_DIR$/user/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/A.java" />
         <option value="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/HttpUtil.java" />
         <option value="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/FreemarkerUtil.java" />
@@ -163,6 +223,8 @@
         <option value="$PROJECT_DIR$/echarts/src/main/java/com/baiyajin/echarts/util/HttpUtil.java" />
         <option value="$PROJECT_DIR$/echarts/src/main/resources/echarts/option.ftl" />
         <option value="$PROJECT_DIR$/echarts/src/main/java/com/baiyajin/echarts/test/App.java" />
+        <option value="$PROJECT_DIR$/report/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/user/src/main/resources/application.yml" />
       </list>
     </option>
   </component>
@@ -445,7 +507,7 @@
       <workItem from="1557105505878" duration="8082000" />
       <workItem from="1557115311990" duration="19923000" />
       <workItem from="1557276978067" duration="10913000" />
-      <workItem from="1557368170037" duration="27000" />
+      <workItem from="1557368170037" duration="324000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1557020562113</created>
@@ -524,11 +586,18 @@
       <option name="project" value="LOCAL" />
       <updated>1557122511912</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Merge branch 'dev_zyh' of https://github.com/baiyajin/cloud into byj_dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;controller/src/main/resources/application.yml&#10;#&#9;report/src/main/resources/application.yml&#10;#&#9;user/pom.xml&#10;#&#9;user/src/main/java/com/baiyajin/user/UserApplication.java&#10;#&#9;user/src/main/resources/application.yml">
+      <created>1557368219342</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1557368219342</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54019000" />
+    <option name="totallyTimeSpent" value="54316000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1050" extended-state="6" />
@@ -637,7 +706,8 @@
     <MESSAGE value="updatesss" />
     <MESSAGE value="a" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="Merge branch 'dev_zyh' of https://github.com/baiyajin/cloud into byj_dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;controller/src/main/resources/application.yml&#10;#&#9;report/src/main/resources/application.yml&#10;#&#9;user/pom.xml&#10;#&#9;user/src/main/java/com/baiyajin/user/UserApplication.java&#10;#&#9;user/src/main/resources/application.yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'dev_zyh' of https://github.com/baiyajin/cloud into byj_dev&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;controller/src/main/resources/application.yml&#10;#&#9;report/src/main/resources/application.yml&#10;#&#9;user/pom.xml&#10;#&#9;user/src/main/java/com/baiyajin/user/UserApplication.java&#10;#&#9;user/src/main/resources/application.yml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -647,69 +717,6 @@
     <SUITE FILE_PATH="coverage/cloud$MaterialsApplication.ic" NAME="MaterialsApplication Coverage Results" MODIFIED="1557026510658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="47" column="5" lean-forward="false" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-support/2.1.9/mybatis-plus-support-2.1.9.jar!/com/baomidou/mybatisplus/service/IService.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/mapper/PageUserMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/service/PageUserInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="5" column="17" lean-forward="false" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/service/PageUserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/src/main/resources/mapper/PageUserXML.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/src/main/resources/mapper/SystemUserXML.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/materials/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2394">
-          <caret line="126" column="21" lean-forward="false" selection-start-line="123" selection-start-column="8" selection-end-line="126" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageMessageController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="70" column="23" lean-forward="true" selection-start-line="70" selection-start-column="23" selection-end-line="70" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageReportController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -728,14 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="34" column="11" lean-forward="false" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/materials/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -789,6 +788,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="47" column="23" lean-forward="true" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -813,63 +813,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application-boos2.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application-boos3.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application-boos1.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="12" lean-forward="true" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/Material.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-484">
-          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/MaterialClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="25" column="72" lean-forward="false" selection-start-line="25" selection-start-column="72" selection-end-line="25" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/MaterialsApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="16" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/ControllerApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -897,14 +845,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/A.java" />
-    <entry file="file://$PROJECT_DIR$/user/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="6" column="28" lean-forward="false" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/echarts/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -985,24 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageUserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="24" column="64" lean-forward="false" selection-start-line="24" selection-start-column="64" selection-end-line="24" selection-end-column="64" />
-          <folding>
-            <element signature="e#1652#2184#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/echarts/src/main/java/com/baiyajin/echarts/EchartsApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -1035,6 +957,168 @@
             <marker date="1557367956151" expanded="true" signature="381:1674" ph="SELECT a.are... page_subscription" />
             <marker date="1557367956151" expanded="true" signature="2707:3244" ph="SELECT a.tit... page_subscription" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application-boos1.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="12" lean-forward="true" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application-boos2.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boss1/src/main/resources/application-boos3.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boss1/src/main/java/com/baiyajin/boss1/Boss1Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/Material.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="33" column="69" lean-forward="true" selection-start-line="33" selection-start-column="69" selection-end-line="33" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/MaterialClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="21" column="69" lean-forward="true" selection-start-line="21" selection-start-column="69" selection-end-line="21" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageHelperController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1330">
+          <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMessageController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageReportController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="31" column="13" lean-forward="false" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageReportRemarkController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageSubscriptionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageUserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="59" column="114" lean-forward="true" selection-start-line="59" selection-start-column="114" selection-end-line="59" selection-end-column="114" />
+          <folding>
+            <element signature="e#1652#2184#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/SystemUserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/SystemUserTypeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/ControllerApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/materials/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="12" lean-forward="true" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="28" lean-forward="true" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
