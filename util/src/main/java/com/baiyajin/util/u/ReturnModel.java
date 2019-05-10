@@ -1,16 +1,16 @@
 package com.baiyajin.util.u;
 
-import java.util.List;
 import java.util.Map;
 
 public class ReturnModel {
-
+    private Boolean success;
+    private String msg;
+    private Object data;
     /**
      * 返回页面实体封装
      * @param i 返回状态，0：失败，1：成功
-     * @param stringListMap
      */
-    public ReturnModel(int i, Map<String, List<Map<String, Object>>> stringListMap){
+    public ReturnModel(int i){
         if(i==0){
             this.success = false;
             this.msg = "操作失败";
@@ -25,7 +25,7 @@ public class ReturnModel {
      * @param i 返回状态，0：失败，1：成功
      * @param  bodyMap 返回数据内容
      */
-    public ReturnModel(int i, Map<String,Object> bodyMap){
+    public ReturnModel(int i,Object bodyMap){
         if(i==0){
             this.success = false;
             this.msg = "操作失败";
@@ -33,12 +33,10 @@ public class ReturnModel {
             this.success = true;
             this.msg = "操作成功";
         }
-        this.bodyMap = bodyMap;
+        this.data = bodyMap;
     }
 
-    private Boolean success;
-    private String msg;
-    private Map<String,Object> bodyMap;
+
 
     public Boolean getSuccess() {
         return success;
@@ -54,5 +52,14 @@ public class ReturnModel {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }
