@@ -1,5 +1,6 @@
 package com.baiyajin.util.u;
 
+import java.util.List;
 import java.util.Map;
 
 public class ReturnModel {
@@ -7,8 +8,9 @@ public class ReturnModel {
     /**
      * 返回页面实体封装
      * @param i 返回状态，0：失败，1：成功
+     * @param stringListMap
      */
-    public ReturnModel(int i){
+    public ReturnModel(int i, Map<String, List<Map<String, Object>>> stringListMap){
         if(i==0){
             this.success = false;
             this.msg = "操作失败";
