@@ -168,14 +168,26 @@ public class PageMaterialController {
     @ResponseBody
     public ReturnModel getMaterialsInfoByAreaEncapsulation(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
 
-
-
         map.put("type","0");
-
         List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
         return new ReturnModel( 1,listToTreeArea(list));
 
+
     }
+
+    @ApiOperation(value = "",notes = "json")
+    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+    @RequestMapping(value = "/getMaterialsInfoByProvinceAreaEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByProvinceAreaEncapsulation(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        map.put("type","0");
+        map.put("provinceArea","53");
+        System.out.println(map);
+        List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
+        return new ReturnModel( 1,listToTreeArea(list));
+    }
+
 
     public   Map<String,List<Map<String,Object>>> listToTreeArea( List<Map<String,Object>> childrenMaterialsList ){
         Map<String,List<Map<String,Object>>> map = new HashMap<>();
@@ -250,7 +262,7 @@ public class PageMaterialController {
         stDate = DateFormatUtil.setDate(stDate,5,1);
         map.put("startDate",DateFormatUtil.dateToString(stDate,"yyyy-MM"));
         map.put("endDate",DateFormatUtil.dateToString(date,"yyyy-MM"));
-System.out.println(map);
+
         List<Map<String,Object>> materialsList = pageMaterialInterface.getMaterialsInfo(map);
 
        // pageMaterialInterface
@@ -278,9 +290,6 @@ System.out.println(map);
         map.put("pid",pid);
         List<Map<String,Object>> childrenMaterialsList = pageMaterialInterface.getMaterialsInfo(map);
 
-
-
-
 //        map.remove("pid");
 //        map.put("id",pid);
 //        List<Map<String,Object>> materialsList = pageMaterialInterface.getMaterialsInfo(map);
@@ -289,6 +298,7 @@ System.out.println(map);
 //        Map<String, List<Map<String,Object>>> remap = ListToTree(materialsList,childrenMaterialsList);
         return new ReturnModel(1,ListToTree(childrenMaterialsList));
     }
+
 
 
 

@@ -71,8 +71,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
                 mapp.put("stratDate",stDate);
             }
         }
-System.out.println("aa"+mapp.get("startDate")!=null );
-        System.out.println("bb"+"".equals(mapp.get("startDate").toString()) );
+
         if(mapp.get("startDate")!=null && !"".equals(mapp.get("startDate").toString())){
             Date stDate1 =  DateFormatUtil.stringToDate(mapp.get("startDate").toString(),"yyyy-MM");
             stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
@@ -116,9 +115,9 @@ System.out.println("aa"+mapp.get("startDate")!=null );
     @Cacheable(value ="getMaterialsInfo4")
     public List<Map<String, Object>> getMaterialsInfoByArea(Map<String, Object> map) throws ParseException {
         //默认云南
-        if (map.get("area")==null || map.get("area").toString().equals("")){
-            map.put("area","53");
-        }
+//        if (map.get("area")==null || map.get("area").toString().equals("")){
+//            map.put("area","53");
+//        }
 
         if(map.get("startDate")!=null){
             Date stDate1 =  DateFormatUtil.stringToDate(map.get("startDate").toString(),"yyyy-MM");

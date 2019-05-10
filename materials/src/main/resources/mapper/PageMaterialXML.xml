@@ -96,7 +96,13 @@
 
     <select id="getMaterialsInfoByArea"  parameterType="java.util.Map" resultType="java.util.Map">
         select * from page_material_pice
-        where city = #{area} and is_del = 0
+        where  is_del = 0
+        <if test="area !=null and area != ''">
+            and city = #{area}
+        </if>
+        <if test="provinceArea !=null and provinceArea != ''">
+            and area = #{provinceArea}
+        </if>
         <if test="matPid !=null and matPid != ''">
            and mat_pid = #{matPid}
         </if>
@@ -121,7 +127,7 @@
             and type = #{type}
         </if>
 
-        order by mid
+        order by mdate
 
     </select>
 
