@@ -58,7 +58,7 @@ public class PageReportController {
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public Object addReport (PageReport pageReport) throws ParseException {
-        return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/addReport",pageReport, Object.class);
+        return  restTemplate.postForObject(Rest_url_prefix+"/PageReportController/addReport",pageReport, Object.class);
     }
 
     /**
@@ -72,7 +72,7 @@ public class PageReportController {
     @ResponseBody
     @Transactional(rollbackFor = Exception.class)
     public Object deleteReort(String id){
-        return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/deleteReport",id, Object.class);
+        return  restTemplate.postForObject(Rest_url_prefix+"/PageReportController/deleteReport",id, Object.class);
     }
 
     /**
@@ -88,7 +88,7 @@ public class PageReportController {
     @RequestMapping(value = "/findListByPage",method = RequestMethod.POST)
     @ResponseBody
     public Object findListByPage(ReportVo reportVo,String pageNum,String pageSize){
-        return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/findListByPage",reportVo, Object.class,pageNum,pageSize);
+        return  restTemplate.postForObject(Rest_url_prefix+"/PageReportController/findListByPage",reportVo, Object.class,pageNum,pageSize);
     }
 
     /**
@@ -101,7 +101,7 @@ public class PageReportController {
     @RequestMapping(value = "/getReportByInfo",method = RequestMethod.POST)
     @ResponseBody
     public Object getReportById(String id,String token) throws ParseException {
-        return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/getReportByInfo",id, Object.class,token);
+        return  restTemplate.postForObject(Rest_url_prefix+"/PageReportController/getReportByInfo",id, Object.class,token);
         }
 
     }

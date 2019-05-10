@@ -70,7 +70,6 @@ public class SystemUserController {
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @Cacheable(cacheNames={"sys_login"},key = "#map.get('phone')")
     public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         return restTemplate.getForObject(Rest_url_prefix+"/SystemUserController/login",Map.class);
     }

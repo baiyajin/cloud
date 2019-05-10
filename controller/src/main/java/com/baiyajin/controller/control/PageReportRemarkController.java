@@ -1,16 +1,9 @@
 package com.baiyajin.controller.control;
 
-import com.baiyajin.entity.bean.PageReportRemark;
-import com.baiyajin.entity.bean.ReportRemarkVo;
-import com.baiyajin.util.u.IdGenerate;
-import com.baiyajin.util.u.JWT;
-import com.baiyajin.util.u.Results;
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Api("报告备注")

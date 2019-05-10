@@ -1,6 +1,5 @@
 package com.baiyajin.report.controller;
 
-import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.PageReportRemark;
 import com.baiyajin.entity.bean.ReportRemarkVo;
 import com.baiyajin.report.service.PageReportInterface;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

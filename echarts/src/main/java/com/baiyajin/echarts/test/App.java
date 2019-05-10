@@ -18,18 +18,16 @@ import sun.misc.BASE64Decoder;
 public class App {
     public static void main(String[] args) throws ClientProtocolException, IOException, TemplateException {
         // 变量
-        String title = "水果";
-        String[] categories = new String[] { "苹果", "香蕉", "西瓜" };
-        int[] values = new int[] { 3, 2, 1 };
+//        String[] categories = new String[] { "苹果", "香蕉", "西瓜" };
+//        int[] values = new int[] { 3, 2, 1 };
 
         // 模板参数
         HashMap<String, Object> datas = new HashMap<>();
-        datas.put("categories", JSON.toJSONString(categories));
-        datas.put("values", JSON.toJSONString(values));
-        datas.put("title", title);
+//        datas.put("categories", JSON.toJSONString(categories));
+//        datas.put("values", JSON.toJSONString(values));
 
         // 生成option字符串
-        String option = FreemarkerUtil.generateString("option.ftl", "echarts", datas);
+        String option = FreemarkerUtil.generateString("zxt.ftl", "echarts", datas);
 
         // 根据option参数
         String base64 = EchartsUtil.generateEchartsBase64(option);

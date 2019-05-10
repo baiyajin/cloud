@@ -56,7 +56,7 @@ public class PageUserController {
     @RequestMapping(value = "/login", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @Cacheable(cacheNames={"pag_login"},key = "#map.get('phone')")
+    @Cacheable(cacheNames={"pag_login"},key = "#map.get('phone')+#map.get('password')")
     public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         Map<String,Object> m = new HashMap<>();
         try {
