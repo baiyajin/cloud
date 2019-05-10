@@ -147,18 +147,19 @@ public class PageHelperController {
 
     /**
      * 分页查询帮助文章
-     * @param map
+     * @param pageSize
+     * @param pageNum
+     * @param helperVo
      * @return
      */
     @ApiOperation(value = "查询帮助中心文章列表" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据,num为非必填，填入以后只查询该编号的文章，num为数字")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)",value =  "pageNum:1,pageNum:5",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findHelperByPage",method = RequestMethod.POST)
     @ResponseBody
-//    public Object findHelperByPage(@RequestBody Map<String,Object> map){
-    public Object findHelperByPage(Map<String,Object> map){
-        HelperVo helperVo = ReflectUtil.mapToObjcet(map,HelperVo.class);
-        String pageNum = map.get("pageNum") != null ? map.get("pageNum").toString():null;
-        String pageSize = map.get("pageSize") != null ? map.get("pageSize").toString():null;
+    public Object findHelperByPage(HelperVo helperVo,String pageNum,String pageSize){
+//        HelperVo helperVo = ReflectUtil.mapToObjcet(map,HelperVo.class);
+//        String pageNum = map.get("pageNum") != null ? map.get("pageNum").toString():null;
+//        String pageSize = map.get("pageSize") != null ? map.get("pageSize").toString():null;
         Page<HelperVo> p = new Page();
         if (StringUtils.isNotBlank(pageNum)&& StringUtils.isNotBlank(pageSize)){
             if ("0".equals(pageNum)){

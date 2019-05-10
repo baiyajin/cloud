@@ -14,6 +14,11 @@ public class PageMessage {
     private String title;
     private String text;
     private String userId;
+
+    private String maID;
+    private String maName;
+    private String areaID;
+    private String areaName;
     //0：未读，1：已读
     private Integer is_read;
     //0：正常，1：删除
