@@ -93,22 +93,23 @@ public class PageReportController {
         map.put("reportId",id);
         if (pageReport != null && StringUtils.isNotBlank(pageReport.getMark())){
             map.put("mark",pageReport.getMark());
+            reMap =  pageReportInterface.selectRemarkByReportId(map);
+            int i = 0;
+            if(reMap==null){
+                map.put("createTime",new Date());
+                map.put("updateTime",new Date());
+                map.put("id",IdGenerate.uuid());
+                i = pageReportInterface.addRemark(map);
+            }else{
+                map.put("updateTime",new Date());
+                map.put("id",reMap.get("id").toString());
+                i = pageReportInterface.updateRemark(map);
+            }
+            if(i==0){
+                return new Results(1,"fail");
+            }
         }
-        reMap =  pageReportInterface.selectRemarkByReportId(map);
-        int i = 0;
-        if(reMap==null){
-            map.put("createTime",new Date());
-            map.put("updateTime",new Date());
-            map.put("id",IdGenerate.uuid());
-            i = pageReportInterface.addRemark(map);
-        }else{
-            map.put("updateTime",new Date());
-            map.put("id",reMap.get("id").toString());
-            i = pageReportInterface.updateRemark(map);
-        }
-        if(i==0){
-            return new Results(1,"fail");
-        }
+
         try {
             pageReportInterface.insert(pageReport);
         } catch (Exception e) {

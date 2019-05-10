@@ -69,9 +69,10 @@ public class PageSubscriptionController {
         if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getAreaID())){
             return new Results(1,"请选择区域");
         }
-        if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getIsPush())){
-            return new Results(1,"请选择是否推送");
-        }
+        pageSubscription.setIsPush("0");
+//        if (pageSubscription == null || StringUtils.isBlank(pageSubscription.getIsPush())){
+//            return new Results(1,"请选择是否推送");
+//        }
 
 //        if (StringUtils.isNotBlank(bookDateStr)){
 //            pageSubscription.setBookDate(DateUtils.parseDate(bookDateStr,"yyyy-MM-dd"));
@@ -80,7 +81,7 @@ public class PageSubscriptionController {
 //        }
 
         if (StringUtils.isNotBlank(startTimeStr) && StringUtils.isNotBlank(endTimeStr)){
-            pageSubscription.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-mm"),5,01));
+            pageSubscription.setStartTime(DateUtils.setDate(DateUtils.parseDate(startTimeStr,"yyyy-MM"),5,01));
             Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
             String lastDay = DateUtils.getDateLastDay(endDate);
             Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
@@ -257,6 +258,10 @@ public class PageSubscriptionController {
                 areaNameList.add(a);
             }
             subscriptionVo.setAreaNameList(areaNameList);
+        }
+        if (subscriptionVo.getStartTime() != null && subscriptionVo.getEndTime() != null){
+            subscriptionVo.setStTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getStartTime()));
+            subscriptionVo.setEnTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getEndTime()));
         }
         return subscriptionVo;
     }

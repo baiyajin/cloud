@@ -29,6 +29,8 @@ public class SubscriptionVo implements Serializable {
     private String token;
     private String userID;
 
+    private String stTimeStr;
+    private String enTimeStr;
     private String month;
     private List<String> maNameList;
     private List<String> maIdList;

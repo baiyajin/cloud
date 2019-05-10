@@ -72,6 +72,7 @@
     <!--插叙你订阅详情-->
     <select id="getInfoById" parameterType="java.lang.String" resultType="com.baiyajin.entity.bean.SubscriptionVo">
         SELECT
+            a.id AS "id",
             a.title AS "title",
             a.startTime AS "startTime",
             a.endTime AS "endTime",
