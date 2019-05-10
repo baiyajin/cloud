@@ -196,7 +196,6 @@ public class PageMaterialController {
 
 
 
-
     /**
      * 获取材料统计数量
      * @param map
@@ -276,6 +275,7 @@ System.out.println(map);
         map.put("area","53");
         map.put("type","0");
         String pid = map.get("pid")==null?null:map.get("pid").toString();
+        map.put("pid",pid);
         List<Map<String,Object>> childrenMaterialsList = pageMaterialInterface.getMaterialsInfo(map);
 
 

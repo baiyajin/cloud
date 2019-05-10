@@ -71,8 +71,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
                 mapp.put("stratDate",stDate);
             }
         }
-System.out.println("aa"+mapp.get("startDate")!=null );
-        System.out.println("bb"+"".equals(mapp.get("startDate").toString()) );
+
         if(mapp.get("startDate")!=null && !"".equals(mapp.get("startDate").toString())){
             Date stDate1 =  DateFormatUtil.stringToDate(mapp.get("startDate").toString(),"yyyy-MM");
             stDate1 =  DateFormatUtil.setDate(stDate1,5,1);

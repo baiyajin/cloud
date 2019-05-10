@@ -19,18 +19,18 @@ public interface PageMaterialMapper extends BaseMapper<PageMaterial> {
      * @param materialVo
      * @return
      */
-    List<MaterialVo> findByTime(MaterialVo materialVo);
-    public List<MaterialAndClass> getMaterialsAndClass(Map<String, Object> map);
+    List<MaterialVo> findByTime (MaterialVo materialVo);
+    public List<MaterialAndClass> getMaterialsAndClass(Map<String,Object> map);
 
-    public List<MaterialAndClass> getMaterialsClass(Map<String, Object> map);
+    public List<MaterialAndClass> getMaterialsClass(Map<String,Object> map);
 
-    public List<Map<String,Object>> getMaterialsInfo(Map<String, Object> map);
+    public List<Map<String,Object>> getMaterialsInfo(Map<String,Object> map);
 
-    public List<Map<String,Object>> getMaterialsInfoByYear(Map<String, Object> map);
+    public List<Map<String,Object>> getMaterialsInfoByYear(Map<String,Object> map);
 
-    public List<Map<String,Object>> getMaterialsInfoByArea(Map<String, Object> map);
+    public List<Map<String,Object>> getMaterialsInfoByArea(Map<String,Object> map);
 
-    public List<MaterialCount> getMaterialCountByMap(Map<String, Object> map);
+    public List<MaterialCount> getMaterialCountByMap(Map<String,Object> map);
 
 
 
