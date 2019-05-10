@@ -103,12 +103,17 @@
         <if test="matPid !=null and matPid != ''">
            and mat_pid = #{matPid}
         </if>
+        <if test="id !=null and id != ''">
+            and mid = #{id}
+        </if>
         <if test="level !=null and level != ''">
             and find_in_set(level,#{level})
         </if>
 
         <if test="startDate !=null and startDate != ''">
+            <![CDATA[
             and  mdate >= #{startDate}
+            ]]>
         </if>
         <if test="endDate !=null and endDate != ''">
             <![CDATA[
@@ -213,14 +218,13 @@
     <select id="getMaterialCountByMap" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.MaterialCount">
       select id,mid,area,sum(count) as count from materialcount
       <where>
-          and mid = #{mid}
-          <if test="type == 0">
+          <if test="mid != null and mid != ''">
+              and mid = #{mid}
+          </if>
+          <if test="area != null and area != ''">
               and area = #{area}
           </if>
-          <!--其他区域-->
-          <if test="type == 1">
-              and area != #{area}
-          </if>
+
       </where>
 
     </select>
