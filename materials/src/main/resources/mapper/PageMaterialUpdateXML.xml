@@ -3,6 +3,7 @@
 <mapper namespace="com.baiyajin.materials.mapper.PageMaterialUpdateMapper">
 
 
+
     <select id="getMaterialtAvgPrice" resultType="java.util.Map" parameterType="java.util.Map">
           select id,mid,city,area,avg(price) as price,mdate from (
             select id,mid,city,area,price,mtime as mdate

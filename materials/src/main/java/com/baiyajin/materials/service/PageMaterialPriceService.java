@@ -24,4 +24,6 @@ import java.util.Map;
 public class PageMaterialPriceService extends ServiceImpl<PageMaterialPriceMapper,PageMaterialPrice> implements PageMaterialPriceInterface {
 
 
+
+
 }

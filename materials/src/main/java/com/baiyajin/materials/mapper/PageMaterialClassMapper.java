@@ -5,4 +5,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 public interface PageMaterialClassMapper extends BaseMapper<PageMaterialClass> {
 
+
+
 }

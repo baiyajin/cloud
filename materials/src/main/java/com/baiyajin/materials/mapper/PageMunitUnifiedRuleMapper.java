@@ -6,4 +6,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 public interface PageMunitUnifiedRuleMapper extends BaseMapper<PageMunitUnifiedRule> {
 
+
+
 }

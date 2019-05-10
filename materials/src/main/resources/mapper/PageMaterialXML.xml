@@ -69,12 +69,9 @@
 
     <select id="getMaterialsInfo"  parameterType="java.util.Map" resultType="java.util.Map">
         <include refid="sqlString"/>
-        <if test="orderType==1">
-            order by area,asmdate
-        </if>
-        <if test="orderType==null">
-            order by shot_by_calss
-        </if>
+       order by asmdate
+
+
     </select>
 
 
