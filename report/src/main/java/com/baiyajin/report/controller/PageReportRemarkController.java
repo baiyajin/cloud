@@ -52,7 +52,7 @@ public class PageReportRemarkController {
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public Object addReportRemark(@RequestBody Map<String,Object> map){
-        String token = String.valueOf(map.get("token"));
+        String token = map.get("token") != null ? map.get("token").toString():null;
         if (StringUtils.isBlank(token)){
             return new Results(1,"登录失效，青重新登录");
         }
@@ -65,16 +65,16 @@ public class PageReportRemarkController {
         }else {
             pageReportRemark.setUserId(claims.getId());
         }
-        String mark = String.valueOf(map.get("mark"));
+        String mark = map.get("mark") != null ? map.get("mark").toString() : null;
         if (StringUtils.isBlank(mark)){
             return new Results(1,"备注内容不能为空");
         }else {
-           if (mark.length() >= 2000){
+           if (mark.length() > 2000){
                return new Results(1,"备注内容字数不能超过2000");
            }
         }
         pageReportRemark.setMark(mark);
-        String reportId = String.valueOf(map.get("reportId"));
+        String reportId = map.get("reportId") != null ? map.get("reportId").toString() : null;
         if (StringUtils.isBlank(reportId)){
             return new Results(1,"报告ID不能为空");
         }
@@ -142,7 +142,7 @@ public class PageReportRemarkController {
     @RequestMapping(value = "/updateRemark",method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object updateRemark(@RequestBody Map<String,Object> map){
-        String token = map.get("token")==null?null:map.get("token").toString();
+        String token = map.get("token") != null ? map.get("token").toString():null;
         if (StringUtils.isBlank(token)){
             return new Results(1,"登录失效，青重新登录");
         }
@@ -187,7 +187,7 @@ public class PageReportRemarkController {
     @RequestMapping(value = "/findList",method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object findList(@RequestBody Map<String,Object> map){
-        String token = map.get("token")==null?null:map.get("token").toString();
+        String token = map.get("token") != null ? map.get("token").toString():null;
         if (StringUtils.isBlank(token)){
             return new Results(1,"登录失效，重新登录");
         }

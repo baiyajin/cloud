@@ -85,7 +85,7 @@ public class PageSubscriptionController {
             Date endDate =  DateUtils.parseDate(endTimeStr,"yyyy-MM");
             String lastDay = DateUtils.getDateLastDay(endDate);
             Date endTimeDate = DateUtils.parseDate(lastDay,"yyyy-MM-dd");
-            pageSubscription.setEndTime(DateUtils.parseDate(lastDay,"yyyy-MM-dd"));
+            pageSubscription.setEndTime(endTimeDate);
         }else {
             if (StringUtils.isBlank(startTimeStr)){
                 return new Results(1,"请选择起始时间");
@@ -126,6 +126,9 @@ public class PageSubscriptionController {
         Claims claims = JWT.parseJWT(token);
         if (claims == null){
             return new Results(1,"登录失效，请重新登录");
+        }
+        if(pageSubscriptionInterface.selectById(id) == null){
+            return new Results(1,"该订阅不存在");
         }
         PageSubscription pageSubscription = new PageSubscription();
         pageSubscription.setId(id);

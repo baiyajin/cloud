@@ -53,7 +53,7 @@ public class PageMessageController {
             Claims claims = JWT.parseJWT(token);
 
             String userId = claims.getId();
-           userId = "2";
+//           userId = "2";
             Integer total = pageMessageInterface.selectCount(userId);
             String pageNumS = "1";
             String pageSize =  "10";
