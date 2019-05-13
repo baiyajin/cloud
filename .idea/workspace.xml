@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="1d63ad17-fa27-491a-9740-c5b15ce00880" name="Revert: Merge branches 'dev_zyh' and 'wyx' of https://github.com/baiyajin/cloud into wyx" comment="" />
-    <list default="true" id="f2729519-934a-4030-8608-0eb4d6df9502" name="Default" comment="材料统计">
+    <list default="true" id="f2729519-934a-4030-8608-0eb4d6df9502" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/boss1/target/" />
@@ -541,7 +541,7 @@
       <workItem from="1557363579434" duration="6569000" />
       <workItem from="1557449693602" duration="33843000" />
       <workItem from="1557484551833" duration="1394000" />
-      <workItem from="1557709005588" duration="387000" />
+      <workItem from="1557709005588" duration="401000" />
     </task>
     <task id="LOCAL-00001" summary="创建分支">
       <created>1557106877105</created>
@@ -655,7 +655,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557709229552</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="材料统计">
+      <created>1557709395815</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1557709395815</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -670,7 +677,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116050000" />
+    <option name="totallyTimeSpent" value="116064000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
