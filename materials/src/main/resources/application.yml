@@ -2,7 +2,7 @@ server:
   port: 9110
 
 web:
-  IP: 182.247.245.27
+  IP: localhost
   database: jijia_production
 #  database: jijia_sys
 #  IP: localhost
@@ -32,7 +32,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://boos3.com:9993/eureka/,http://boos2.com:9992/eureka/,http://boos1.com:9991/eureka/
-
 
 
 

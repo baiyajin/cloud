@@ -31,8 +31,11 @@ eureka:
 
 
 
+
 info:
   app.name: $project.name$
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+
