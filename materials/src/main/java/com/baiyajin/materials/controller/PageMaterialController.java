@@ -108,7 +108,10 @@ public class PageMaterialController {
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public List<MaterialAndClass> getMaterialsClass(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
+
+
         return pageMaterialInterface.getMaterialsClass(map);
+
     }
 
     //	"type":"1","pid":"0",, "area":"530112000000", "stratDate":"2019-01-01", "endDate":"2019-04-02"
@@ -142,7 +145,7 @@ public class PageMaterialController {
         map.put("area","53");
         map.put("startDate","2019-03");
         map.put("endDate","2019-03");
-      return pageMaterialInterface.getMaterialsInfo(map);
+       return pageMaterialInterface.getMaterialsInfo(map);
 
     }
 
