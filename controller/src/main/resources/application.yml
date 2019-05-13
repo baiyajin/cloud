@@ -6,7 +6,7 @@ web:
   IP: localhost
   database: jijia_production
 #  database: jijia_test
-#  IP: localhost
+#  IP: 192.168.8.19
 
 spring:
   application:
