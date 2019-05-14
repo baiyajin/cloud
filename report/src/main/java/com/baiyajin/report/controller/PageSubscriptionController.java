@@ -1,9 +1,11 @@
 package com.baiyajin.report.controller;
 
 
+import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageSubscription;
 import com.baiyajin.entity.bean.SubscriptionVo;
+import com.baiyajin.report.service.PageReportInterface;
 import com.baiyajin.report.service.PageSubscriptionInterface;
 import com.baiyajin.util.u.*;
 import io.jsonwebtoken.Claims;
@@ -21,10 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Api("订阅")
 @Controller
@@ -33,6 +34,8 @@ public class PageSubscriptionController {
 
     @Autowired
     private PageSubscriptionInterface pageSubscriptionInterface;
+    @Autowired
+    private PageReportInterface pageReportInterface;
 
     @RequestMapping(value = "/", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
@@ -205,7 +208,7 @@ public class PageSubscriptionController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/getInfoById",method = RequestMethod.POST)
     @ResponseBody
-    public Object getInfoById(String id,String token){
+    public Object getInfoById(String id,String token) throws Exception {
         if (StringUtils.isBlank(token)){
             return new Results(1,"请重新登录");
         }
@@ -213,11 +216,11 @@ public class PageSubscriptionController {
         if (claims == null){
             return new Results(1,"请重新登录");
         }
-
         SubscriptionVo subscriptionVo  = pageSubscriptionInterface.getInfoById(id);
         if (subscriptionVo == null){
             return new Results(1,"没有该订阅消息");
         }
+        List<String> dateList = DateFormatUtil.getYearAndMonth(DateFormatUtil.dateToStr(subscriptionVo.getStartTime()),DateFormatUtil.dateToStr(subscriptionVo.getEndTime()));
         if (StringUtils.isBlank(subscriptionVo.getMaId())){
             return new Results(1,"材料编号为空");
         }
@@ -229,6 +232,34 @@ public class PageSubscriptionController {
             }
             subscriptionVo.setMaIdList(maIdList);
         }
+        DataTempVo dataTempVo = new DataTempVo();
+        dataTempVo.setType("0");
+        dataTempVo.setStartTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getStartTime()));
+        dataTempVo.setEndTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getEndTime()));
+        dataTempVo.setMaterialClassID(subscriptionVo.getMaId());
+        dataTempVo.setContrastRegionID(subscriptionVo.getAreaId());
+        List<DataTempVo> dataTempVoList = pageSubscriptionInterface.findDataByReportId(dataTempVo);
+        if (dataTempVoList != null && dataTempVoList.size() > 0){
+            dataTempVoList = DateFormatUtil.fillUp(dateList,dataTempVoList);
+        }
+        Map<String, Map<String, List<DataTempVo>>> mm =  dataTempVoList.stream().collect(Collectors.groupingBy(DataTempVo::getMId,Collectors.groupingBy(DataTempVo::getAreaId)));
+        List<Map<String,Object>> mapList = new ArrayList<>();
+        Map<String,Object> map2 = new HashMap<>();
+        if (maIds != null && maIds.length > 0) {
+            for (int i = 0;i<maIds.length;i++){
+                for (String key:mm.keySet()){
+                    if (maIds[i].equals(key)){
+                        map2 = new HashMap<>();
+                        map2.put("maName",pageReportInterface.getMaName(maIds[i]));
+                        map2.put("data",mm.get(maIds[i]));
+                    }
+
+                }
+                mapList.add(map2);
+            }
+
+        }
+
         if (StringUtils.isBlank(subscriptionVo.getMaName())){
             return new Results(1,"材料为空");
         }
@@ -254,18 +285,12 @@ public class PageSubscriptionController {
         if (StringUtils.isBlank(subscriptionVo.getArea())){
             return new Results(1,"区域为空");
         }
-        String[] areaNames = subscriptionVo.getArea().split(",");
-        if (areaNames != null && areaNames.length > 0) {
-            List<String> areaNameList = new ArrayList<>();
-            for (String a : areaNames) {
-                areaNameList.add(a);
-            }
-            subscriptionVo.setAreaNameList(areaNameList);
-        }
         if (subscriptionVo.getStartTime() != null && subscriptionVo.getEndTime() != null){
             subscriptionVo.setStTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getStartTime()));
             subscriptionVo.setEnTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getEndTime()));
         }
+        subscriptionVo.setMapList(mapList);
+//        subscriptionVo.setDataTempVoList(dataTempVoList);
         return subscriptionVo;
     }
 

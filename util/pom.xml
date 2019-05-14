@@ -59,11 +59,15 @@
 			<artifactId>spring-web</artifactId>
 			<version>5.0.5.RELEASE</version>
 		</dependency>
+        <dependency>
+            <groupId>com.baiyajin</groupId>
+            <artifactId>entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
-
-
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

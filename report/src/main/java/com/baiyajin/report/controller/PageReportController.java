@@ -1,6 +1,7 @@
 package com.baiyajin.report.controller;
 
 
+import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Api("报告")
 @Controller
@@ -261,10 +264,11 @@ public class PageReportController {
      * @return
      */
     @ApiOperation(value = "获取报告详情" ,notes = "ID查询，只要ID能获取到就能查到文章")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
-    @RequestMapping(value = "/getReportByInfo",method = RequestMethod.POST)
+    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "form-data")})
+    @RequestMapping(value = "/getReportInfoById",method = RequestMethod.POST)
     @ResponseBody
     public Object getReportById(String id,String token) throws ParseException {
+
         Claims claims = JWT.parseJWT(token);
         if (claims == null) {
             return new Results(1, "登录失效");
@@ -273,40 +277,14 @@ public class PageReportController {
         if (reportVo == null) {
             return new Results(1, "该报告不存在");
         }
+        DataTempVo dataTempVo = new DataTempVo();
         String[] maIds = reportVo.getMaterialClassID().split(",");
-        if (maIds != null && maIds.length > 0) {
-            List<String> maIdList = new ArrayList<>();
-            for (String m : maIds) {
-                maIdList.add(m);
-            }
-            reportVo.setMaIdList(maIdList);
-        }
         String[] maNames = reportVo.getMaterialName().split(",");
-        if (maNames != null && maNames.length > 0) {
-            List<String> maNameList = new ArrayList<>();
-            for (String m : maNames) {
-                maNameList.add(m);
-            }
-            reportVo.setMaNameList(maNameList);
-        }
-        String[] areaIds = reportVo.getContrastRegionID().split(",");
-        if (areaIds != null && areaIds.length > 0) {
-            List<String> areaIdList = new ArrayList<>();
-            for (String a : areaIds) {
-                areaIdList.add(a);
-            }
-            reportVo.setAreaIdList(areaIdList);
-        }
-        String[] areaNames = reportVo.getAreaName().split(",");
-        if (areaNames != null && areaNames.length > 0) {
-            List<String> areaNameList = new ArrayList<>();
-            for (String a : areaNames) {
-                areaNameList.add(a);
-            }
-            reportVo.setAreaNameList(areaNameList);
-        }
+//        String[] areaIds = reportVo.getContrastRegionID().split(",");
+//        String[] areaNames = reportVo.getAreaName().split(",");
         String dataType = reportVo.getDataType();
         if ("1".equals(dataType)) {
+            dataTempVo.setType("0");
             Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
             int year = map.get("year");
             int month = map.get("month");
@@ -317,6 +295,7 @@ public class PageReportController {
             reportVo.setTitleList(titleList);
         }
         if ("2".equals(dataType)) {
+            dataTempVo.setType("1");
             Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
             int year = map.get("year");
             List<String> titleList = new ArrayList<>();
@@ -327,6 +306,7 @@ public class PageReportController {
         }
         if ("3".equals(dataType)) {
             if ("3".equals(dataType)) {
+                dataTempVo.setType("2");
                 Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
                 int year = map.get("year");
                 List<String> titleList = new ArrayList<>();
@@ -340,10 +320,52 @@ public class PageReportController {
             reportVo.setStartTimeStr(DateFormatUtil.dateToStr(reportVo.getStartTime()));
             reportVo.setEndTimeStr(DateFormatUtil.dateToStr(reportVo.getEndTime()));
         }
-            return reportVo;
+        dataTempVo.setMaterialClassID(reportVo.getMaterialClassID());
+        dataTempVo.setContrastRegionID(reportVo.getContrastRegionID());
+        dataTempVo.setStartTimeStr(reportVo.getStartTimeStr());
+        dataTempVo.setEndTimeStr(reportVo.getEndTimeStr());
+        List<DataTempVo> dataTempVoList = pageReportInterface.findDataByReportId(dataTempVo);
+        dataTempVo.setContrastRegionID("53");
+        List<DataTempVo> dataTempVoList2 = pageReportInterface.findDataByReportId(dataTempVo);
+        Map<String, List<DataTempVo>> mm =  dataTempVoList.stream().collect(Collectors.groupingBy(DataTempVo::getMId));
+        if (maIds != null && maIds.length > 0 && maNames != null && maNames.length > 0){
+            Map<String,Object> map2 = new HashMap<>();
+            List<Map<String,Object>> mapList = new ArrayList<>();
+            for (int i = 0; i<maIds.length; i++){
+                map2 = new HashMap<>();
+                if (mm.get(maIds[i]) != null){
+                    map2.put("maName",pageReportInterface.getMaName(maIds[i]));
+                    map2.put("mm",mm.get(maIds[i]));
+                    map2.put("mmYn",dataTempVoList2);
+                }else {
+                    map2.put("maName",pageReportInterface.getMaName(maIds[i]));
+                    map2.put("mm","暂无数据");
+                    map2.put("mmYn",dataTempVoList2);
+                }
+                if ("1".equals(dataType)) {
+                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                    int year = map.get("year");
+                    int month = map.get("month");
+                    map2.put("title",(year + "年" + month + "月," + maNames[i] + "月度数据报告"));
+                }
+                if ("2".equals(dataType)) {
+                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                    int year = map.get("year");
+                    map2.put("title",(year + "年第" + reportVo.getTimeInterval() + "季度" + maNames[i] + "季度数据报告"));
+                }
+                if ("3".equals(dataType)) {
+                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                    int year = map.get("year");
+                    map2.put("title",(year + "年" + maNames[i] + "年度数据报告"));
+                }
+                mapList.add(map2);
+            }
+            reportVo.setMapList(mapList);
         }
-
+        return reportVo;
     }
+
+}
 
 
 

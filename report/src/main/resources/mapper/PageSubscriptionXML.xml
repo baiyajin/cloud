@@ -88,4 +88,27 @@
             AND a.id = #{id}
     </select>
 
+
+    <select id="findDataByReportId" parameterType="com.baiyajin.entity.bean.DataTempVo" resultType="com.baiyajin.entity.bean.DataTempVo">
+        SELECT
+            a.mid as "mId",
+            a.mat_name AS "maName",
+            a.area AS "areaId",
+            a.area_name AS "areaName",
+            a.price AS "price",
+            a.price/(a.tongbi + 1) AS "tbPrice",
+            a.price/(a.huanbi + 1) AS "hbPrice",
+            a.exponent AS "exponent",
+            a.huanbi AS "hb",
+            a.tongbi AS "tb",
+            DATE_FORMAT(a.mdate,'%Y-%m') AS "maDate"
+        FROM page_material_pice a
+    WHERE
+        a.type = #{type}
+        AND FIND_IN_SET(a.area,#{contrastRegionID})
+        AND FIND_IN_SET(a.mid,#{materialClassID})
+        AND a.mdate BETWEEN #{startTimeStr} AND #{endTimeStr}
+    </select>
+
+
 </mapper>

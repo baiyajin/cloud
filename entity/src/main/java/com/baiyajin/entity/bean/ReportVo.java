@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class ReportVo implements Serializable {
@@ -33,5 +34,8 @@ public class ReportVo implements Serializable {
     private Integer pageCurrent;    //分页查询开始记录数
     private Integer pSize;
     private Page<ReportVo>  page;//分页信息
+
+    private List<Map<String,Object>> mapList;
+//    private List<DataTempVo> dataTempVoList;
 
 }
