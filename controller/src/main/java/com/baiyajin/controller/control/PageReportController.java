@@ -49,7 +49,7 @@ public class PageReportController {
      * @param pageReport
      * @return
      */
-    @ApiOperation(value = "新增报告" ,notes = "新增报告默认状态ID为启用(qy)，type（1 平台发布,2 我的）,状态默认为qy，若不默认可传入statusID：jy")
+    @ApiOperation(value = "新增报告" ,notes = "新增报告默认状态ID为启用(qy)，type（非必填，1 平台发布,2 我的）,状态默认为qy，若不默认可传入statusID：jy")
     @ApiImplicitParams({@ApiImplicitParam(name = "name(必填,由用户选择以后前端进行拼接传回)，" +
             "报告数据类型 dataType(必填)，1代表月度,2代表季度，3代表年度" +
             "mark(非必填)，token（必填）,timeInterval(订阅的时间点，必填),materialClassID(材料类型ID，选择传入,可多个，用逗号隔开)，contrastRegionID(对比地区，可多个，用逗号隔开)"
@@ -88,7 +88,7 @@ public class PageReportController {
     @RequestMapping(value = "/findListByPage",method = RequestMethod.POST)
     @ResponseBody
     public Object findListByPage(ReportVo reportVo,String pageNum,String pageSize){
-        return  restTemplate.postForObject(Rest_url_prefix+"/PageReportController/findListByPage",reportVo, Object.class,pageNum,pageSize);
+        return  restTemplate.postForObject(Rest_url_prefix+"/PageReportController/findListByPage",reportVo,Object.class,pageNum,pageSize);
     }
 
     /**

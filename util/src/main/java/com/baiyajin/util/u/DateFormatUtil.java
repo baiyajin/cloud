@@ -1,5 +1,7 @@
 package com.baiyajin.util.u;
 
+import com.baiyajin.entity.bean.DataTempVo;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.DateUtil;
 
 import java.text.DateFormat;
@@ -212,6 +214,7 @@ public class DateFormatUtil {
 	}
 
 
+
 	public static Map<String,Date> getDateByQuarter(int quarter,int year){
 		Map<String,Date> map = new HashMap<>();
 		int stMonth = quarter * 3 - 2;
@@ -219,10 +222,10 @@ public class DateFormatUtil {
 		Date stDate =  new Date();
 		Date endDate =  new Date();
 		stDate = setDate(stDate,1,year);
-		stDate = setDate(stDate,2,stMonth);
+		stDate = setDate(stDate,2,stMonth-1);
 		stDate = setDate(stDate,5,1);
 		endDate = setDate(stDate,1,year);
-		endDate = setDate(stDate,2,endMonth);
+		endDate = setDate(stDate,2,endMonth-1);
 		endDate = DateUtils.parseDate(getDateLastDay(endDate),"yyyy-MM-dd");
 		map.put("startDate",stDate);
 		map.put("endDate",endDate);
@@ -339,6 +342,11 @@ public class DateFormatUtil {
 		return str;
 	}
 
+	public static String dateToStr2(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+		String str = format.format(date);
+		return str;
+	}
 
 	public static Map<String,Integer> getYearByDate(Date endDate) throws ParseException {
 		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(DateFormatUtil.dateToStr(endDate));
@@ -362,8 +370,55 @@ public class DateFormatUtil {
 		stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
 
 		System.out.println(DateFormatUtil.dateToString(stDate1));*/
+		Map<String,Date> map = getDateByQuarter(3,2019);
+		System.out.println(dateToString(map.get("startDate")));
+		System.out.println(dateToString(map.get("endDate")));
 
-		System.out.println(DateFormatUtil.getDateLastDay(new Date()));
+
 	}
+
+
+	public static  List<String>  getYearAndMonth (String beginDate,String endDate) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(sdf.parse(beginDate));
+
+		List<String> a = new ArrayList();
+		for (long d = cal.getTimeInMillis(); d <= sdf.parse(endDate).getTime(); d = get_D_Plaus_1(cal)) {
+			if(!a.contains(sdf.format(d))){
+				a.add(sdf.format(d));
+			}
+		}
+		System.out.println(a);
+		return  a;
+	}
+
+	public static long get_D_Plaus_1(Calendar c) {
+		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+		return c.getTimeInMillis();
+	}
+
+
+	public static  List<DataTempVo> fillUp(List<String> list, List<DataTempVo> entityList){
+		List<DataTempVo> dataTempVoList = new ArrayList<>();
+		if (list != null && list.size() > 0){
+			for (DataTempVo d : entityList){
+				for (String s:list){
+					if (!s.equals(d.getMaDate())){
+						DataTempVo dataTempVo = new DataTempVo();
+						dataTempVo.setMaDate(s);
+						dataTempVo.setAreaId(d.getAreaId());
+						dataTempVo.setMId(d.getMId());
+						dataTempVoList.add(dataTempVo);
+					}else {
+						dataTempVoList.add(d);
+					}
+				}
+			}
+		}
+		return dataTempVoList;
+	}
+
+
 
 }

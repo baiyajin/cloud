@@ -1,5 +1,6 @@
 package com.baiyajin.report.service;
 
+import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
@@ -50,6 +51,16 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
     @Override
     public ReportVo getReportInfoById(String id) {
         return baseMapper.getReportInfoById(id);
+    }
+
+    @Override
+    public List<DataTempVo> findDataByReportId(DataTempVo dataTempVo) {
+        return baseMapper.findDataByReportId(dataTempVo);
+    }
+
+    @Override
+    public String getMaName(String id) {
+        return baseMapper.getMaName(id);
     }
 
 }

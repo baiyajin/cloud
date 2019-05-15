@@ -1,6 +1,7 @@
 package com.baiyajin.report.service;
 
 
+import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageSubscription;
 import com.baiyajin.entity.bean.SubscriptionVo;
@@ -32,5 +33,10 @@ public class PageSubscriptionService extends ServiceImpl<PageSubscriptionMapper,
     @Override
     public SubscriptionVo getInfoById(String id) {
         return baseMapper.getInfoById(id);
+    }
+
+    @Override
+    public List<DataTempVo> findDataByReportId(DataTempVo dataTempVo) {
+        return baseMapper.findDataByReportId(dataTempVo);
     }
 }

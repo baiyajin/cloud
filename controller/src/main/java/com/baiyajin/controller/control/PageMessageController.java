@@ -43,7 +43,7 @@ public class PageMessageController {
      */
     @ApiOperation(value = "获取消息列表",notes = "通过用户id获取该用户的消息数据，请求类型json")
     @ApiImplicitParams({@ApiImplicitParam(name = "userId（必填）",value =  "如：\t{\"userId\":\"11\"}",dataType = "String")})
-    @RequestMapping(value = "/getMessage", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/getMessage", method = {RequestMethod.POST},produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public Map<String,Object> getMessage(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
