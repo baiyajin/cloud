@@ -2,6 +2,7 @@ package com.baiyajin.report.mapper;
 
 
 
+import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -21,4 +22,10 @@ public interface PageReportMapper extends BaseMapper<PageReport> {
     int addRemark(Map<String, Object> map);
 
     PageReport selectRemark(Map<String, Object> map);
+
+    ReportVo getReportInfoById(String id);
+
+    List<DataTempVo> findDataByReportId(DataTempVo dataTempVo);
+
+    String getMaName(String id);
 }

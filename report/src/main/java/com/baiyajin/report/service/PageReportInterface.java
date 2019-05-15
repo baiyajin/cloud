@@ -1,10 +1,12 @@
 package com.baiyajin.report.service;
 
+import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PageReportInterface extends IService<PageReport> {
@@ -21,4 +23,9 @@ public interface PageReportInterface extends IService<PageReport> {
 
     PageReport selectRemark(Map<String, Object> map);
 
+    ReportVo getReportInfoById(String id);
+
+    List<DataTempVo> findDataByReportId(DataTempVo dataTempVo);
+
+    String getMaName(String id);
 }

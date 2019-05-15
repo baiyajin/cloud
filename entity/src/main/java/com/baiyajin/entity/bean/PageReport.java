@@ -12,6 +12,7 @@ import java.util.Date;
 public class PageReport {
   private String id;
   private String type;
+  private String dataType;  // 数据类型,1代表月度,2代表季度，3代表年度
   private String name;
   private String logo;
   private String content;

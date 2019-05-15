@@ -4,16 +4,21 @@
     <!--分页查询报告-->
     <select id="findList" parameterType="com.baiyajin.entity.bean.ReportVo" resultType="com.baiyajin.entity.bean.ReportVo">
         SELECT
-        a.id AS "id",
-        a.`name` AS "title",
-        a.type AS "type",
-        a.userID,
-        a.createTime AS "createTime",
-        b.`name` as "materialName"
+            a.id AS "id",
+            a.`name` AS "title",
+            a.type AS "type",
+            a.dataType as "dataType",
+            a.userID,
+            a.createTime AS "createTime",
+            a.materialClassID as "materialClassID",
+            a.contrastRegionID as "contrastRegionID",
+            group_concat(DISTINCT b. NAME) AS "materialName",
+            group_concat(DISTINCT c. NAME) AS "areaName"
         FROM page_report a
-        LEFT JOIN hlidx_category b ON a.materialClassID = b.id
+        LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
         WHERE
-        a.statusID = "qy"
+            a.statusID = "qy"
         <if test="type !=null and type != ''">
             AND a.type = #{type}
         </if>
@@ -26,6 +31,7 @@
         <if test="userID != null and userID != '' and type == 2">
             AND a.userID = #{userID}
         </if>
+        group by id
         ORDER BY createTime DESC
         LIMIT #{pageCurrent},#{pSize}
     </select>
@@ -54,9 +60,9 @@
 
     <update id="updateRemark" parameterType="java.util.Map">
         update page_repor_remark
-        set mark = #{mark}
-        where reportId =#{reportId}
-        and userId =#{userId}
+        set mark = #{mark},
+            updateTime = #{updateTime}
+        where id =#{id}
     </update>
 
     <select id="selectRemarkByReportId" parameterType="java.util.Map" resultType="java.util.Map">
@@ -66,8 +72,8 @@
     </select>
 
     <insert id="addRemark" parameterType="java.util.Map">
-        insert into page_repor_remark(userId,reportId,mark)
-        values(#{userId},#{reportId},#{mark})
+        insert into page_repor_remark(id,userId,reportId,mark,createTime,updateTime)
+        values(#{id},#{userId},#{reportId},#{mark},#{createTime},#{updateTime})
     </insert>
 
     <select id="selectRemark" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageReport">
@@ -102,6 +108,54 @@
         WHERE
             userId = #{userId}
     ) i ON m.id = i.reportId
+    </select>
+
+    <!--获取报告详情-->
+    <select id="getReportInfoById" parameterType="java.lang.String" resultType="com.baiyajin.entity.bean.ReportVo">
+        SELECT
+            a.id AS "id",
+            a.`name` AS "title",
+            a.dataType AS "dataType",
+            a.type AS "type",
+            a.contrastRegionID as "contrastRegionID",
+            a.materialClassID as "materialClassID",
+            group_concat(DISTINCT b. NAME) AS "materialName",
+            group_concat(DISTINCT c. NAME) AS "areaName",
+            a.timeInterval as  "timeInterval",
+            a.startTime AS "startTime",
+            a.endTime AS "endTime"
+        FROM page_report a
+        LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
+        WHERE a.statusID = 'qy'
+            and a.id = #{id}
+    </select>
+
+    <select id="findDataByReportId" parameterType="com.baiyajin.entity.bean.DataTempVo" resultType="com.baiyajin.entity.bean.DataTempVo">
+        SELECT
+            a.mid as "mId",
+            a.mat_name AS "maName",
+            a.area_name AS "areaName",
+            a.price AS "price",
+            a.price/(a.tongbi + 1) AS "tbPrice",
+            a.price/(a.huanbi + 1) AS "hbPrice",
+            a.exponent AS "exponent",
+            a.huanbi AS "hb",
+            a.tongbi AS "tb",
+            a.mdate as "maDate"
+        FROM page_material_pice a
+    WHERE
+        a.type = #{type}
+        AND FIND_IN_SET(a.area,#{contrastRegionID})
+        AND FIND_IN_SET(a.mid,#{materialClassID})
+        AND a.mdate BETWEEN #{startTimeStr} AND #{endTimeStr}
+    </select>
+
+    <select id="getMaName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+        a.name
+    FROM hlidx_category a
+    WHERE a.id = #{id}
     </select>
 
 

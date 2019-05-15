@@ -5,6 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class SubscriptionVo implements Serializable {
@@ -13,15 +15,29 @@ public class SubscriptionVo implements Serializable {
     private String number;
     private Date createTime;
     private Date updateTime;
-    private Date time;
+    private Date bookDate;
+//    private Date time;
     private String isPush;  //是否推送，0代表已推送，1代表未推送
-    private BigDecimal bookPrice;//订阅时材料价格
-    private String bookDate; //订阅要关注的数据的时间
-
+    private String areaId; //区域ID
+    private String area;
+    private String maName;
+    private String maId;//材料ID
+    private Date startTime;
+    private Date endTime;
     private Integer pageCurrent;    //分页查询开始记录数
     private Integer pSize;
     private Page<SubscriptionVo> page;
     private String token;
     private String userID;
+
+    private String stTimeStr;
+    private String enTimeStr;
+    private String month;
+    private List<String> maNameList;
+    private List<String> maIdList;
+    private List<String> areaNameList;
+    private List<String> areaIdList;
+    private  List<DataTempVo> dataTempVoList;;
+    private List<Map<String,Object>> mapList;
 
 }
