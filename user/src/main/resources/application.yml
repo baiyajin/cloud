@@ -3,11 +3,13 @@ server:
 
 web:
 #  IP: 182.247.245.27
-  IP: localhost
-  database: jijia_production
-  redisIP: localhost
+#  IP: localhost
+#  database: jijia_production
 #  database: jijia_test
 #  IP: localhost
+  database: jijia_test
+  databaseIP: 192.168.8.19
+  redisIP: localhost
 
 spring:
   application:
@@ -15,7 +17,7 @@ spring:
   datasource:
         username: root
         password: '%#$123456jijia'
-        url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://${web.databaseIP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
   redis:
     host: ${web.redisIP}
     database: 0

@@ -111,12 +111,21 @@ public class Material {
 
 
     @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
-    @RequestMapping(value = "/getMaterialsInfoByProvinceAreaEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/getMaterialsInfoByAreaEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public ReturnModel getMaterialsInfoByAreaEncapsulation(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
-        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByProvinceAreaEncapsulation",map, ReturnModel.class);
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByAreaEncapsulation",map, ReturnModel.class);
 
+
+    }
+
+
+    @RequestMapping(value = "/getMaterialsInfoByProvinceAreaEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByProvinceAreaEncapsulation(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByProvinceAreaEncapsulation",map, ReturnModel.class);
     }
 
 
@@ -148,7 +157,7 @@ public class Material {
     @RequestMapping(value = "/getMaterialsInfoEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ReturnModel getMaterialsInfoEncapsulation( @RequestBody Map<String, Object> map) throws ParseException {
-        return restTemplate.getForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoEncapsulation", ReturnModel.class);
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoEncapsulation", map,ReturnModel.class);
     }
 
 

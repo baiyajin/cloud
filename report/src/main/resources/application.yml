@@ -2,16 +2,17 @@ server:
   port: 9440
 
 web:
-  IP: 182.247.245.27
-  database: jijia_production
+#  IP: 182.247.245.27
+#  database: jijia_production
 #  database: jijia_sys
-#  IP: localhost
+  database: jijia_test
+  IP: localhost
 
 spring:
   application:
     name: report
   redis:
-    host: 182.247.245.27
+    host: ${web.IP}
     password: baiyajin
     database: 0
     port: 6379

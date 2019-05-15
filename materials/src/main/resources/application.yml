@@ -2,8 +2,12 @@ server:
   port: 9110
 
 web:
-  IP: localhost
-  database: jijia_production
+#  IP: 192.168.8.19
+#  database: jijia_production
+  database: jijia_test
+  databaseIP: 192.168.8.19
+  redisIP: 192.168.8.20
+#  databaseIP: 192.168.8.19
 #  database: jijia_sys
 #  IP: localhost
 
@@ -14,15 +18,15 @@ spring:
         username: root
         password: '%#$123456jijia'
 #        password: root
-        url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://${web.databaseIP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         dbcp2:
           validation-query: SELECT 1
           testWhileIdle: true
           testOnBorrow: true
           testOnReturn: true
   redis:
-    host: ${web.IP}
-    password: baiyajin
+    host: ${web.redisIP}
+#    password: baiyajin
     database: 0
     port: 6379
     timeout: 100
