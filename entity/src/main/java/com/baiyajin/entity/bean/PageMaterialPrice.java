@@ -29,5 +29,16 @@ public class PageMaterialPrice {
     private int is_del;
 
 
+    public PageMaterialPrice(){
+
+    }
+
+    public PageMaterialPrice(PageMaterialUpdata entity){
+        this.mat_name = entity.getMname();
+        this.city = entity.getCity();
+        this.area = entity.getArea();
+       this.mdate = entity.getMdate();
+    }
+
 
 }

@@ -36,4 +36,12 @@ public class PageMaterialtUpdateController {
     public ReturnModel receiveMaterialtPrice(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         return restTemplate.postForObject(Rest_url_prefix + "/materialtPriceUpdate/receiveMaterialtPrice", map,ReturnModel.class);
     }
+
+
+
 }
+
+
+
+
+

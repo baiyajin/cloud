@@ -23,8 +23,6 @@ import java.util.Map;
 @RequestMapping("/PageAreaController")
 public class PageAreaController {
 
-    @Autowired
-    private PageAreaInterface pageAreaInterface;
 
 
     private static final String Rest_url_prefix = "http://controller";
@@ -37,7 +35,6 @@ public class PageAreaController {
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public List<PageArea> getAreaList(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
-        List<PageArea> areaList = pageAreaInterface.selectByMap(map);
         return restTemplate.postForObject(Rest_url_prefix + "/PageAreaController/getAreaList", map,List.class);
 
     }

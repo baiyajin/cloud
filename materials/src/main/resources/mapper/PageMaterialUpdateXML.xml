@@ -2,6 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.baiyajin.materials.mapper.PageMaterialUpdateMapper">
 
+    <!--钢材信息-->
+    <sql id="getMaterialtPriceListMain">
+        select m.c1,m.c2,m.c3,m.mname,m.mspec,m.munit,m.remark,m.mcid as mid,i.city,i.area,i.price,i.mdate
+        from(
+            select * from hl_main_material
+
+            ) m
+        left join
+            (select * from hl_main_price where
+
+             year(mdate) = year(#{mdate})
+             <if test="type==0">
+                and month(mdate) = month(#{mdate})
+             </if>
+            <if test="type==1">
+                and quarter(mdate) = quarter(#{mdate})
+             </if>
+              ) i
+        on m.mcid = i.mid  where i.id is not null
+        union all
+        select c1,c2,c3,mname,mspec,munit,remark,mid,city,area,price,mdate
+        from
+          material_price_info_update
+        where state = 0
+        and year(mdate) = year(#{mdate})
+        <if test="type==0">
+            and month(mdate) = month(#{mdate})
+        </if>
+        <if test="type==1">
+            and quarter(mdate) = quarter(#{mdate})
+        </if>
+    </sql>
+
+    <!--地区材料信息-->
+    <sql id="getMaterialtPriceListPinfb">
+        select m.c1,m.c2,m.c3,m.mname,m.mspec,m.munit,m.remark,m.id as mid,i.city,i.area,i.price,i.mtime as mdate
+        from(
+          select * from hl_pinfbase
+           ) m
+        left join
+          (select * from hl_pinfb_price where
+
+        <if test="type==0">
+            and month(mdate) = month(#{mdate})
+        </if>
+        <if test="type==1">
+            and quarter(mdate) = quarter(#{mdate})
+        </if>
+        and year(mdate) = year(#{mdate})
+              ) i
+          on m.id = i.mid where i.id is not null
+        union all
+        select c1,c2,c3,mname,mspec,munit,remark,mid,city,area,price,mdate from material_price_info_update
+        where state = 0
+          and year(mdate) = year(#{mdate})
+        <if test="type==0">
+            and month(mdate) = month(#{mdate})
+        </if>
+        <if test="type==1">
+            and quarter(mdate) = quarter(#{mdate})
+        </if>
+
+    </sql>
+
+
+
+    <select id="getMaterialtPriceList" parameterType="com.baiyajin.entity.bean.PageMaterialUpdata"
+            resultType="com.baiyajin.entity.bean.PageMaterialUpdata">
+        <!--钢材信息-->
+        <if test="mattype==0">
+            <include refid="getMaterialtPriceListMain"></include>
+        </if>
+        <!--地区材料信息-->
+        <if test="mattype==1">
+            <include refid="getMaterialtPriceListPinfb"></include>
+        </if>
+    </select>
+
 
 
     <select id="getMaterialtAvgPrice" resultType="java.util.Map" parameterType="java.util.Map">
@@ -50,25 +128,24 @@
         <!--基价-->
         <if test="dateType==1">
             <![CDATA[
-              and concat(year(mdate),month(mdate)) < concat(#{year},#{month})
+              and concat(year(mdate),month(mdate)) < concat(year(#{mdate}),month(#{mdate}))
             ]]>
             order by mdate  limit 1
         </if>
         <!--环比 -->
         <if test="dateType==2">
             <![CDATA[
-                and concat(year(mdate),month(mdate)) < concat(#{year},#{month})
+                and concat(year(mdate),month(mdate)) < concat(year(#{mdate}),month(#{mdate}))
             ]]>
             order by mdate desc limit 1
         </if>
         <!--同比-->
         <if test="dateType==3">
             <![CDATA[
-              and year(mdate) <  #{year} and month(mdate) = #{month}
+              and year(mdate) < year(#{mdate}) and month(mdate) = month(#{mdate})
             ]]>
             order by mdate asc  limit 1
         </if>
-
     </select>
 
 

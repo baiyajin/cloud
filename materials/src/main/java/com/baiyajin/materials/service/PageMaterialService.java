@@ -13,11 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMaterial> implements PageMaterialInterface {
@@ -133,7 +131,13 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 //       String areas = map.get("areas").toString();
 //
 //        map.put("areas",areas);
-        return  baseMapper.getMaterialsInfoByArea(map);
+        List<Map<String, Object>> list =  baseMapper.getMaterialsInfoByArea(map);
+        List<Map<String, Object>> list2 = new ArrayList<>();
+        for(Map<String, Object> m:list){
+            m.put("mdate",m.get("mdate").toString());
+            list2.add(m);
+        }
+        return  list2;
     }
 
 

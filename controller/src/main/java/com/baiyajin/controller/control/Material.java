@@ -148,7 +148,7 @@ public class Material {
     @RequestMapping(value = "/getMaterialsInfoEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ReturnModel getMaterialsInfoEncapsulation( @RequestBody Map<String, Object> map) throws ParseException {
-        return restTemplate.getForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoEncapsulation", ReturnModel.class);
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoEncapsulation", map,ReturnModel.class);
     }
 
 

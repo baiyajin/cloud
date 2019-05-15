@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baiyajin.materials.mapper.PageMaterialPriceMapper">
+
+
+
+    <select id="selectPageMaterialPrice" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageMaterialPrice">
+        select * from page_material_pice where area = #{area}
+            and type = #{type}
+            and mid=#{mid}
+            and area = #{area}
+            and year(mdate) = year(#{mdate})
+            and month(mdate) = month(#{mdate})
+    </select>
+
+
+</mapper>
