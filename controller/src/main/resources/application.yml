@@ -3,10 +3,10 @@ server:
 
 web:
 #  IP: 182.247.245.27
-  IP: 192.168.8.19
+  IP: localhost
 #  database: jijia_production
   database: jijia_test
-#  IP: localhost
+#  IP: 192.168.8.19
 
 spring:
   application:
@@ -31,8 +31,11 @@ eureka:
 
 
 
+
 info:
   app.name: $project.name$
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+

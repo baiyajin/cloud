@@ -4,10 +4,12 @@ import com.baiyajin.entity.bean.DataTempVo;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.DateUtil;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DateFormatUtil {
 
@@ -397,28 +399,55 @@ public class DateFormatUtil {
 		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
 		return c.getTimeInMillis();
 	}
-
-
-	public static  List<DataTempVo> fillUp(List<String> list, List<DataTempVo> entityList){
+	public static  List<DataTempVo> fillUp(List<String> list, List<DataTempVo> entityList) {
 		List<DataTempVo> dataTempVoList = new ArrayList<>();
-		if (list != null && list.size() > 0){
-			for (DataTempVo d : entityList){
-				for (String s:list){
-					if (!s.equals(d.getMaDate())){
-						DataTempVo dataTempVo = new DataTempVo();
-						dataTempVo.setMaDate(s);
-						dataTempVo.setAreaId(d.getAreaId());
-						dataTempVo.setMId(d.getMId());
-						dataTempVoList.add(dataTempVo);
-					}else {
-						dataTempVoList.add(d);
+		dataTempVoList.addAll(entityList);
+		DataTempVo mm =  new DataTempVo();
+		if (list != null && list.size() > 0) {
+			boolean flg = true;
+			for (String s : list) {
+				for (DataTempVo d : entityList) {
+					mm = d;
+					flg = true;
+					if (s.equals(d.getMaDate())) {
+						flg = false;
+						mm = d;
+						break;
 					}
+				}
+				System.out.println("-------------");
+				System.out.println(s);
+				System.out.println(flg);
+				System.out.println("-------------");
+
+				if (flg) {
+					DataTempVo dataTempVo = new DataTempVo();
+					dataTempVo.setMaDate(s);
+					dataTempVo.setAreaId(mm.getAreaId());
+					dataTempVo.setMId(mm.getMId());
+					dataTempVo.setAreaName(mm.getAreaName());
+					dataTempVo.setMaName(mm.getMaName());
+					System.out.println("size:"+dataTempVoList.size());
+
+					System.out.println(dataTempVo);
+					dataTempVoList.add(dataTempVo);
+					System.out.println("sizea:"+dataTempVoList.size());
 				}
 			}
 		}
-		return dataTempVoList;
+			DateFormatUtil.listSort2(dataTempVoList);
+			return dataTempVoList;
+		}
+
+
+	public static void listSort2(List<DataTempVo> list) {
+		Collections.sort(
+				list, new Comparator<DataTempVo>() {
+					public int compare(DataTempVo o1, DataTempVo o2) {
+						String mdate1 = o1.getMaDate();//mdate1是从你list里面拿出来的一个
+						String mdate2 = o2.getMaDate(); //mdate2是从你list里面拿出来的第二个
+						return mdate1.compareTo(mdate2);
+					}
+				});
 	}
-
-
-
 }

@@ -5,4 +5,6 @@ import com.baomidou.mybatisplus.service.IService;
 
 public interface PageMaterialClassInterface extends IService<PageMaterialClass> {
 
+
+
 }

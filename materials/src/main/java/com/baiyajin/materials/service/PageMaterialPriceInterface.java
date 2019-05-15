@@ -13,4 +13,6 @@ public interface PageMaterialPriceInterface extends IService<PageMaterialPrice> 
 
 
 
+
+
 }
