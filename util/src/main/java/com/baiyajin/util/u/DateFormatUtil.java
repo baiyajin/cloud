@@ -1,5 +1,6 @@
 package com.baiyajin.util.u;
 
+
 import com.baiyajin.entity.bean.DataTempVo;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -8,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DateFormatUtil {
 
@@ -364,18 +366,7 @@ public class DateFormatUtil {
 
 
 
-	public static void main(String[] args) throws ParseException {
 
-	/*	Date stDate1 =  DateFormatUtil.stringToDate("2019-04","yyyy-mm");
-		stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
-
-		System.out.println(DateFormatUtil.dateToString(stDate1));*/
-		Map<String,Date> map = getDateByQuarter(3,2019);
-		System.out.println(dateToString(map.get("startDate")));
-		System.out.println(dateToString(map.get("endDate")));
-
-
-	}
 
 
 	public static  List<String>  getYearAndMonth (String beginDate,String endDate) throws Exception {
@@ -420,5 +411,53 @@ public class DateFormatUtil {
 	}
 
 
+	public static  List<Map<String,Object>> fillUpMap(List<String> list, List<Map<String,Object>> entityList) throws ParseException {
+		List<Map<String,Object>> dataTempVoList = new ArrayList<>();
+		dataTempVoList.addAll(entityList);
+		Map<String,Object> mm =  new HashMap<String,Object>();
+		if (list != null && list.size() > 0){
+			boolean flg = true;
+			for (String s:list){
+				for (Map<String,Object> m : entityList){
+					mm.clear();
+					mm.putAll(m);
+					String mDate = "";
+					if(m.get("mdate")!=null) {
+						mDate = DateFormatUtil.dateToString(DateFormatUtil.stringToDate(m.get("mdate").toString()), "YYYY-MM");
+					}
+					flg = true;
+					if (s.equals(mDate)){
+						flg = false;
+						mm.clear();
+						mm.putAll(m);
+						break;
+					}
+				}
+				if (flg){
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.putAll(mm);
+					map.put("mdate",s);
+					map.put("price",0.00);
+					dataTempVoList.add(map);
+				}
+			}
 
+			listSort(dataTempVoList);
+		}
+		return dataTempVoList;
+	}
+
+
+
+
+		public static void listSort(List<Map<String, Object>> list) {
+			Collections.sort(
+					list, new Comparator<Map<String, Object>>() {
+				public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+					String mdate1 = o1.get("mdate").toString() ;//mdate1是从你list里面拿出来的一个
+					String mdate2 =o2.get("mdate").toString() ; //mdate2是从你list里面拿出来的第二个
+					return mdate1.compareTo(mdate2);
+				}
+			});
+		}
 }

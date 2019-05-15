@@ -137,10 +137,22 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
             m.put("mdate",m.get("mdate").toString());
             list2.add(m);
         }
+//      list2 =  supplementDate(map,list2);
         return  list2;
     }
 
-
+//    private  List<Map<String, Object>> supplementDate(Map<String, Object> map, List<Map<String, Object>> list){
+//        try {
+//            String stDate = map.get("startDate")==null?"2018-01":map.get("startDate").toString();
+//            String enDate = map.get("endDate")==null?DateFormatUtil.dateToString(new Date()):map.get("endDate").toString();
+//            List<String> dateList = DateFormatUtil.getYearAndMonth(stDate,enDate);
+//            list = DateFormatUtil.fillUpMap(dateList,list);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return list;
+//    }
 
 
 
