@@ -43,14 +43,15 @@
            ) m
         left join
           (select * from hl_pinfb_price where
-
+         year(mtime) = year(#{mdate})
         <if test="type==0">
-            and month(mdate) = month(#{mdate})
+            and month(mtime) = month(#{mdate})
         </if>
         <if test="type==1">
-            and quarter(mdate) = quarter(#{mdate})
+            and quarter(mtime) = quarter(#{mdate})
         </if>
-        and year(mdate) = year(#{mdate})
+
+
               ) i
           on m.id = i.mid where i.id is not null
         union all

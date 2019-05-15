@@ -8,7 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/echarts/echarts.iml" filepath="$PROJECT_DIR$/echarts/echarts.iml" />
       <module fileurl="file://$PROJECT_DIR$/entity/entity.iml" filepath="$PROJECT_DIR$/entity/entity.iml" />
       <module fileurl="file://$PROJECT_DIR$/materials/materials.iml" filepath="$PROJECT_DIR$/materials/materials.iml" />
-      <module fileurl="file://$PROJECT_DIR$/report/report.iml" filepath="$PROJECT_DIR$/report/report.iml" />
       <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/util.iml" filepath="$PROJECT_DIR$/util/util.iml" />
     </modules>

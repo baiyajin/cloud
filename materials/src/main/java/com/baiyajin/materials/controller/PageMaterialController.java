@@ -290,6 +290,7 @@ public class PageMaterialController {
             map.put("area",areas);
         }
 
+//        Date date = new Date();
         Date date = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
         Date stDate = DateFormatUtil.dateCompute(date,2,monthNumber * -1);
         stDate = DateFormatUtil.setDate(stDate,5,1);

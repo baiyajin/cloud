@@ -52,18 +52,22 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         //获取待处理数据列表（需要更新的价格材料）
         List<PageMaterialUpdata>  list = getPendingDisposalList();
         //获取相关材料列表并统计计算各材料各区域平均价格(原始数据，月度)
-        PageMaterialUpdata uPageMaterialUpdata = list.get(0);
-        List<PageMaterialPrice>  materialtPriceList = getMaterialtPriceList(uPageMaterialUpdata,"0");
+        List<PageMaterialUpdata>  newList = new ArrayList<>();
 
-        //更新月度
-        updatePriceMonth(materialtPriceList,uPageMaterialUpdata);
-
-//        updatePriceQuarter(materialtPriceList,uPageMaterialUpdata);
-
-
+        for(PageMaterialUpdata l:list){
+//            PageMaterialUpdata uPageMaterialUpdata = list.get(0);
+            List<PageMaterialPrice>  materialtPriceList = getMaterialtPriceList(l,"0");
+            //更新月度
+            updatePriceMonth(materialtPriceList,l);
+            //季度
+    //        updatePriceQuarter(materialtPriceList,uPageMaterialUpdata);
+            l.setState(1);
+            newList.add(l);
+        }
+        System.out.println("结束");
         //更新状态为已处理
-        uPageMaterialUpdata.setState(1);
-        baseMapper.updateById(uPageMaterialUpdata);
+
+//        baseMapper.updateById(uPageMaterialUpdata);
     }
 
     /**
@@ -78,8 +82,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         List<PageMaterialPrice> ll = dataComputer(materialtPriceList,baseList);
         //更新变动的数据
         updatePriceData(ll,baseList);
-
-
     }
 
     /**
@@ -134,10 +136,10 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
                 inertList.add(pageMaterialPrice);
             }
         }
-        System.out.println(upList.size());
-        System.out.println(inertList.size());
-        if(inertList.size()>0){
+        System.out.println("up:"+upList.size());
+        System.out.println("insert:"+inertList.size());
 
+        if(inertList.size()>0){
             pageMaterialPriceInterface.insertBatch(inertList);
         }
         if(upList.size()>0) {
@@ -159,7 +161,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
     //获取相关材料列表并统计计算各材料各区域平均价格(原始数据，月度)
     public List<PageMaterialPrice>  getMaterialtPriceList(PageMaterialUpdata pageMaterialUpdata,String type) {
-
+        pageMaterialUpdata.setType(type);
         List<PageMaterialUpdata> list = baseMapper.getMaterialtPriceList(pageMaterialUpdata);
 
         Map<String, Map<Integer, List<PageMaterialUpdata>>> areaMap = list.stream().collect(Collectors.groupingBy(PageMaterialUpdata::getArea,Collectors.groupingBy(PageMaterialUpdata::getC3)));

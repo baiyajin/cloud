@@ -438,6 +438,9 @@ public class DateFormatUtil {
 					map.putAll(mm);
 					map.put("mdate",s);
 					map.put("price",0.00);
+					map.put("huanbi",0.00);
+					map.put("tongbi",0.00);
+					map.put("exponent",0.00);
 					dataTempVoList.add(map);
 				}
 			}
@@ -446,6 +449,7 @@ public class DateFormatUtil {
 		}
 		return dataTempVoList;
 	}
+
 
 
 
@@ -460,4 +464,11 @@ public class DateFormatUtil {
 				}
 			});
 		}
-}
+
+
+
+
+
+
+
+	}
