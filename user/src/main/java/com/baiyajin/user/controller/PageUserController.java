@@ -9,6 +9,7 @@ import com.baiyajin.util.u.Results;
 import io.jsonwebtoken.Claims;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,7 @@ public class PageUserController {
     }
 
 
+
     /**
      * 前台用户登录
      * @param
@@ -56,16 +58,15 @@ public class PageUserController {
     @RequestMapping(value = "/login", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @Cacheable(cacheNames={"pag_login"},key = "#map.get('phone')+#map.get('password')")
     public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         Map<String,Object> m = new HashMap<>();
         try {
 
-            if(null == map.get("password") && "" == map.get("password")){
+            if(null == map.get("password") || "" == map.get("password")){
                 m.put("message","密码不能为空");
                 return m;
             }
-            if(null != map.get("phone") && "" != map.get("phone") && PhoneUtils.isPhone(map.get("phone").toString())){
+            if(PhoneUtils.isPhone(map.get("phone").toString())){
                 String salt = HashSalt.encode(Long.parseLong(map.get("phone").toString()));
                 String hashSalt = HashSalt.getMD5(salt);
                 String ecPassWord = new SimpleHash("SHA-1", map.get("password").toString(), hashSalt).toString();
@@ -165,7 +166,12 @@ public class PageUserController {
         user.setId(JWT.parseJWT(user.getToken()).getId());
 
         pageUserInterface.updateById(user);
-        return new Results(0,"更新成功",user);
+
+        Map<String,Object> m = new HashMap<>();
+        m.put("message","更新成功");
+        m.put("user",pageUserInterface.selectById(user.getId()));
+        return m;
+
     }
 
 

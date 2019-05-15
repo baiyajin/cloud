@@ -8,7 +8,7 @@ web:
 #  database: jijia_test
 #  IP: localhost
   database: jijia_test
-  databaseIP: 192.168.8.19
+  databaseIP: localhost
   redisIP: localhost
 
 spring:
