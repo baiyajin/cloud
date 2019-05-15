@@ -11,6 +11,6 @@ import java.util.Map;
 public interface PageMaterialPriceMapper extends BaseMapper<PageMaterialPrice> {
 
 
-
+    public List<PageMaterialPrice> selectPageMaterialPrice(Map<String,Object> map);
 
 }

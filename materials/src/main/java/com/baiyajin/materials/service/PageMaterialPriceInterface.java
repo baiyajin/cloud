@@ -12,7 +12,7 @@ public interface PageMaterialPriceInterface extends IService<PageMaterialPrice> 
 
 
 
-
-
+    //public  updatePriceData
+    public PageMaterialPrice selectPageMaterialPrice(Map<String,Object> map);
 
 }

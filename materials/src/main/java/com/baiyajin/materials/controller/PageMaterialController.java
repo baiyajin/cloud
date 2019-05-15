@@ -146,23 +146,22 @@ public class PageMaterialController {
         map.put("startDate","2019-03");
         map.put("endDate","2019-03");
        return pageMaterialInterface.getMaterialsInfo(map);
-
     }
 
 
 
 
 
-    @ApiOperation(value = "",notes = "json")
-    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
-    @RequestMapping(value = "/getMaterialsInfoByArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
-    @Transactional(rollbackFor = Exception.class)
-    @ResponseBody
-    public List<Map<String,Object>> getMaterialsInfoByArea(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
-
-            return pageMaterialInterface.getMaterialsInfoByArea(map);
-
-    }
+//    @ApiOperation(value = "",notes = "json")
+//    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+//    @RequestMapping(value = "/getMaterialsInfoByArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+//    @Transactional(rollbackFor = Exception.class)
+//    @ResponseBody
+//    public List<Map<String,Object>> getMaterialsInfoByArea(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+//
+//            return pageMaterialInterface.getMaterialsInfoByArea(map);
+//
+//    }
 
     @ApiOperation(value = "",notes = "json")
     @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
@@ -193,10 +192,15 @@ public class PageMaterialController {
 
 
     public   Map<String,List<Map<String,Object>>> listToTreeArea( List<Map<String,Object>> childrenMaterialsList ){
+
+
+
+
         Map<String,List<Map<String,Object>>> map = new HashMap<>();
         System.out.println("size"+childrenMaterialsList.size());
+
         for(Map<String,Object> ml:childrenMaterialsList){
-            if( map.get(ml.get("area").toString())!=null){
+            if(map.get(ml.get("area").toString())!=null){
                 List<Map<String,Object>> list =  map.get(ml.get("area").toString());
                 list.add(ml);
                 map.put(ml.get("area").toString(),list);
@@ -206,6 +210,7 @@ public class PageMaterialController {
                 map.put(ml.get("area").toString(),list);
             }
         }
+
         return map;
     }
 
@@ -285,7 +290,6 @@ public class PageMaterialController {
     @RequestMapping(value = "/getMaterialsInfoEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ReturnModel getMaterialsInfoEncapsulation( @RequestBody Map<String, Object> map) throws ParseException {
-
         map.put("level","1,2,3");
         map.put("area","53");
         map.put("type","0");

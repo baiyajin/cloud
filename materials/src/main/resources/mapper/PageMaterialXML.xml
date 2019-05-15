@@ -95,7 +95,10 @@
 
 
     <select id="getMaterialsInfoByArea"  parameterType="java.util.Map" resultType="java.util.Map">
-        select * from page_material_pice
+        select
+
+          *
+        from page_material_pice
         where  is_del = 0
         <if test="area !=null and area != ''">
             and city = #{area}
