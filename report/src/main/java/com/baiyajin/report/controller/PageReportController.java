@@ -279,16 +279,20 @@ public class PageReportController {
             return new Results(1, "该报告不存在");
         }
         DataTempVo dataTempVo = new DataTempVo();
+        dataTempVo.setTimeInterval(reportVo.getTimeInterval());
         String[] maIds = reportVo.getMaterialClassID().split(",");
         String[] maNames = reportVo.getMaterialName().split(",");
-//        String[] areaIds = reportVo.getContrastRegionID().split(",");
-//        String[] areaNames = reportVo.getAreaName().split(",");
         String dataType = reportVo.getDataType();
         if ("1".equals(dataType)) {
             dataTempVo.setType("0");
             Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+
             int year = map.get("year");
             int month = map.get("month");
+
+            dataTempVo.setTimeIntervalYear(year);
+            dataTempVo.setTimeIntervalMonth(month);
+
             List<String> titleList = new ArrayList<>();
             for (String s : maNames) {
                 titleList.add(year + "年" + month + "月," + s + "月度数据报告");
@@ -306,20 +310,14 @@ public class PageReportController {
             reportVo.setTitleList(titleList);
         }
         if ("3".equals(dataType)) {
-            if ("3".equals(dataType)) {
-                dataTempVo.setType("2");
-                Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-                int year = map.get("year");
-                List<String> titleList = new ArrayList<>();
-                for (String s : maNames) {
-                    titleList.add(year + "年" + s + "年度数据报告");
-                }
-                reportVo.setTitleList(titleList);
+            dataTempVo.setType("2");
+            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+            int year = map.get("year");
+            List<String> titleList = new ArrayList<>();
+            for (String s : maNames) {
+                titleList.add(year + "年" + s + "年度数据报告");
             }
-        }
-        if (reportVo.getStartTime() != null && reportVo.getEndTime() != null){
-            reportVo.setStartTimeStr(DateFormatUtil.dateToStr(reportVo.getStartTime()));
-            reportVo.setEndTimeStr(DateFormatUtil.dateToStr(reportVo.getEndTime()));
+            reportVo.setTitleList(titleList);
         }
         dataTempVo.setMaterialClassID(reportVo.getMaterialClassID());
         dataTempVo.setContrastRegionID(reportVo.getContrastRegionID());

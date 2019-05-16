@@ -18,10 +18,6 @@ public class ReportVo implements Serializable {
     private String areaName;
     private String contrastRegionID;
     private String materialClassID;
-    private List<String> maNameList;
-    private List<String> maIdList;
-    private List<String> areaNameList;
-    private List<String> areaIdList;
     private List<String> titleList;
     private Date startTime;
     private String startTimeStr;
@@ -34,8 +30,6 @@ public class ReportVo implements Serializable {
     private Integer pageCurrent;    //分页查询开始记录数
     private Integer pSize;
     private Page<ReportVo>  page;//分页信息
-
     private List<Map<String,Object>> mapList;
-//    private List<DataTempVo> dataTempVoList;
 
 }

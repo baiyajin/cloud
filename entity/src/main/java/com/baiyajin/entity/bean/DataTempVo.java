@@ -24,5 +24,10 @@ public class DataTempVo implements Serializable {
     private String type;
     private String maDate;
     private  String mId;
+    private String munit;   //单位
+    private String timeInterval;
+
+    private int timeIntervalYear;
+    private int timeIntervalMonth;
 
 }
