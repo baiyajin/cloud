@@ -391,7 +391,6 @@ public class DateFormatUtil {
 				a.add(sdf.format(d));
 			}
 		}
-		System.out.println(a);
 		return  a;
 	}
 
@@ -415,11 +414,6 @@ public class DateFormatUtil {
 						break;
 					}
 				}
-				System.out.println("-------------");
-				System.out.println(s);
-				System.out.println(flg);
-				System.out.println("-------------");
-
 				if (flg) {
 					DataTempVo dataTempVo = new DataTempVo();
 					dataTempVo.setMaDate(s);
@@ -427,11 +421,7 @@ public class DateFormatUtil {
 					dataTempVo.setMId(mm.getMId());
 					dataTempVo.setAreaName(mm.getAreaName());
 					dataTempVo.setMaName(mm.getMaName());
-					System.out.println("size:"+dataTempVoList.size());
-
-					System.out.println(dataTempVo);
 					dataTempVoList.add(dataTempVo);
-					System.out.println("sizea:"+dataTempVoList.size());
 				}
 			}
 		}
