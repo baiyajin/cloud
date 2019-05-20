@@ -24,6 +24,7 @@ public class ReportVo implements Serializable {
     private Date endTime;
     private String endTimeStr;
     private String timeInterval;
+
     private Date createTime;  //时间
     private String userID;
     private String token;
@@ -31,5 +32,8 @@ public class ReportVo implements Serializable {
     private Integer pSize;
     private Page<ReportVo>  page;//分页信息
     private List<Map<String,Object>> mapList;
+
+
+
 
 }

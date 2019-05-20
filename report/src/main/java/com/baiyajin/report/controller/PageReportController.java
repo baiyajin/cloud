@@ -279,20 +279,21 @@ public class PageReportController {
             return new Results(1, "该报告不存在");
         }
         DataTempVo dataTempVo = new DataTempVo();
+
         dataTempVo.setTimeInterval(reportVo.getTimeInterval());
         String[] maIds = reportVo.getMaterialClassID().split(",");
         String[] maNames = reportVo.getMaterialName().split(",");
         String dataType = reportVo.getDataType();
+        String type = reportVo.getType();
+        Map<String, Integer> map = new HashMap<>();
+
         if ("1".equals(dataType)) {
             dataTempVo.setType("0");
-            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-
+            map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
             int year = map.get("year");
             int month = map.get("month");
-
             dataTempVo.setTimeIntervalYear(year);
             dataTempVo.setTimeIntervalMonth(month);
-
             List<String> titleList = new ArrayList<>();
             for (String s : maNames) {
                 titleList.add(year + "年" + month + "月," + s + "月度数据报告");
@@ -301,7 +302,7 @@ public class PageReportController {
         }
         if ("2".equals(dataType)) {
             dataTempVo.setType("1");
-            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+            map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
             int year = map.get("year");
             List<String> titleList = new ArrayList<>();
             for (String s : maNames) {
@@ -311,7 +312,7 @@ public class PageReportController {
         }
         if ("3".equals(dataType)) {
             dataTempVo.setType("2");
-            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+            map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
             int year = map.get("year");
             List<String> titleList = new ArrayList<>();
             for (String s : maNames) {
@@ -323,6 +324,79 @@ public class PageReportController {
         dataTempVo.setContrastRegionID(reportVo.getContrastRegionID());
         dataTempVo.setStartTimeStr(reportVo.getStartTimeStr());
         dataTempVo.setEndTimeStr(reportVo.getEndTimeStr());
+
+        if ("1".equals(type)){
+            dataTempVo.setContrastRegionID("53");
+            dataTempVo.setType("0");
+            int year = map.get("year");
+            int month = map.get("month");
+            dataTempVo.setTimeIntervalYear(year);
+            dataTempVo.setTimeIntervalMonth(month);
+            List<Map<String,Object>> mapList = new ArrayList<>();
+
+            dataTempVo.setMaterialClassID("8,9,10,11,12,13");
+            List<DataTempVo> dataTempVoList1 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            dataTempVo.setMaterialClassID("16,17,18,19,20,21,22,37");
+            List<DataTempVo> dataTempVoList2 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            dataTempVo.setMaterialClassID("23,24,43");
+            List<DataTempVo> dataTempVoList3 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            dataTempVo.setMaterialClassID("28,29,30");
+            List<DataTempVo> dataTempVoList4 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            dataTempVo.setMaterialClassID("32,33,46");
+            List<DataTempVo> dataTempVoList5 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            dataTempVo.setMaterialClassID("45");
+            List<DataTempVo> dataTempVoList6 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            dataTempVo.setMaterialClassID("42,47");
+            Map<String,Object> map3 = new HashMap<>();
+            List<DataTempVo> dataTempVoList7 = pageReportInterface.findDataByReportId(dataTempVo);
+
+            Map<String,Object> m = new HashMap<>();
+            m.put("mm",dataTempVoList1);
+            mapList.add(m);
+
+            m = new HashMap<>();
+            m.put("mm",dataTempVoList2);
+            mapList.add(m);
+
+            m = new HashMap<>();
+            m.put("mm",dataTempVoList3);
+            mapList.add(m);
+
+            m = new HashMap<>();
+            m.put("mm",dataTempVoList4);
+            mapList.add(m);
+
+            m = new HashMap<>();
+            m.put("mm",dataTempVoList5);
+            mapList.add(m);
+
+            m = new HashMap<>();
+            m.put("mm",dataTempVoList6);
+            mapList.add(m);
+
+            m = new HashMap<>();
+            m.put("mm",dataTempVoList7);
+            mapList.add(m);
+            map3.put("dataList",mapList);
+            map3.put("year",year);
+            map3.put("month",month);
+            dataTempVo.setTrend("0");
+            int rise = pageReportInterface.getTrend(dataTempVo);    //上涨
+            map3.put("rise",rise);
+            dataTempVo.setTrend("1");
+            int descend = pageReportInterface.getTrend(dataTempVo); //持平
+            map3.put("descend",descend);
+            dataTempVo.setTrend("2");
+            int unbiased = pageReportInterface.getTrend(dataTempVo);    //下降
+            map3.put("unbiased",unbiased);
+            return map3;
+        }
         List<DataTempVo> dataTempVoList = pageReportInterface.findDataByReportId(dataTempVo);
         dataTempVo.setContrastRegionID("53");
         List<DataTempVo> dataTempVoList2 = pageReportInterface.findDataByReportId(dataTempVo);
@@ -342,18 +416,18 @@ public class PageReportController {
                     map2.put("mmYn",dataTempVoList2);
                 }
                 if ("1".equals(dataType)) {
-                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                    map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
                     int year = map.get("year");
                     int month = map.get("month");
                     map2.put("title",(year + "年" + month + "月," + maNames[i] + "月度数据报告"));
                 }
                 if ("2".equals(dataType)) {
-                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                    map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
                     int year = map.get("year");
                     map2.put("title",(year + "年第" + reportVo.getTimeInterval() + "季度" + maNames[i] + "季度数据报告"));
                 }
                 if ("3".equals(dataType)) {
-                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+                    map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
                     int year = map.get("year");
                     map2.put("title",(year + "年" + maNames[i] + "年度数据报告"));
                 }
@@ -363,6 +437,9 @@ public class PageReportController {
         }
         return reportVo;
     }
+
+
+
 
 }
 

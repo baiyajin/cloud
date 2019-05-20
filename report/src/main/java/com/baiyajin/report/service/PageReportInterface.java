@@ -28,4 +28,6 @@ public interface PageReportInterface extends IService<PageReport> {
     List<DataTempVo> findDataByReportId(DataTempVo dataTempVo);
 
     String getMaName(String id);
+
+    int getTrend(DataTempVo dataTempVo);
 }

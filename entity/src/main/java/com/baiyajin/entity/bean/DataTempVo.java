@@ -30,4 +30,6 @@ public class DataTempVo implements Serializable {
     private int timeIntervalYear;
     private int timeIntervalMonth;
 
+    private String trend;
+
 }

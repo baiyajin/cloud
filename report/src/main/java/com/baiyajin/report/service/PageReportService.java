@@ -63,4 +63,9 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
         return baseMapper.getMaName(id);
     }
 
+    @Override
+    public int getTrend(DataTempVo dataTempVo) {
+        return baseMapper.getTrend(dataTempVo);
+    }
+
 }
