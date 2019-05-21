@@ -117,7 +117,7 @@ public class SystemUserController {
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @Cacheable(cacheNames={"sys_login"},key = "#map.get('phone')")
+    @Cacheable(cacheNames={"sys_login"},key = "#map.get('phone')+#map.get('password')")
     public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         Map<String,Object> m = new HashMap<>();
 

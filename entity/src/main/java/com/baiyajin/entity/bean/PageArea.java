@@ -17,7 +17,7 @@ public class PageArea {
 
   private Timestamp createTime;
   private Timestamp updateTime;
-
+  private Integer level;
 
   public PageArea(){
 

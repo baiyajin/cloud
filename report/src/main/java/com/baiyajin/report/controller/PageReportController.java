@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @Api("报告")
 @Controller
 @RequestMapping("/PageReportController")
+@CrossOrigin
 public class PageReportController {
 
     @Autowired

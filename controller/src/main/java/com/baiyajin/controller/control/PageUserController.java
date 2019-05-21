@@ -4,8 +4,6 @@ import com.baiyajin.entity.bean.PageUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -22,11 +20,16 @@ public class PageUserController {
     @Autowired
     RestTemplate restTemplate;
 
+
+
     private static final String Rest_url_prefix = "http://user";
 
 
 
-
+    @ApiOperation(value = "前台登录",notes =
+            "请求参数类型为:\t\nJSON\t\n"+
+                    "请求参数说明:\t\nphone（必填） ,password（必填）\t\n" +
+                    "请求参数列表为:\t\n{\"phone\":\"15288102051\",\"password\":\"123\"}")
     @RequestMapping(value = "/login", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
@@ -34,7 +37,10 @@ public class PageUserController {
         return restTemplate.postForObject(Rest_url_prefix+"/PageUserController/login",map,Map.class);
     }
 
-
+    @ApiOperation(value = "前台用户注册账号",notes =
+            "请求参数类型为:\t\nJSON\t\n"+
+                    "请求参数说明:\t\nphone（必填） ,password（必填）,name（必填）\t\n" +
+                    "请求参数列表为:\t\n{\"phone\":\"15288102051\",\"password\":\"123\",\"name\":\"baiyajin\"}")
     @RequestMapping(value = "/registerAccount", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody

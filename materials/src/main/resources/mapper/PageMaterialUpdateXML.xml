@@ -7,7 +7,6 @@
         select m.c1,m.c2,m.c3,m.mname,m.mspec,m.munit,m.remark,m.mcid as mid,i.city,i.area,i.price,i.mdate
         from(
             select * from hl_main_material
-
             ) m
         left join
             (select * from hl_main_price where
@@ -148,6 +147,13 @@
             order by mdate asc  limit 1
         </if>
     </select>
+
+
+    <select id="getMaterialCategory" resultType="com.baiyajin.entity.bean.MaterialCategory">
+        select * from hlidx_category
+    </select>
+
+
 
 
 

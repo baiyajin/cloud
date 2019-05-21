@@ -1,15 +1,14 @@
 package com.baiyajin.util.u;
 
-
 import com.baiyajin.entity.bean.DataTempVo;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.DateUtil;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DateFormatUtil {
 
@@ -304,7 +303,6 @@ public class DateFormatUtil {
 
 		int s = c.get(c.MONTH)+1;
 
-		System.out.println(s);
 
 		return null;
 	}
@@ -364,11 +362,6 @@ public class DateFormatUtil {
 	}
 
 
-
-
-
-
-
 	public static  List<String>  getYearAndMonth (String beginDate,String endDate) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Calendar cal = Calendar.getInstance();
@@ -380,7 +373,6 @@ public class DateFormatUtil {
 				a.add(sdf.format(d));
 			}
 		}
-		System.out.println(a);
 		return  a;
 	}
 
@@ -388,27 +380,41 @@ public class DateFormatUtil {
 		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
 		return c.getTimeInMillis();
 	}
-
-
-	public static  List<DataTempVo> fillUp(List<String> list, List<DataTempVo> entityList){
+	public static  List<DataTempVo> fillUp(List<String> list, List<DataTempVo> entityList) {
 		List<DataTempVo> dataTempVoList = new ArrayList<>();
-		if (list != null && list.size() > 0){
-			for (DataTempVo d : entityList){
-				for (String s:list){
-					if (!s.equals(d.getMaDate())){
-						DataTempVo dataTempVo = new DataTempVo();
-						dataTempVo.setMaDate(s);
-						dataTempVo.setAreaId(d.getAreaId());
-						dataTempVo.setMId(d.getMId());
-						dataTempVoList.add(dataTempVo);
-					}else {
-						dataTempVoList.add(d);
+		dataTempVoList.addAll(entityList);
+		DataTempVo mm =  new DataTempVo();
+		if (list != null && list.size() > 0) {
+			boolean flg = true;
+			for (String s : list) {
+				for (DataTempVo d : entityList) {
+					mm = d;
+					flg = true;
+					if (s.equals(d.getMaDate())) {
+						flg = false;
+						mm = d;
+						break;
 					}
+				}
+
+				if (flg) {
+					DataTempVo dataTempVo = new DataTempVo();
+					dataTempVo.setMaDate(s);
+					dataTempVo.setAreaId(mm.getAreaId());
+					dataTempVo.setMId(mm.getMId());
+					dataTempVo.setAreaName(mm.getAreaName());
+					dataTempVo.setMaName(mm.getMaName());
+
+
+
+					dataTempVoList.add(dataTempVo);
+
 				}
 			}
 		}
-		return dataTempVoList;
-	}
+			DateFormatUtil.listSort2(dataTempVoList);
+			return dataTempVoList;
+		}
 
 
 	public static  List<Map<String,Object>> fillUpMap(List<String> list, List<Map<String,Object>> entityList) throws ParseException {
@@ -444,31 +450,75 @@ public class DateFormatUtil {
 					dataTempVoList.add(map);
 				}
 			}
-
-			listSort(dataTempVoList);
+			listSort(dataTempVoList,"mdate");
 		}
 		return dataTempVoList;
+	}
+
+	public static  List<Map<String,Object>> fillUpMapasmdate(List<String> list, List<Map<String,Object>> entityList) throws ParseException {
+		List<Map<String,Object>> dataTempVoList = new ArrayList<>();
+		dataTempVoList.addAll(entityList);
+		Map<String,Object> mm =  new HashMap<String,Object>();
+		if (list != null && list.size() > 0){
+			boolean flg = true;
+			for (String s:list){
+				for (Map<String,Object> m : entityList){
+					mm.clear();
+					mm.putAll(m);
+					String mDate = "";
+					if(m.get("asmdate")!=null) {
+						mDate = DateFormatUtil.dateToString(DateFormatUtil.stringToDate(m.get("asmdate").toString()), "YYYY-MM");
+					}
+					flg = true;
+					if (s.equals(mDate)){
+						flg = false;
+						mm.clear();
+						mm.putAll(m);
+						break;
+					}
+				}
+				if (flg){
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.putAll(mm);
+					map.put("asmdate",s);
+					map.put("price",0.00);
+					map.put("huanbi",0.00);
+					map.put("tongbi",0.00);
+					map.put("exponent",0.00);
+					dataTempVoList.add(map);
+				}
+			}
+
+			listSort(dataTempVoList,"asmdate");
+		}
+		return dataTempVoList;
+	}
+
+	public static void listSort2(List<DataTempVo> list) {
+		Collections.sort(
+				list, new Comparator<DataTempVo>() {
+					public int compare(DataTempVo o1, DataTempVo o2) {
+						String mdate1 = o1.getMaDate();//mdate1是从你list里面拿出来的一个
+						String mdate2 = o2.getMaDate(); //mdate2是从你list里面拿出来的第二个
+						return mdate1.compareTo(mdate2);
+					}
+				});
 	}
 
 
 
 
 
-		public static void listSort(List<Map<String, Object>> list) {
+
+		public static void listSort(List<Map<String, Object>> list,String type) {
 			Collections.sort(
 					list, new Comparator<Map<String, Object>>() {
 				public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-					String mdate1 = o1.get("mdate").toString() ;//mdate1是从你list里面拿出来的一个
-					String mdate2 =o2.get("mdate").toString() ; //mdate2是从你list里面拿出来的第二个
+					String mdate1 = o1.get(type).toString() ;//mdate1是从你list里面拿出来的一个
+					String mdate2 =o2.get(type).toString() ; //mdate2是从你list里面拿出来的第二个
 					return mdate1.compareTo(mdate2);
 				}
 			});
 		}
-
-
-
-
-
-
 
 	}

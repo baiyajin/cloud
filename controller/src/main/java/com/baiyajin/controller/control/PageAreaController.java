@@ -2,7 +2,6 @@ package com.baiyajin.controller.control;
 
 
 import com.baiyajin.entity.bean.PageArea;
-import com.baiyajin.materials.service.PageAreaInterface;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,7 @@ public class PageAreaController {
 
 
 
-    private static final String Rest_url_prefix = "http://controller";
+    private static final String Rest_url_prefix = "http://materials";
     @Autowired
     RestTemplate restTemplate;
 

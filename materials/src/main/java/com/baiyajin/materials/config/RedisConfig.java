@@ -17,5 +17,4 @@ public class RedisConfig {
         configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer)).entryTtl(Duration.ofDays(1));
         return configuration;
     }
-
 }

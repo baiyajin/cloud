@@ -91,7 +91,6 @@ public class PageMaterialController {
             return new Results(1,"暂时无数据");
         }
         return pageMaterialList;
-
     }
 
    /* @RequestMapping(value = "/getMaterialsAndClass", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -199,7 +198,7 @@ public class PageMaterialController {
         return new ReturnModel( 1,mmlist);
     }
 
-
+    //补全日期（数据为0）
     private  List<Map<String, Object>> supplementDate(Map<String, Object> map, List<Map<String, Object>> list){
         try {
             String stDate = map.get("startDate")==null?"2018-01":map.get("startDate").toString();
@@ -209,10 +208,21 @@ public class PageMaterialController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return list;
     }
 
+    //补全日期（数据为0）
+    private  List<Map<String, Object>> supplementDate2(Map<String, Object> map, List<Map<String, Object>> list){
+        try {
+            String stDate = map.get("startDate")==null?"2018-01":map.get("startDate").toString();
+            String enDate = map.get("endDate")==null?DateFormatUtil.dateToString(new Date()):map.get("endDate").toString();
+            List<String> dateList = DateFormatUtil.getYearAndMonth(stDate,enDate);
+            list = DateFormatUtil.fillUpMapasmdate(dateList,list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public   Map<String,List<Map<String,Object>>> listToTreeArea( List<Map<String,Object>> childrenMaterialsList ){
 
@@ -323,17 +333,12 @@ public class PageMaterialController {
         map.put("pid",pid);
         List<Map<String,Object>> childrenMaterialsList = pageMaterialInterface.getMaterialsInfo(map);
 
-//        map.remove("pid");
-//        map.put("id",pid);
-//        List<Map<String,Object>> materialsList = pageMaterialInterface.getMaterialsInfo(map);
-
-        //Map<String, List<String>> resultList = materialsList.stream().collect(Collectors.groupingBy(String::get("level").toString()));
-//        Map<String, List<Map<String,Object>>> remap = ListToTree(materialsList,childrenMaterialsList);
 
         Map<String,List<Map<String,Object>>>  mmlist = ListToTree(childrenMaterialsList);
 
+
         for(String key:mmlist.keySet()){
-            mmlist.put(key,supplementDate(map,mmlist.get(key)));
+            mmlist.put(key,supplementDate2(map,mmlist.get(key)));
         }
         return new ReturnModel(1,mmlist);
     }

@@ -30,7 +30,11 @@
             <artifactId>mybatis-plus-support</artifactId>
             <version>2.1.9</version>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
