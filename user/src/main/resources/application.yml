@@ -39,3 +39,4 @@ info:
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+

@@ -33,6 +33,13 @@ public class ReportVo implements Serializable {
     private Page<ReportVo>  page;//分页信息
     private List<Map<String,Object>> mapList;
 
+    private String orderType; //排序类型，0代表按年季月类型排序，1按照创建时间排序
+    private String orderWay; //排序方式，0代表降序,1代表升序
+
+
+
+
+
 
 
 

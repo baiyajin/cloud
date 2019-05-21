@@ -16,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,39 @@ public class PageReportController {
     }
 
     /**
+     * 删除报告
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "删除报告" ,notes = "逻辑删除，statusId值为jy代表已删除，数据库依然存在，但是页面不显示")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
+    @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    @CacheEvict(value="getReportInfoById")
+    public Object deleteReort(String id){
+        PageReport p = pageReportInterface.selectById(id);
+        if(p == null){
+            return new Results(1,"该报告不存在");
+        }
+        if ("1".equals(p.getType())){
+            return new Results(1,"平台报告不允许客户删除");
+        }
+        PageReport pageReport = new PageReport();
+        pageReport.setId(id);
+        pageReport.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        pageReport.setStatusID("jy");
+        try {
+            pageReportInterface.updateById(pageReport);
+            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Results(1,"fail");
+        }
+        return new Results(0,"success");
+    }
+
+    /**
      * 新增报告
      * @param pageReport
      * @return
@@ -60,6 +95,7 @@ public class PageReportController {
     @RequestMapping(value = "/addReport",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
+    @CacheEvict(value="getReportInfoById")
     public Object addReport (PageReport pageReport) throws ParseException {
         String token = pageReport.getToken();
         Map<String,Object> map = new HashMap<>();
@@ -123,35 +159,6 @@ public class PageReportController {
         return new Results(0,"success");
     }
 
-    /**
-     * 删除报告
-     * @param id
-     * @return
-     */
-    @ApiOperation(value = "删除报告" ,notes = "逻辑删除，statusId值为jy代表已删除，数据库依然存在，但是页面不显示")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
-    @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
-    @ResponseBody
-    @Transactional(rollbackFor = Exception.class)
-    public Object deleteReort(String id){
-        PageReport p = pageReportInterface.selectById(id);
-        if(p == null){
-            return new Results(1,"该报告不存在");
-        }
-        PageReport pageReport = new PageReport();
-        pageReport.setId(id);
-        pageReport.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        pageReport.setStatusID("jy");
-        try {
-            pageReportInterface.updateById(pageReport);
-            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Results(1,"fail");
-        }
-        return new Results(0,"success");
-    }
-
 
     /**
      * 修改报告
@@ -199,6 +206,8 @@ public class PageReportController {
      * @param reportVo
      * @param pageNum
      * @param pageSize
+     * orderType  排序类型，0代表按年季月类型排序，1按照创建时间排序
+     * orderWay  排序方式，0代表降序,1代表升序
      * @return
      */
     @ApiOperation(value = "分页产需拿报告" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据,num为非必填，填入以后只查询该编号的文章，num为数字," +
@@ -255,6 +264,10 @@ public class PageReportController {
         if (page == null || page.getList() == null ||page.getList().size() == 0){
             return new Results(1,"暂无数据");
         }
+        for (ReportVo r:page.getList()){
+            r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
+            r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
+        }
         page.setCount(count);
         return page;
     }
@@ -268,18 +281,24 @@ public class PageReportController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "form-data")})
     @RequestMapping(value = "/getReportInfoById",method = RequestMethod.POST)
     @ResponseBody
-    public Object getReportById(String id,String token) throws ParseException {
-
+    public Object getReportInfoById(String id,String token) {
         Claims claims = JWT.parseJWT(token);
         if (claims == null) {
             return new Results(1, "登录失效");
         }
+        if (pageReportInterface.getReportInfoById(id) == null){
+            return new Results(1, "该报告不存在");
+        }
+        return pageReportInterface.getReportInfoById2(id);
+    }
+
+
+    public Object getReportInfoById(String id) throws ParseException {
         ReportVo reportVo = pageReportInterface.getReportInfoById(id);
         if (reportVo == null) {
             return new Results(1, "该报告不存在");
         }
         DataTempVo dataTempVo = new DataTempVo();
-
         dataTempVo.setTimeInterval(reportVo.getTimeInterval());
         String[] maIds = reportVo.getMaterialClassID().split(",");
         String[] maNames = reportVo.getMaterialName().split(",");
@@ -289,7 +308,7 @@ public class PageReportController {
 
         if ("1".equals(dataType)) {
             dataTempVo.setType("0");
-            map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
+            map = DateFormatUtil.getYearByDate( DateFormatUtil.stringToDate((reportVo.getTimeInterval() + "-01 00:00:00"),"yyyy-MM-dd HH:mm:ss"));
             int year = map.get("year");
             int month = map.get("month");
             dataTempVo.setTimeIntervalYear(year);
@@ -386,6 +405,7 @@ public class PageReportController {
             map3.put("dataList",mapList);
             map3.put("year",year);
             map3.put("month",month);
+            map3.put("creatDateStr",DateFormatUtil.dateToString(reportVo.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
             dataTempVo.setTrend("0");
             int rise = pageReportInterface.getTrend(dataTempVo);    //上涨
             map3.put("rise",rise);

@@ -6,16 +6,17 @@ web:
 #  database: jijia_production
   database: jijia_test
   IP: 192.168.8.19
+  redisIP: localhost
 
 spring:
   application:
     name: report
-#  redis:
-#    host: 182.247.245.27
-#    password: baiyajin
-#    database: 0
-#    port: 6379
-#    timeout: 100
+  redis:
+    host: ${web.redisIP}
+    #    password: baiyajin
+    database: 0
+    port: 6379
+    timeout: 100
   datasource:
         username: root
         password: '%#$123456jijia'
@@ -39,3 +40,7 @@ info:
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+logging:
+  level:
+    com.baiyajin.report.mapper: debug

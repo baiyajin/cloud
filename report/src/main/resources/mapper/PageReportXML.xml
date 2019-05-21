@@ -10,6 +10,9 @@
             a.dataType as "dataType",
             a.userID,
             a.createTime AS "createTime",
+            a.startTime as "startTime",
+            a.endTime as "endTime",
+            a.timeInterval AS "timeInterval",
             a.materialClassID as "materialClassID",
             a.contrastRegionID as "contrastRegionID",
             group_concat(DISTINCT b. NAME) AS "materialName",
@@ -22,6 +25,9 @@
         <if test="type !=null and type != ''">
             AND a.type = #{type}
         </if>
+        <if test="dataType !=null and dataType != ''">
+            AND a.dataType = #{dataType}
+        </if>
         <if test="type == null or type == ''">
             AND (a.type = '1' or (a.type = '2' and a.userID = #{userID}))
         </if>
@@ -32,7 +38,21 @@
             AND a.userID = #{userID}
         </if>
         group by id
-        ORDER BY createTime DESC
+        <if test="orderType == null and orderType == ''">
+            ORDER BY a.createTime DESC
+        </if>
+        <if test="orderType == 1 and orderWay == 0">
+            ORDER BY a.createTime DESC
+        </if>
+        <if test="orderType == 1 and orderWay == 1">
+            ORDER BY a.createTime
+        </if>
+        <if test="orderType == 0 and orderWay == 0">
+            ORDER BY a.dataType DESC
+        </if>
+        <if test="orderType == 0 and orderWay == 1">
+            ORDER BY a.dataType
+        </if>
         LIMIT #{pageCurrent},#{pSize}
     </select>
 
@@ -121,6 +141,7 @@
             a.materialClassID as "materialClassID",
             group_concat(DISTINCT b. NAME) AS "materialName",
             group_concat(DISTINCT c. NAME) AS "areaName",
+            a.createTime as "createTime",
             a.timeInterval AS "timeInterval",
             a.startTime AS "startTime",
             a.endTime AS "endTime"
