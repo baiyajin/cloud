@@ -153,22 +153,22 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
              dataTempVo.setMaterialClassID("1,8,9,10,11,12,13");
              List<DataTempVo> dataTempVoList1 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("2,16,17,18,19,20,21,22,37");
+             dataTempVo.setMaterialClassID("3,16,17,18,19,20,21,22,37");
              List<DataTempVo> dataTempVoList2 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("3,23,24,43");
+             dataTempVo.setMaterialClassID("4,23,24,43");
              List<DataTempVo> dataTempVoList3 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("4,28,29,30");
+             dataTempVo.setMaterialClassID("5,28,29,30");
              List<DataTempVo> dataTempVoList4 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("5,32,33,46");
+             dataTempVo.setMaterialClassID("6,32,33,46");
              List<DataTempVo> dataTempVoList5 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("6,45");
+             dataTempVo.setMaterialClassID("7,45");
              List<DataTempVo> dataTempVoList6 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("7,42,47");
+             dataTempVo.setMaterialClassID("31,42,47");
              Map<String,Object> map3 = new HashMap<>();
              List<DataTempVo> dataTempVoList7 = baseMapper.findDataByReportId(dataTempVo);
 
