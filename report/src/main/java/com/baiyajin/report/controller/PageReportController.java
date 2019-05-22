@@ -281,16 +281,14 @@ public class PageReportController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "form-data")})
     @RequestMapping(value = "/getReportInfoById",method = RequestMethod.POST)
     @ResponseBody
-    public Object getReportInfoById(String id,String token) {
+    public Results getReportInfoById(String id,String token) {
         Claims claims = JWT.parseJWT(token);
         if (claims == null) {
             return new Results(1, "登录失效");
         }
-        if (pageReportInterface.getReportInfoById(id) == null){
-            return new Results(1, "该报告不存在");
-        }
         return pageReportInterface.getReportInfoById2(id);
     }
+
 
 
     public Object getReportInfoById(String id) throws ParseException {

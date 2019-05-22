@@ -78,7 +78,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
 
     @Cacheable(value ="getReportInfoById")
     @Override
-     public Object getReportInfoById2 (String id) {
+     public Results getReportInfoById2 (String id) {
          ReportVo reportVo = baseMapper.getReportInfoById(id);
          if (reportVo == null) {
              return new Results(1, "该报告不存在");
@@ -150,54 +150,82 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
              dataTempVo.setTimeIntervalMonth(month);
              List<Map<String,Object>> mapList = new ArrayList<>();
 
-             dataTempVo.setMaterialClassID("8,9,10,11,12,13");
+             dataTempVo.setMaterialClassID("1,8,9,10,11,12,13");
              List<DataTempVo> dataTempVoList1 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("16,17,18,19,20,21,22,37");
+             dataTempVo.setMaterialClassID("2,16,17,18,19,20,21,22,37");
              List<DataTempVo> dataTempVoList2 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("23,24,43");
+             dataTempVo.setMaterialClassID("3,23,24,43");
              List<DataTempVo> dataTempVoList3 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("28,29,30");
+             dataTempVo.setMaterialClassID("4,28,29,30");
              List<DataTempVo> dataTempVoList4 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("32,33,46");
+             dataTempVo.setMaterialClassID("5,32,33,46");
              List<DataTempVo> dataTempVoList5 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("45");
+             dataTempVo.setMaterialClassID("6,45");
              List<DataTempVo> dataTempVoList6 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("42,47");
+             dataTempVo.setMaterialClassID("7,42,47");
              Map<String,Object> map3 = new HashMap<>();
              List<DataTempVo> dataTempVoList7 = baseMapper.findDataByReportId(dataTempVo);
 
              Map<String,Object> m = new HashMap<>();
-             m.put("mm",dataTempVoList1);
+             if (dataTempVoList1 != null && dataTempVoList1.size() > 0){
+                 m.put("mm",dataTempVoList1);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
 
              m = new HashMap<>();
-             m.put("mm",dataTempVoList2);
+             if (dataTempVoList2 != null && dataTempVoList2.size() > 0){
+                 m.put("mm",dataTempVoList2);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
 
              m = new HashMap<>();
-             m.put("mm",dataTempVoList3);
+             if (dataTempVoList3 != null && dataTempVoList3.size() > 0){
+                 m.put("mm",dataTempVoList3);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
 
              m = new HashMap<>();
-             m.put("mm",dataTempVoList4);
+             if (dataTempVoList4 != null && dataTempVoList4.size() > 0){
+                 m.put("mm",dataTempVoList4);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
 
              m = new HashMap<>();
-             m.put("mm",dataTempVoList5);
+             if (dataTempVoList5 != null && dataTempVoList5.size() > 0){
+                 m.put("mm",dataTempVoList5);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
 
              m = new HashMap<>();
-             m.put("mm",dataTempVoList6);
+             if (dataTempVoList6 != null && dataTempVoList6.size() > 0){
+                 m.put("mm",dataTempVoList6);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
 
              m = new HashMap<>();
-             m.put("mm",dataTempVoList7);
+             if (dataTempVoList7 != null && dataTempVoList7.size() > 0){
+                 m.put("mm",dataTempVoList7);
+             }else {
+                 m.put("mm","暂无数据");
+             }
              mapList.add(m);
              map3.put("dataList",mapList);
              map3.put("year",year);
@@ -212,7 +240,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
              dataTempVo.setTrend("2");
              int unbiased = baseMapper.getTrend(dataTempVo);    //下降
              map3.put("unbiased",unbiased);
-             return map3;
+             return new Results(0,"查询成功",map3);
          }
          List<DataTempVo> dataTempVoList = baseMapper.findDataByReportId(dataTempVo);
          dataTempVo.setContrastRegionID("53");
@@ -264,7 +292,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
              }
              reportVo.setMapList(mapList);
          }
-         return reportVo;
+         return  new Results(0, "查询成功",reportVo);
      }
 
 }

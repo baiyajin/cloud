@@ -20,7 +20,7 @@ import java.util.Date;
 public class ReportTimer {
     @Autowired
     private PageReportInterface pageReportInterface;
-//    @Scheduled(cron = "0/60 * * * * ? ")//每60秒执行一次
+//    @Scheduled(cron = "0/600 * * * * ? ")//每600秒执行一次
 //    @Scheduled(cron = “00 00 00 01 * ?”)//每月1号的0:00:00执行
     public void creatReport(){
         PageReport pageReport = new PageReport();
@@ -36,9 +36,9 @@ public class ReportTimer {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
-        if (month == 12){
+        if (month == 1){
             year = year -1;
-            month = 01;
+            month = 12;
         }else {
             month = month -1;
         }

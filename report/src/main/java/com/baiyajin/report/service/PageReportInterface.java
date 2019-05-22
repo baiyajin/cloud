@@ -4,6 +4,7 @@ import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.Page;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
+import com.baiyajin.util.u.Results;
 import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
@@ -31,5 +32,5 @@ public interface PageReportInterface extends IService<PageReport> {
 
     int getTrend(DataTempVo dataTempVo);
 
-    Object getReportInfoById2(String id);
+    Results getReportInfoById2(String id);
 }
