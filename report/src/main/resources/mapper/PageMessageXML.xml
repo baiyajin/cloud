@@ -17,7 +17,7 @@
 
 
 
-    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    <select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(*) as num from page_message
         where userId = #{userId} and is_del = 0
         <if test="id!=null">

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface PageMessageMapper extends BaseMapper<PageMessage> {
 
-    public  Integer  selectCount(Map<String, Object> map);
+    public  Integer  getCount(Map<String, Object> map);
 
 
     public  List<PageMessage>   getMessage(Map<String, Object> map);

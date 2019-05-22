@@ -150,79 +150,103 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
              dataTempVo.setTimeIntervalMonth(month);
              List<Map<String,Object>> mapList = new ArrayList<>();
 
-             dataTempVo.setMaterialClassID("1,8,9,10,11,12,13");
+             dataTempVo.setMaterialClassID("8,9,10,11,12,13");
              List<DataTempVo> dataTempVoList1 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("1");
+             List<DataTempVo> dataTempVoList12 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("3,16,17,18,19,20,21,22,37");
+             dataTempVo.setMaterialClassID("16,17,18,19,20,21,22,37");
              List<DataTempVo> dataTempVoList2 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("3");
+             List<DataTempVo> dataTempVoList22 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("4,23,24,43");
+             dataTempVo.setMaterialClassID("23,24,43");
              List<DataTempVo> dataTempVoList3 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("4");
+             List<DataTempVo> dataTempVoList32 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("5,28,29,30");
+             dataTempVo.setMaterialClassID("28,29,30");
              List<DataTempVo> dataTempVoList4 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("5");
+             List<DataTempVo> dataTempVoList42 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("6,32,33,46");
+             dataTempVo.setMaterialClassID("32,33,46");
              List<DataTempVo> dataTempVoList5 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("6");
+             List<DataTempVo> dataTempVoList52 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("7,45");
+             dataTempVo.setMaterialClassID("45");
              List<DataTempVo> dataTempVoList6 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("7");
+             List<DataTempVo> dataTempVoList62 = baseMapper.findDataByReportId(dataTempVo);
 
-             dataTempVo.setMaterialClassID("31,42,47");
-             Map<String,Object> map3 = new HashMap<>();
+             dataTempVo.setMaterialClassID("42,47");
              List<DataTempVo> dataTempVoList7 = baseMapper.findDataByReportId(dataTempVo);
+             dataTempVo.setMaterialClassID("31");
+             List<DataTempVo> dataTempVoList72 = baseMapper.findDataByReportId(dataTempVo);
+
+
+
+             Map<String,Object> map3 = new HashMap<>();
 
              Map<String,Object> m = new HashMap<>();
-             if (dataTempVoList1 != null && dataTempVoList1.size() > 0){
+             if (dataTempVoList1 != null && dataTempVoList1.size() > 0 && dataTempVoList12 != null && dataTempVoList12.size() > 0){
                  m.put("mm",dataTempVoList1);
+                 m.put("mmB",dataTempVoList12);
              }else {
                  m.put("mm","暂无数据");
              }
              mapList.add(m);
 
              m = new HashMap<>();
-             if (dataTempVoList2 != null && dataTempVoList2.size() > 0){
+             if (dataTempVoList2 != null && dataTempVoList2.size() > 0 && dataTempVoList22 != null && dataTempVoList22.size() > 0){
                  m.put("mm",dataTempVoList2);
+                 m.put("mmB",dataTempVoList22);
              }else {
                  m.put("mm","暂无数据");
              }
              mapList.add(m);
 
              m = new HashMap<>();
-             if (dataTempVoList3 != null && dataTempVoList3.size() > 0){
+             if (dataTempVoList3 != null && dataTempVoList3.size() > 0 && dataTempVoList32 != null && dataTempVoList32.size() > 0){
                  m.put("mm",dataTempVoList3);
+                 m.put("mmB",dataTempVoList32);
              }else {
                  m.put("mm","暂无数据");
              }
              mapList.add(m);
 
              m = new HashMap<>();
-             if (dataTempVoList4 != null && dataTempVoList4.size() > 0){
+             if (dataTempVoList4 != null && dataTempVoList4.size() > 0 && dataTempVoList42 != null && dataTempVoList42.size() > 0){
                  m.put("mm",dataTempVoList4);
+                 m.put("mmB",dataTempVoList42);
              }else {
                  m.put("mm","暂无数据");
              }
              mapList.add(m);
 
              m = new HashMap<>();
-             if (dataTempVoList5 != null && dataTempVoList5.size() > 0){
+             if (dataTempVoList5 != null && dataTempVoList5.size() > 0 && dataTempVoList52 != null && dataTempVoList52.size() > 0){
                  m.put("mm",dataTempVoList5);
+                 m.put("mmB",dataTempVoList52);
              }else {
                  m.put("mm","暂无数据");
              }
              mapList.add(m);
 
              m = new HashMap<>();
-             if (dataTempVoList6 != null && dataTempVoList6.size() > 0){
+             if (dataTempVoList6 != null && dataTempVoList6.size() > 0 && dataTempVoList62 != null && dataTempVoList62.size() > 0){
                  m.put("mm",dataTempVoList6);
+                 m.put("mmB",dataTempVoList62);
              }else {
                  m.put("mm","暂无数据");
              }
              mapList.add(m);
 
              m = new HashMap<>();
-             if (dataTempVoList7 != null && dataTempVoList7.size() > 0){
+             if (dataTempVoList7 != null && dataTempVoList7.size() > 0 && dataTempVoList72 != null && dataTempVoList72.size() > 0){
                  m.put("mm",dataTempVoList7);
+                 m.put("mmB",dataTempVoList72);
              }else {
                  m.put("mm","暂无数据");
              }
@@ -235,10 +259,10 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
              int rise = baseMapper.getTrend(dataTempVo);    //上涨
              map3.put("rise",rise);
              dataTempVo.setTrend("1");
-             int descend = baseMapper.getTrend(dataTempVo); //持平
+             int descend = baseMapper.getTrend(dataTempVo);   //下降
              map3.put("descend",descend);
              dataTempVo.setTrend("2");
-             int unbiased = baseMapper.getTrend(dataTempVo);    //下降
+             int unbiased = baseMapper.getTrend(dataTempVo);    //持平
              map3.put("unbiased",unbiased);
              return new Results(0,"查询成功",map3);
          }
