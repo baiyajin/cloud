@@ -50,39 +50,6 @@ public class PageReportController {
     }
 
     /**
-     * 删除报告
-     * @param id
-     * @return
-     */
-    @ApiOperation(value = "删除报告" ,notes = "逻辑删除，statusId值为jy代表已删除，数据库依然存在，但是页面不显示")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
-    @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
-    @Transactional(rollbackFor = Exception.class)
-    @ResponseBody
-    @CacheEvict(value="getReportInfoById")
-    public Object deleteReort(String id){
-        PageReport p = pageReportInterface.selectById(id);
-        if(p == null){
-            return new Results(1,"该报告不存在");
-        }
-        if ("1".equals(p.getType())){
-            return new Results(1,"平台报告不允许客户删除");
-        }
-        PageReport pageReport = new PageReport();
-        pageReport.setId(id);
-        pageReport.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        pageReport.setStatusID("jy");
-        try {
-            pageReportInterface.updateById(pageReport);
-            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Results(1,"fail");
-        }
-        return new Results(0,"success");
-    }
-
-    /**
      * 新增报告
      * @param pageReport
      * @return
@@ -152,6 +119,39 @@ public class PageReportController {
 
         try {
             pageReportInterface.insert(pageReport);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Results(1,"fail");
+        }
+        return new Results(0,"success");
+    }
+
+    /**
+     * 删除报告
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "删除报告" ,notes = "逻辑删除，statusId值为jy代表已删除，数据库依然存在，但是页面不显示")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
+    @Transactional(rollbackFor = Exception.class)
+    @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
+    @ResponseBody
+    @CacheEvict(value="getReportInfoById")
+    public Object deleteReort(String id){
+        PageReport p = pageReportInterface.selectById(id);
+        if(p == null){
+            return new Results(1,"该报告已删除");
+        }
+        if ("1".equals(p.getType())){
+            return new Results(1,"平台报告不允许客户删除");
+        }
+        PageReport pageReport = new PageReport();
+        pageReport.setId(id);
+        pageReport.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        pageReport.setStatusID("jy");
+        try {
+            pageReportInterface.updateById(pageReport);
+            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
         } catch (Exception e) {
             e.printStackTrace();
             return new Results(1,"fail");
