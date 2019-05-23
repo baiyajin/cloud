@@ -33,6 +33,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/PageMaterialController")
 public class PageMaterialController {
 
+
+    public PageMaterialController(){
+        System.out.println("c...........");
+    }
+
     @Autowired
     private PageMaterialInterface pageMaterialInterface;
 
@@ -150,7 +155,6 @@ public class PageMaterialController {
 
 
 
-
 //    @ApiOperation(value = "",notes = "json")
 //    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
 //    @RequestMapping(value = "/getMaterialsInfoByArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -174,10 +178,98 @@ public class PageMaterialController {
         Map<String,List<Map<String,Object>>>  mmlist = listToTreeArea(list);
 
         for(String key:mmlist.keySet()){
-            mmlist.put(key,supplementDate(map,mmlist.get(key)));
+            List<Map<String,Object>> lad = supplementDate(map,mmlist.get(key));
+            DateFormatUtil.listSort(lad,"mdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
         }
         return new ReturnModel( 1,mmlist);
     }
+
+
+
+
+
+
+
+
+
+    @ApiOperation(value = "",notes = "json")
+    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+    @RequestMapping(value = "/getMaterialsInfoByAreaQuarter", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByAreaQuarter(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        Integer quarterNumber = null;
+        try{
+           quarterNumber =  Integer.parseInt(map.get("quarterNumber").toString());
+        }catch (Exception e){
+            ReturnModel returnModel = new ReturnModel( 0,null);
+            returnModel.setMsg("quarterNumber参数错误");
+            e.printStackTrace();
+            return returnModel;
+        }
+        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        //计算最近几个季度的日期（quarterNumber-1包含当前季度）
+        Date startDate = DateFormatUtil.computeQuarterSub(quarterNumber-1,endDate);
+        //获取当前日期所属季度的第一天
+        String startDatest = DateFormatUtil.getQuarterFristDay(startDate);
+        map.put("startDate",startDatest);
+        map.put("endDate",DateFormatUtil.dateToString(endDate));
+        map.put("type","1");
+        List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
+        Map<String,List<Map<String,Object>>>  mmlist = listToTreeArea(list);
+
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = supplementDate(map,mmlist.get(key));
+//            List<Map<String,Object>> lad =mmlist.get(key);
+            DateFormatUtil.listSort(lad,"mdate");
+            lad = removeQuarter(lad,"mdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
+        }
+        return new ReturnModel( 1,mmlist);
+    }
+
+
+    @ApiOperation(value = "",notes = "json")
+    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+    @RequestMapping(value = "/getMaterialsInfoByAreaYear", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByAreaYear(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        Integer yearNumber = null;
+        try{
+            yearNumber =  Integer.parseInt(map.get("yearNumber").toString());
+        }catch (Exception e){
+            ReturnModel returnModel = new ReturnModel( 0,null);
+            returnModel.setMsg("yearNumber参数错误");
+            e.printStackTrace();
+            return returnModel;
+        }
+
+        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        //计算最近几个季度的日期（quarterNumber-1包含当前季度）
+        Date startDate = DateFormatUtil.computeYearSub(yearNumber-1,endDate);
+        //获取当前日期所属季度的第一天
+        String startDatest = DateFormatUtil.getYearFristDay(startDate);
+
+        map.put("startDate",startDatest);
+        map.put("endDate",DateFormatUtil.dateToString(endDate));
+        map.put("type","2");
+        List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
+        Map<String,List<Map<String,Object>>>  mmlist = listToTreeArea(list);
+
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = mmlist.get(key);
+            DateFormatUtil.listSort(lad,"mdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
+        }
+
+        return new ReturnModel( 1,mmlist);
+    }
+
 
     @ApiOperation(value = "",notes = "json")
     @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
@@ -191,12 +283,120 @@ public class PageMaterialController {
         List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
         Map<String,List<Map<String,Object>>>  mmlist = listToTreeArea(list);
 
-        for(String key:mmlist.keySet()){
-            mmlist.put(key,supplementDate(map,mmlist.get(key)));
-        }
 
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = supplementDate(map,mmlist.get(key));
+            DateFormatUtil.listSort(lad,"mdate");
+
+            Collections.reverse(lad);
+
+            mmlist.put(key,lad);
+        }
         return new ReturnModel( 1,mmlist);
     }
+
+    @ApiOperation(value = "",notes = "json")
+    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+    @RequestMapping(value = "/getMaterialsInfoByProvinceAreaQuarter", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByProvinceAreaQuarter(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        Integer quarterNumber = null;
+        try{
+            quarterNumber =  Integer.parseInt(map.get("quarterNumber").toString());
+        }catch (Exception e){
+            ReturnModel returnModel = new ReturnModel( 0,null);
+            returnModel.setMsg("quarterNumber参数错误");
+            e.printStackTrace();
+            return returnModel;
+        }
+
+        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        //计算最近几个季度的日期（quarterNumber-1包含当前季度）
+        Date startDate = DateFormatUtil.computeQuarterSub(quarterNumber-1,endDate);
+        //获取当前日期所属季度的第一天
+        String startDatest = DateFormatUtil.getQuarterFristDay(startDate);
+
+        map.put("startDate",startDatest);
+        map.put("endDate",DateFormatUtil.dateToString(endDate));
+
+        map.put("type","1");
+        map.put("provinceArea","53");
+        List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
+        Map<String,List<Map<String,Object>>>  mmlist = listToTreeArea(list);
+//
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = supplementDate(map,mmlist.get(key));
+//            List<Map<String,Object>> lad = mmlist.get(key);
+            DateFormatUtil.listSort(lad,"mdate");
+            lad = removeQuarter(lad,"mdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
+        }
+        return new ReturnModel( 1,mmlist);
+    }
+
+    private  List<Map<String,Object>> removeQuarter(List<Map<String,Object>> list,String dateSt) throws ParseException {
+        List<Map<String,Object>> reList = new ArrayList<Map<String,Object>>();
+        Integer qyarterAf = 0;
+        for(Map<String,Object> map:list){
+            Date date = DateFormatUtil.stringToDate(map.get(dateSt).toString(),"yyyy-MM");
+            Integer qyarter = DateFormatUtil.getQuarter(date);
+//            System.out.println(DateFormatUtil.dateToString(date));
+            if(reList==null || qyarter!=qyarterAf){
+                reList.add(map);
+                qyarterAf = qyarter;
+            }
+            if(Double.valueOf(map.get("price").toString())!=0.00){
+                reList.remove(reList.size()-1);
+                reList.add(map);
+            }
+        }
+        return reList;
+    }
+
+
+    @ApiOperation(value = "",notes = "json")
+    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+    @RequestMapping(value = "/getMaterialsInfoByProvinceAreaYear", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByProvinceAreaYear(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        Integer yearNumber = null;
+        try{
+            yearNumber =  Integer.parseInt(map.get("yearNumber").toString());
+        }catch (Exception e){
+            ReturnModel returnModel = new ReturnModel( 0,null);
+            returnModel.setMsg("yearNumber参数错误");
+            e.printStackTrace();
+            return returnModel;
+        }
+
+        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        //计算最近几个季度的日期（quarterNumber-1包含当前季度）
+        Date startDate = DateFormatUtil.computeYearSub(yearNumber-1,endDate);
+        //获取当前日期所属季度的第一天
+        String startDatest = DateFormatUtil.getYearFristDay(startDate);
+
+        map.put("startDate",startDatest);
+        map.put("endDate",DateFormatUtil.dateToString(endDate));
+        map.put("type","2");
+        map.put("provinceArea","53");
+
+
+        List<Map<String,Object>> list = pageMaterialInterface.getMaterialsInfoByArea(map);
+        Map<String,List<Map<String,Object>>>  mmlist = listToTreeArea(list);
+
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = mmlist.get(key);
+            DateFormatUtil.listSort(lad,"mdate");
+            Collections.reverse(lad);
+//            mmlist.put(key,supplementDate(map,mmlist.get(key)));
+        }
+        return new ReturnModel( 1,mmlist);
+    }
+
+
 
     //补全日期（数据为0）
     private  List<Map<String, Object>> supplementDate(Map<String, Object> map, List<Map<String, Object>> list){
@@ -327,19 +527,117 @@ public class PageMaterialController {
     @ResponseBody
     public ReturnModel getMaterialsInfoEncapsulation( @RequestBody Map<String, Object> map) throws ParseException {
         map.put("level","1,2,3");
-        map.put("area","53");
+       // map.put("area","53");
         map.put("type","0");
         String pid = map.get("pid")==null?null:map.get("pid").toString();
         map.put("pid",pid);
         List<Map<String,Object>> childrenMaterialsList = pageMaterialInterface.getMaterialsInfo(map);
 
+        Map<String,List<Map<String,Object>>>  mmlist = ListToTree(childrenMaterialsList);
+
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = supplementDate2(map,mmlist.get(key));
+            DateFormatUtil.listSort(lad,"asmdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
+
+//            mmlist.put(key,supplementDate2(map,mmlist.get(key)));
+        }
+        return new ReturnModel(1,mmlist);
+    }
+
+    /**
+     * 获取材料封装
+     * @param map
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/getMaterialsInfoByQuarter", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByQuarter( @RequestBody Map<String, Object> map) throws ParseException {
+        map.put("level","1,2,3");
+        map.put("type","1");
+        String pid = map.get("pid")==null?null:map.get("pid").toString();
+        map.put("pid",pid);
+
+        Integer quarterNumber = null;
+        try{
+            quarterNumber =  Integer.parseInt(map.get("quarterNumber").toString());
+        }catch (Exception e){
+            ReturnModel returnModel = new ReturnModel( 0,null);
+            returnModel.setMsg("quarterNumber参数错误");
+            e.printStackTrace();
+            return returnModel;
+        }
+
+        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        //计算最近几个季度的日期（quarterNumber-1包含当前季度）
+        Date startDate = DateFormatUtil.computeQuarterSub(quarterNumber-1,endDate);
+        //获取当前日期所属季度的第一天
+        String startDatest = DateFormatUtil.getQuarterFristDay(startDate);
+        map.put("startDate",startDatest);
+        map.put("endDate",DateFormatUtil.dateToString(endDate));
+
+        List<Map<String,Object>> childrenMaterialsList = pageMaterialInterface.getMaterialsInfo(map);
 
         Map<String,List<Map<String,Object>>>  mmlist = ListToTree(childrenMaterialsList);
 
 
         for(String key:mmlist.keySet()){
-            mmlist.put(key,supplementDate2(map,mmlist.get(key)));
+            List<Map<String,Object>> lad =  supplementDate(map,mmlist.get(key));
+//            List<Map<String,Object>> lad = mmlist.get(key);
+            DateFormatUtil.listSort(lad,"asmdate");
+            lad = removeQuarter(lad,"asmdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
         }
+
+        return new ReturnModel(1,mmlist);
+    }
+
+    /**
+     * 获取材料封装
+     * @param map
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/getMaterialsInfoByYear", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByYear( @RequestBody Map<String, Object> map) throws ParseException {
+        map.put("level","1,2,3");
+        map.put("type","2");
+        String pid = map.get("pid")==null?null:map.get("pid").toString();
+        map.put("pid",pid);
+
+        Integer yesrNumber = null;
+        try{
+            yesrNumber =  Integer.parseInt(map.get("yearNumber").toString());
+        }catch (Exception e){
+            ReturnModel returnModel = new ReturnModel( 0,null);
+            returnModel.setMsg("yearNumber参数错误");
+            e.printStackTrace();
+            return returnModel;
+        }
+
+        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        //计算最近几个季度的日期（quarterNumber-1包含当前季度）
+        Date startDate = DateFormatUtil.computeYearSub(yesrNumber-1,endDate);
+        //获取当前日期所属季度的第一天
+        String startDatest = DateFormatUtil.getYearFristDay(startDate);
+        map.put("startDate",startDatest);
+        map.put("endDate",DateFormatUtil.dateToString(endDate));
+
+        List<Map<String,Object>> childrenMaterialsList = pageMaterialInterface.getMaterialsInfo(map);
+
+        Map<String,List<Map<String,Object>>>  mmlist = ListToTree(childrenMaterialsList);
+
+        for(String key:mmlist.keySet()){
+            List<Map<String,Object>> lad = mmlist.get(key);
+            DateFormatUtil.listSort(lad,"asmdate");
+            Collections.reverse(lad);
+            mmlist.put(key,lad);
+        }
+
         return new ReturnModel(1,mmlist);
     }
 

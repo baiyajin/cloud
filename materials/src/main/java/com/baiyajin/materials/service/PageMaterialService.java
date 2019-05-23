@@ -20,6 +20,9 @@ import java.util.*;
 @Service
 public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMaterial> implements PageMaterialInterface {
 
+
+
+
     @Autowired
     private PageMaterialClassInterface pageMaterialClassInterface;
 
@@ -116,7 +119,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 //        if (map.get("area")==null || map.get("area").toString().equals("")){
 //            map.put("area","53");
 //        }
-
+        System.out.println("查询.");
         if(map.get("startDate")!=null){
             Date stDate1 =  DateFormatUtil.stringToDate(map.get("startDate").toString(),"yyyy-MM");
             stDate1 =  DateFormatUtil.setDate(stDate1,5,1);

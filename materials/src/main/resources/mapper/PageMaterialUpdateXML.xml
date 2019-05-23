@@ -24,7 +24,7 @@
         select c1,c2,c3,mname,mspec,munit,remark,mid,city,area,price,mdate
         from
           material_price_info_update
-        where state = 0
+        where 1=1
         and year(mdate) = year(#{mdate})
         <if test="type==0">
             and month(mdate) = month(#{mdate})
@@ -55,7 +55,7 @@
           on m.id = i.mid where i.id is not null
         union all
         select c1,c2,c3,mname,mspec,munit,remark,mid,city,area,price,mdate from material_price_info_update
-        where state = 0
+        where 1=1
           and year(mdate) = year(#{mdate})
         <if test="type==0">
             and month(mdate) = month(#{mdate})

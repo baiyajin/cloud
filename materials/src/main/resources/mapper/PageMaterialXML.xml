@@ -158,7 +158,7 @@
                 and find_in_set(level,#{level})
             </if>
             <if test="id !=null and id != ''">
-                and id = #{id}
+                and find_in_set(id,#{id})
             </if>
         </where>
         ) m

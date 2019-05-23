@@ -376,6 +376,11 @@ public class DateFormatUtil {
 		return  a;
 	}
 
+
+
+
+
+
 	public static long get_D_Plaus_1(Calendar c) {
 		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
 		return c.getTimeInMillis();
@@ -521,4 +526,81 @@ public class DateFormatUtil {
 			});
 		}
 
+
+
+
+	/**
+	 * 日期季度相减
+	 * @param number
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date computeQuarterSub(int number,Date date) throws ParseException {
+		return computeQuarterAdd(number * -1,date);
 	}
+
+	/**
+	 * 日期季度相加
+	 * @param number
+	 * @param date
+	 */
+	public static Date computeQuarterAdd(int number,Date date) throws ParseException {
+		Integer monthNmber = number * 3;
+		String aa = DateFormatUtil.dateComputeToString(date,2,monthNmber);
+		return DateFormatUtil.stringToDate(aa);
+	}
+
+
+	public static Date computeYearAdd(int number,Date date) throws ParseException {
+		String aa = DateFormatUtil.dateComputeToString(date,1,number);
+		return DateFormatUtil.stringToDate(aa);
+	}
+
+	public static Date computeYearSub(int number,Date date) throws ParseException {
+		return DateFormatUtil.computeYearAdd(number*-1,date);
+	}
+
+	/**
+	 * 获取当前日期所属年度的第一天
+	 * @param quarter
+	 * @param date
+	 * @return
+	 */
+	public static String getYearFristDay(Date date)  {
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(date);
+		Integer year =cal.get(Calendar.YEAR);
+		return year + "-01-01 00:00:00";
+	}
+
+	/**
+	 * 获取当前日期所属季度的第一天
+	 * @param quarter
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String getQuarterFristDay(String date) throws ParseException {
+		return getQuarterFristDay(stringToDate(date));
+	}
+
+	/**
+	 * 获取当前日期所属季度的第一天
+	 * @param quarter
+	 * @param date
+	 * @return
+	 */
+	public static String getQuarterFristDay(Date date)  {
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(date);
+		Integer quarter = getQuarter(date);
+		Map<String,String> DateMap = new HashMap<>();
+		DateMap.put("Frist_1",cal.get(Calendar.YEAR)+"-01-01 00:00:00");
+		DateMap.put("Frist_2",cal.get(Calendar.YEAR)+"-04-01 00:00:00");
+		DateMap.put("Frist_3",cal.get(Calendar.YEAR)+"-07-01 00:00:00");
+		DateMap.put("Frist_4",cal.get(Calendar.YEAR)+"-10-01 00:00:00");
+		return DateMap.get("Frist_"+quarter);
+	}
+
+}

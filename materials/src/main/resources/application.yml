@@ -5,8 +5,7 @@ web:
 #  IP: 192.168.8.19
   IP: 127.0.0.1
   database: jijia_test
-#  database: jijia_test
-#  IP: localhost
+
 
 spring:
   application:
@@ -20,7 +19,7 @@ spring:
   datasource:
         username: root
         password: root
- #       password: '%#$123456jijia'
+        #password: '%#$123456jijia'
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
   redis:
     database: 0
@@ -50,6 +49,6 @@ info:
   build.artifactId: $project.artifactId$
   build.version: $project.version$
 
-logging:
-  level:
-     com.baiyajin.materials.mapper : debug
+#logging:
+#  level:
+#     com.baiyajin.materials.mapper : debug

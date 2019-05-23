@@ -2,7 +2,7 @@ server:
   port: 9220
 
 web:
-#  IP: 182.247.245.27
+ # IP: 127.0.0.1
 #  database: jijia_production
   database: jijia_test
   IP: 192.168.8.19
@@ -11,9 +11,10 @@ spring:
   application:
     name: controller
   datasource:
-        username: root
-        password: '%#$123456jijia'
-        url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: '%#$123456jijia'
+#    password: root
+    url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
 
 eureka:
   instance:

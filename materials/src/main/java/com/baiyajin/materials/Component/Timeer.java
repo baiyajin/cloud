@@ -26,4 +26,10 @@ public class Timeer {
 //        System.out.println("处理完毕当前时间："+ DateFormatUtil.dateToString(new Date()));
 //    }
 
+    //
+    @Scheduled(cron = "0 13 15 * * ?")
+    public void aadd(){
+        pageMaterialUpdateService.updatePrice();
+    }
+
 }
