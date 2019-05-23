@@ -24,13 +24,11 @@ public interface PageReportInterface extends IService<PageReport> {
 
     PageReport selectRemark(Map<String, Object> map);
 
-    ReportVo getReportInfoById(String id);
+    Results getReportInfoById(String id);
 
     List<DataTempVo> findDataByReportId(DataTempVo dataTempVo);
 
     String getMaName(String id);
 
     int getTrend(DataTempVo dataTempVo);
-
-    Results getReportInfoById2(String id);
 }

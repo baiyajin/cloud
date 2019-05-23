@@ -31,7 +31,7 @@ public class ReportTimer {
         pageReport.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         pageReport.setStatusID("qy");
         pageReport.setContrastRegionID("53");
-        pageReport.setMaterialClassID("8,9,10,11,12,13,16,17,18,19,20,21,22,37,23,24,43,28,29,30,32,33,46,45,42,47");
+        pageReport.setMaterialClassID("1,3,4,5,6,45,7,31,8,9,10,11,12,13,16,17,18,19,20,21,22,37,23,24,43,28,29,30,32,33,46,45,42,47");
         pageReport.setName("云南省建设工程主要材料市场价格变动情况");
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
