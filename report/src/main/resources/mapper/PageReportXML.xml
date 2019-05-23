@@ -20,7 +20,7 @@
         FROM page_report a
         LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
         LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
-        WHERE
+        <where>
             a.statusID = "qy"
         <if test="type !=null and type != ''">
             AND a.type = #{type}
@@ -37,9 +37,10 @@
         <if test="userID != null and userID != '' and type == 2">
             AND a.userID = #{userID}
         </if>
+        </where>
         group by id
-        <if test="orderType == null and orderType == ''">
-            ORDER BY a.createTime DESC
+        <if test="orderType == null or orderWay == ''">
+        ORDER BY a.createTime DESC
         </if>
         <if test="orderType == 1 and orderWay == 0">
             ORDER BY a.createTime DESC
@@ -53,7 +54,9 @@
         <if test="orderType == 0 and orderWay == 1">
             ORDER BY a.dataType
         </if>
-        LIMIT #{pageCurrent},#{pSize}
+        <if test="pSize != null and pSize != ''">
+            LIMIT #{pageCurrent},#{pSize}
+        </if>
     </select>
 
     <!--查询总数-->
@@ -165,9 +168,12 @@
             a.huanbi AS "hb",
             a.tongbi AS "tb",
             b.munit	AS "munit",
-            a.mdate as "maDate"
+            a.mdate as "maDate",
+            a.`level` AS"levle",
+            c.pid AS "pId"
         FROM page_material_pice a
         LEFT JOIN hl_main_material b on b.id = a.mid
+        LEFT JOIN hlidx_category c ON c.id = a.mid
     WHERE
         a.type = #{type}
         AND FIND_IN_SET(a.area,#{contrastRegionID})

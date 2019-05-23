@@ -247,10 +247,11 @@ public class PageReportController {
             reportVo.setPSize(Integer.valueOf(pageSize));
             p.setPageSize(Integer.valueOf(pageSize));
             p.setPageNo(Integer.valueOf(pageNum));
-        }else {
-            reportVo.setPSize(10);
+        }
+        else {
+//            reportVo.setPSize(10);
             reportVo.setPageCurrent(PageUtils.pageNoRecord("1","10"));
-            p.setPageSize(10);
+//            p.setPageSize(10);
             p.setPageNo(1);
         }
 
@@ -291,7 +292,11 @@ public class PageReportController {
 
 
 
-    public Object getReportInfoById(String id) throws ParseException {
+    @ApiOperation(value = "获取报告详情" ,notes = "ID查询，只要ID能获取到就能查到文章")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "form-data")})
+    @RequestMapping(value = "/getReportInfoById2",method = RequestMethod.POST)
+    @ResponseBody
+    public Results getReportInfoById(String id) throws ParseException {
         ReportVo reportVo = pageReportInterface.getReportInfoById(id);
         if (reportVo == null) {
             return new Results(1, "该报告不存在");
@@ -350,56 +355,25 @@ public class PageReportController {
             dataTempVo.setTimeIntervalYear(year);
             dataTempVo.setTimeIntervalMonth(month);
             List<Map<String,Object>> mapList = new ArrayList<>();
-
-            dataTempVo.setMaterialClassID("8,9,10,11,12,13");
-            List<DataTempVo> dataTempVoList1 = pageReportInterface.findDataByReportId(dataTempVo);
-
-            dataTempVo.setMaterialClassID("16,17,18,19,20,21,22,37");
-            List<DataTempVo> dataTempVoList2 = pageReportInterface.findDataByReportId(dataTempVo);
-
-            dataTempVo.setMaterialClassID("23,24,43");
-            List<DataTempVo> dataTempVoList3 = pageReportInterface.findDataByReportId(dataTempVo);
-
-            dataTempVo.setMaterialClassID("28,29,30");
-            List<DataTempVo> dataTempVoList4 = pageReportInterface.findDataByReportId(dataTempVo);
-
-            dataTempVo.setMaterialClassID("32,33,46");
-            List<DataTempVo> dataTempVoList5 = pageReportInterface.findDataByReportId(dataTempVo);
-
-            dataTempVo.setMaterialClassID("45");
-            List<DataTempVo> dataTempVoList6 = pageReportInterface.findDataByReportId(dataTempVo);
-
-            dataTempVo.setMaterialClassID("42,47");
+            dataTempVo.setMaterialClassID("1,3,4,5,6,45,7,31,8,9,10,11,12,13,16,17,18,19,20,21,22,37,23,24,43,28,29,30,32,33,46,45,42,47");
             Map<String,Object> map3 = new HashMap<>();
-            List<DataTempVo> dataTempVoList7 = pageReportInterface.findDataByReportId(dataTempVo);
+            List<DataTempVo> dataTempVoList1 = pageReportInterface.findDataByReportId(dataTempVo);
+            if (dataTempVoList1 != null && dataTempVoList1.size() > 0){
+                Map<String,Object> m = new HashMap<>();
+                Map<String, List<DataTempVo>> mm =  dataTempVoList1.stream().collect(Collectors.groupingBy(DataTempVo::getLevle));
+                Map<String, List<DataTempVo>> mmm =  mm.get("1").stream().collect(Collectors.groupingBy(DataTempVo::getMId));
+                Map<String, List<DataTempVo>> mmmm =  mm.get("2").stream().collect(Collectors.groupingBy(DataTempVo::getPId));
+                for (String key:mmm.keySet()){
+                    for (String key2:mmmm.keySet() ){
+                        if (key.equals(key2)){
+                            m.put("mmB",mmm.get(key));
+                            m.put("mm",mmmm.get(key2));
+                            mapList.add(m);
+                        }
+                    }
+                }
 
-            Map<String,Object> m = new HashMap<>();
-            m.put("mm",dataTempVoList1);
-            mapList.add(m);
-
-            m = new HashMap<>();
-            m.put("mm",dataTempVoList2);
-            mapList.add(m);
-
-            m = new HashMap<>();
-            m.put("mm",dataTempVoList3);
-            mapList.add(m);
-
-            m = new HashMap<>();
-            m.put("mm",dataTempVoList4);
-            mapList.add(m);
-
-            m = new HashMap<>();
-            m.put("mm",dataTempVoList5);
-            mapList.add(m);
-
-            m = new HashMap<>();
-            m.put("mm",dataTempVoList6);
-            mapList.add(m);
-
-            m = new HashMap<>();
-            m.put("mm",dataTempVoList7);
-            mapList.add(m);
+            }
             map3.put("dataList",mapList);
             map3.put("year",year);
             map3.put("month",month);
@@ -413,8 +387,8 @@ public class PageReportController {
             dataTempVo.setTrend("2");
             int unbiased = pageReportInterface.getTrend(dataTempVo);    //下降
             map3.put("unbiased",unbiased);
-            return map3;
-        }
+            return new Results(0,"查询成功",map3);
+    }
         List<DataTempVo> dataTempVoList = pageReportInterface.findDataByReportId(dataTempVo);
         dataTempVo.setContrastRegionID("53");
         List<DataTempVo> dataTempVoList2 = pageReportInterface.findDataByReportId(dataTempVo);
@@ -453,7 +427,7 @@ public class PageReportController {
             }
             reportVo.setMapList(mapList);
         }
-        return reportVo;
+        return  new Results(0, "查询成功",reportVo);
     }
 
 

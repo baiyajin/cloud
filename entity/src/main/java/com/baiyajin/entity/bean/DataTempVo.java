@@ -31,5 +31,7 @@ public class DataTempVo implements Serializable {
     private int timeIntervalMonth;
 
     private String trend;
+    private String levle;
+    private String pId;
 
 }
