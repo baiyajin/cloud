@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
     }
 
     @Override
-    public int getTrend(DataTempVo dataTempVo) {
+    public Map<String, BigDecimal> getTrend(DataTempVo dataTempVo) {
         return baseMapper.getTrend(dataTempVo);
     }
 
@@ -168,14 +169,12 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
             map3.put("year",year);
             map3.put("month",month);
             map3.put("creatDateStr",DateFormatUtil.dateToString(reportVo.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
-            dataTempVo.setTrend("0");
-            int rise = baseMapper.getTrend(dataTempVo);    //上涨
+            Map<String, BigDecimal> m = baseMapper.getTrend(dataTempVo);
+            BigDecimal rise = m.get("rise");    //上涨
             map3.put("rise",rise);
-            dataTempVo.setTrend("1");
-            int descend = baseMapper.getTrend(dataTempVo); //持平
+            BigDecimal descend = m.get("descend");; //下降
             map3.put("descend",descend);
-            dataTempVo.setTrend("2");
-            int unbiased = baseMapper.getTrend(dataTempVo);    //下降
+            BigDecimal unbiased = m.get("unbiased");    //持平
             map3.put("unbiased",unbiased);
             return new Results(0,"查询成功",map3);
         }

@@ -6,8 +6,8 @@ import com.baiyajin.entity.bean.DataTempVo;
 import com.baiyajin.entity.bean.PageReport;
 import com.baiyajin.entity.bean.ReportVo;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import io.lettuce.core.dynamic.annotation.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +30,5 @@ public interface PageReportMapper extends BaseMapper<PageReport> {
 
     String getMaName(String id);
 
-    int getTrend(DataTempVo dataTempVo);
+    Map<String,BigDecimal> getTrend(DataTempVo dataTempVo);
 }

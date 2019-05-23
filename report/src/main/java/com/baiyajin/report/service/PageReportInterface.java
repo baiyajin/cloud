@@ -7,6 +7,7 @@ import com.baiyajin.entity.bean.ReportVo;
 import com.baiyajin.util.u.Results;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +31,5 @@ public interface PageReportInterface extends IService<PageReport> {
 
     String getMaName(String id);
 
-    int getTrend(DataTempVo dataTempVo);
+    Map<String,BigDecimal> getTrend(DataTempVo dataTempVo);
 }
