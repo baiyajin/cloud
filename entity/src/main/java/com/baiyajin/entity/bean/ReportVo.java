@@ -23,6 +23,7 @@ public class ReportVo implements Serializable {
     private String startTimeStr;
     private Date endTime;
     private String endTimeStr;
+    private String createTimeStr;
     private String timeInterval;
 
     private Date createTime;  //时间

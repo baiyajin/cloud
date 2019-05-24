@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Component
-@CacheEvict(value="getReportInfoById")
+@CacheEvict(value="getReportInfoById",allEntries=true)// getReportInfoById 缓存
 public class ReportTimer {
     @Autowired
     private PageReportInterface pageReportInterface;

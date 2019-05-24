@@ -195,7 +195,9 @@
         <if test="type != null and type != '' and type == 2">
             and year(mdate) = #{timeInterval}
         </if>
+        GROUP BY mid,area
     </select>
+
     <select id="getMaName" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT
         a.name

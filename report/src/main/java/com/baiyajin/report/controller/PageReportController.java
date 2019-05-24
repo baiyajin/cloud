@@ -62,7 +62,7 @@ public class PageReportController {
     @RequestMapping(value = "/addReport",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @CacheEvict(value="getReportInfoById")
+    @CacheEvict(value="getReportInfoById",allEntries=true)// getReportInfoById 缓存
     public Object addReport (PageReport pageReport) throws ParseException {
         String token = pageReport.getToken();
         Map<String,Object> map = new HashMap<>();
@@ -214,13 +214,13 @@ public class PageReportController {
             "type(报告类型,1 平台发布,2 我的),不传入参数时默认为查询全部，查询我的报告时，token必填")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)，token（非必填）,type(非必填)",value =  "pageNum:1,pageNum:5,token:15646saf",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findListByPage",method = RequestMethod.POST)
+//    @Cacheable(value ="findListByPage",key = "#reportVo.type",condition = "#reportVo.type == '1'")
     @ResponseBody
     public Object findListByPage(ReportVo reportVo,String pageNum,String pageSize){
         Page<ReportVo> p = new Page();
         PageReport pageReport = new PageReport();
         String token = reportVo.getToken();
         Claims claims = JWT.parseJWT(token);
-
         if ("2".equals(reportVo.getType())){
             if (claims == null){
                 return new Results(1,"请重新登录");
@@ -268,6 +268,7 @@ public class PageReportController {
         for (ReportVo r:page.getList()){
             r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
             r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
+            r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));
         }
         page.setCount(count);
         return page;

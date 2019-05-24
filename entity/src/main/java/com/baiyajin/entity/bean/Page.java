@@ -3,6 +3,7 @@
  */
 package com.baiyajin.entity.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @version 2013-7-2
  * @param <T>
  */
-public class Page<T> {
+public class Page<T> implements Serializable {
 	private int pageSize;
 	private int pageNo;
 	private int count;
