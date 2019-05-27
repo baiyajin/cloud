@@ -27,9 +27,9 @@ public class Timeer {
 //    }
 
     //
-    @Scheduled(cron = "0 13 15 * * ?")
-    public void aadd(){
-        pageMaterialUpdateService.updatePrice();
-    }
+//    @Scheduled(cron = "0 13 15 * * ?")
+//    public void aadd(){
+//        pageMaterialUpdateService.updatePrice();
+//    }
 
 }

@@ -222,7 +222,7 @@
 
 
     <select id="getMaterialCountByMap" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.MaterialCount">
-      select id,mid,area,sum(count) as count from materialcount
+      select ANY_VALUE(id) as id,ANY_VALUE(mid) as mid,ANY_VALUE(area) as area,sum(count) as count from materialcount
       <where>
           <if test="mid != null and mid != ''">
               and mid = #{mid}

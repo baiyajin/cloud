@@ -1,6 +1,7 @@
 package com.baiyajin.materials.mapper;
 
 
+import com.baiyajin.entity.bean.BasePrice;
 import com.baiyajin.entity.bean.MaterialCategory;
 import com.baiyajin.entity.bean.PageMaterialPrice;
 import com.baiyajin.entity.bean.PageMaterialUpdata;
@@ -21,5 +22,7 @@ public interface PageMaterialUpdateMapper extends BaseMapper<PageMaterialUpdata>
 
    public List<MaterialCategory> getMaterialCategory();
 
+
+    public List<BasePrice> getPinfbPrice(Map<String, Object> map);
 
 }

@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMapper,PageMaterialUpdata> implements PageMaterialUpdateInterface {
 
+    private static final String token = null;
     @Autowired
     private PageMunitUnifiedRuleInterface pageMunitUnifiedRuleInterface;
     @Autowired
@@ -29,23 +30,42 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     @Override
     public int receiveMaterialtPrice(Map<String,Object> map) {
             String dataSt = map.get("data").toString();
+//            map.get("token").toString();
             //  String dataSt = "\"[{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2014\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"120\",\"mdate\":\"2019-04-30},{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2011\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"100\",\"mdate\":\"2019-04-30}]\"";
             //解析json内容
             List<PageMaterialUpdata> list = JsonUtil.jsonToList(dataSt, PageMaterialUpdata.class);
 //            //保存
-            for (PageMaterialUpdata l : list) {
-                baseMapper.insert(l);
-            }
+            this.insertBatch(list);
+//            for (PageMaterialUpdata l : list) {
+//                baseMapper.insert(l);
+//            }
         return 0;
     }
 
 
 
+    @Transactional(rollbackFor = Exception.class)
+    public void  updatePrice(){
+        Date d = new Date();
+        Map<String,Object> map = new HashMap<>();
+        map.put("st",0);
+        map.put("end",1500000);
+        List<BasePrice> ml = baseMapper.getPinfbPrice(map);
+        System.out.println(ml.size());
+        Date d2 = new Date();
+        System.out.println((d2.getTime()-d.getTime())/1000);
 
+
+       Map<Integer, Map<String, List<BasePrice>>> mm =  ml.stream().collect(
+               Collectors.groupingBy(BasePrice::getMid,Collectors.groupingBy(BasePrice::getArea))
+       );
+        System.out.println(mm.size());
+
+    }
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void  updatePrice(){
+    public void  updatePrice_bak(){
         //获取待处理数据列表（需要更新的价格材料）
         List<PageMaterialUpdata>  list = getPendingDisposalList();
         System.out.println("开始数据更新");
@@ -54,7 +74,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
             System.out.println("数据更新结束");
             return;
         }
-
 //        List<PageMaterialUpdata>  newList = new ArrayList<>();
         //获取相关材料列表并统计计算各材料各区域平均价格(原始数据，月度)
         //材料名称列表
@@ -86,7 +105,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
             updatePrice(materialtPriceListYear,matInfoList,areaInfoList,baseListMap.get("2"));
             System.out.println("结束年度更新");
             l.setState(1);
-
         }
         System.out.println("数据更新结束");
         //更新状态为已处理
@@ -557,6 +575,9 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
      */
     private List<PageMaterialUpdata>  munitUnified(List<PageMaterialUpdata> list,List<PageMunitUnifiedRule> ruleList ){
 //            List<PageMunitUnifiedRule> ruleList = pageMunitUnifiedRuleInterface.selectByMap(new HashMap<String,Object>());
+
+
+
             //统一单位
 //            for(PageMaterialUpdata l:list){
 //                for(PageMunitUnifiedRule rl:ruleList){

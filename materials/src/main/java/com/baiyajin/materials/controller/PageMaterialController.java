@@ -464,7 +464,6 @@ public class PageMaterialController {
             map.put("area", "530100000000");
             MaterialCount kmMaterialCount = pageMaterialInterface.getMaterialCount(map);
             map.remove("area");
-
             MaterialCount otherMaterialCount = pageMaterialInterface.getMaterialCount(map);
             otherMaterialCount.setCount(otherMaterialCount.getCount()-kmMaterialCount.getCount());
             map.put("mid", 0);
@@ -473,6 +472,7 @@ public class PageMaterialController {
             reMap.put("other", otherMaterialCount);
             reMap.put("all", materialCountAll);
         }catch (Exception e){
+            e.printStackTrace();
             return new ReturnModel(0,null);
         }
 
@@ -508,6 +508,8 @@ public class PageMaterialController {
         map.put("endDate",DateFormatUtil.dateToString(date,"yyyy-MM"));
 
         List<Map<String,Object>> materialsList = pageMaterialInterface.getMaterialsInfo(map);
+
+        Collections.reverse(materialsList);
 
        // pageMaterialInterface
         return new ReturnModel(1,materialsList);

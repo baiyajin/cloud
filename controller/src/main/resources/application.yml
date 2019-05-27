@@ -2,18 +2,18 @@ server:
   port: 9220
 
 web:
- # IP: 127.0.0.1
+  IP: 127.0.0.1
 #  database: jijia_production
   database: jijia_test
-  IP: 192.168.8.19
+  #IP: 192.168.8.19
 
 spring:
   application:
     name: controller
   datasource:
     username: root
-    password: '%#$123456jijia'
-#    password: root
+    #password: '%#$123456jijia'
+    password: root
     url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
 
 eureka:
@@ -27,8 +27,9 @@ eureka:
 
 
 
+
 info:
-  app.name: $project.name$
-  company.name: baiyajin
-  build.artifactId: $project.artifactId$
-  build.version: $project.version$
+      app.name: $project.name$
+      company.name: baiyajin
+      build.artifactId: $project.artifactId$
+      build.version: $project.version$

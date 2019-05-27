@@ -13,6 +13,7 @@ import java.util.List;
 
 @Api("材料类")
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/PageMaterialClassController")
 public class MaterialClass {
 

@@ -2,7 +2,8 @@ server:
   port: 9102
 
 web:
-#  IP: 192.168.8.19
+  #IP: 192.168.8.19
+  #IP: 182.247.245.27
   IP: 127.0.0.1
   database: jijia_test
 
@@ -17,14 +18,14 @@ spring:
 #    port: 6379
 #    timeout: 100
   datasource:
-        username: root
-        password: root
-        #password: '%#$123456jijia'
-        url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    #password: '%#$123456jijia'
+    url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
   redis:
     database: 0
     host: 127.0.0.1
-    password:
+   # password:
     port: 6379
 
 eureka:
@@ -49,6 +50,6 @@ info:
   build.artifactId: $project.artifactId$
   build.version: $project.version$
 
-#logging:
-#  level:
-#     com.baiyajin.materials.mapper : debug
+logging:
+  level:
+     com.baiyajin.materials.mapper : debug

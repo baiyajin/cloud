@@ -33,6 +33,7 @@ public class PageMaterialtUpdateController {
     @RequestMapping(value = "/receiveMaterialtPrice", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
+    @CrossOrigin
     public ReturnModel receiveMaterialtPrice(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         return restTemplate.postForObject(Rest_url_prefix + "/materialtPriceUpdate/receiveMaterialtPrice", map,ReturnModel.class);
     }

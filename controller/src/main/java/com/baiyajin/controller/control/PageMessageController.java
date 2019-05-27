@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +43,7 @@ public class PageMessageController {
     @RequestMapping(value = "/getMessage", method = {RequestMethod.POST},produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
+    @CrossOrigin
     public Map<String,Object> getMessage(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         return  restTemplate.postForObject(Rest_url_prefix+"/PageMessageController/getMessage",map, Map.class);
     }
@@ -63,6 +61,7 @@ public class PageMessageController {
     @RequestMapping(value = "/delMessage", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
+    @CrossOrigin
     public Map<String,Object> delMessage(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         return  restTemplate.postForObject(Rest_url_prefix+"/PageMessageController/delMessage",map, Map.class);
     }
