@@ -21,7 +21,7 @@ public class ReportTimer {
     @Autowired
     private PageReportInterface pageReportInterface;
 //    @Scheduled(cron = "0/600 * * * * ? ")//每600秒执行一次
-//    @Scheduled(cron = “00 00 00 01 * ?”)//每月1号的0:00:00执行
+//    @Scheduled(cron = “00 00 00 15 * ?”)//每月15号的0:00:00执行
     public void creatReport(){
         PageReport pageReport = new PageReport();
         pageReport.setId(IdGenerate.uuid());

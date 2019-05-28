@@ -157,19 +157,19 @@
 
     <select id="findDataByReportId" parameterType="com.baiyajin.entity.bean.DataTempVo" resultType="com.baiyajin.entity.bean.DataTempVo">
         SELECT
-            a.mid as "mId",
+            a.mid AS "mId",
             a.area AS "areaId",
-            a.mat_name AS "maName",
-            a.area_name AS "areaName",
-            a.price AS "price",
-            a.price/(a.tongbi + 1) AS "tbPrice",
-            a.price/(a.huanbi + 1) AS "hbPrice",
-            a.exponent AS "exponent",
-            a.huanbi AS "hb",
-            a.tongbi AS "tb",
-            b.munit	AS "munit",
-            a.mdate as "maDate",
-            a.`level` AS"levle",
+            ANY_VALUE(a.mat_name) AS "maName",
+            ANY_VALUE(a.area_name) AS "areaName",
+            ANY_VALUE(a.price) AS "price",
+            ANY_VALUE(a.price) / (ANY_VALUE(a.tongbi) + 1) AS "tbPrice",
+            ANY_VALUE(a.price) / (ANY_VALUE(a.huanbi) + 1) AS "hbPrice",
+            ANY_VALUE(a.exponent) AS "exponent",
+            ANY_VALUE(a.huanbi) AS "hb",
+            ANY_VALUE(a.tongbi) AS "tb",
+            b.munit AS "munit",
+            ANY_VALUE(a.mdate) AS "maDate",
+            ANY_VALUE(a.`level`) AS "levle",
             c.pid AS "pId"
         FROM page_material_pice a
         LEFT JOIN hl_main_material b on b.id = a.mid
