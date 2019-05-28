@@ -1,0 +1,46 @@
+server:
+  port: 9440
+
+web:
+#  IP: 182.247.245.27
+#  database: jijia_production
+  database: jijia_test
+  IP: localhost
+  redisIP: localhost
+
+spring:
+  application:
+    name: report
+  redis:
+    host: ${web.redisIP}
+    #    password: baiyajin
+    database: 0
+    port: 6379
+    timeout: 100
+  datasource:
+        username: root
+        password: '%#$123456jijia'
+#        password: root
+        url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+#        defaultZone: http://127.0.0.1:9991/eureka/
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9991/eureka/
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  global-config.refresh-mapper: true
+
+
+info:
+  app.name: ${project.name}$
+  company.name: baiyajin
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+
+logging:
+  level:
+    com.baiyajin.report.mapper: debug

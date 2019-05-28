@@ -1,39 +1,47 @@
 server:
-  port: 9102
+  port: 9110
 
 web:
-  IP: 182.247.245.27
-  database: jijia_production
-#  database: jijia_test
+#  IP: 192.168.8.19
+#  database: jijia_production
+  database: jijia_test
+  databaseIP: 192.168.8.19
+  redisIP: 192.168.8.20
+#  databaseIP: 192.168.8.19
+#  database: jijia_sys
 #  IP: localhost
 
 spring:
   application:
     name: materials
-#  redis:
-#    host: 182.247.245.27
-#    password: baiyajin
-#    database: 0
-#    port: 6379
-#    timeout: 100
   datasource:
         username: root
         password: '%#$123456jijia'
-        url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
-
+#        password: root
+        url: jdbc:mysql://${web.databaseIP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        dbcp2:
+          validation-query: SELECT 1
+          testWhileIdle: true
+          testOnBorrow: true
+          testOnReturn: true
+  redis:
+    host: ${web.redisIP}
+#    password: baiyajin
+    database: 0
+    port: 6379
+    timeout: 100
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://boos3:9993/eureka/,http://boos2:9992/eureka/,http://boos1:9991/eureka/
+      defaultZone: http://127.0.0.1:9991/eureka/
 
 
 
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-#  typeAliasesPackage: com.baiyajin.entity.bean
   global-config.refresh-mapper: true
 
 

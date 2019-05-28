@@ -1,6 +1,8 @@
 package com.baiyajin.util.u;
 
-public class Results {
+import java.io.Serializable;
+
+public class Results implements Serializable  {
     private int result;
     private String msg;
     private Object data;

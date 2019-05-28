@@ -3,6 +3,8 @@ package com.baiyajin.controller.control;
 import com.baiyajin.entity.bean.MaterialAndClass;
 import com.baiyajin.entity.bean.MaterialVo;
 import com.baiyajin.entity.bean.PageMaterial;
+import com.baiyajin.util.u.DateFormatUtil;
+import com.baiyajin.util.u.ReturnModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +34,7 @@ public class Material {
     @Autowired
     RestTemplate restTemplate;
 
-    private static final String Rest_url_prefix = "http://controller";
+    private static final String Rest_url_prefix = "http://materials";
 
     /**
      * 添加材料
@@ -87,6 +90,15 @@ public class Material {
         return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfo",map, Object.class);
     }
 
+
+    @RequestMapping(value = "/getMaterialsInfoByRecent", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public List<Map<String,Object>> getMaterialsInfoByRecent(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByRecent",map, List.class);
+    }
+
+
     @ApiOperation(value = "",notes = "json")
     @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
     @RequestMapping(value = "/getMaterialsInfoByArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -98,10 +110,60 @@ public class Material {
 
 
 
-    @ApiOperation(value = "获取材料分类",notes = "获取材料分类信息（1,2级材料），请求类型json")
-    @ApiImplicitParams({@ApiImplicitParam(name = "无需参数",value =  "如：\t {}",dataType = "String")})
-    @RequestMapping(value = "/getMaterialsClass2", method = {RequestMethod.GET})
+    @ApiImplicitParams({@ApiImplicitParam(name = "",value =  "",dataType = "String")})
+    @RequestMapping(value = "/getMaterialsInfoByAreaEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByAreaEncapsulation(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByAreaEncapsulation",map, ReturnModel.class);
+
+
+    }
+
+
+    @RequestMapping(value = "/getMaterialsInfoByProvinceAreaEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByProvinceAreaEncapsulation(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByProvinceAreaEncapsulation",map, ReturnModel.class);
+    }
+
+
+
+    @RequestMapping(value = "/getMaterialCount", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialCount( @RequestBody Map<String, Object> map) {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialCount",map, ReturnModel.class);
+    }
+
+
+
+    @RequestMapping(value = "/getMaterialsInfoByAllCities", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByAllCities( @RequestBody Map<String, Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoByAllCities",map, ReturnModel.class);
+    }
+
+
+
+
+
+    /**
+     * 获取材料封装
+     * @param map
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/getMaterialsInfoEncapsulation", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialsInfoEncapsulation( @RequestBody Map<String, Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsInfoEncapsulation", map,ReturnModel.class);
+    }
+
+
+
+
+
 //    @Cacheable(cacheNames={"getMaterialsClass"},key = "getMaterialsClass")
     public List<MaterialAndClass> getMaterialsClass2(HttpServletRequest request, HttpServletResponse response) {
         return restTemplate.getForObject(Rest_url_prefix+"/PageMaterialController/getMaterialsClass2", List.class);

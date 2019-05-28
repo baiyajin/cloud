@@ -1,11 +1,12 @@
 server:
-  port: 9001
+  port: 9220
 
 web:
-  IP: 182.247.245.27
-  database: jijia_production
-#  database: jijia_test
-#  IP: localhost
+#  IP: 182.247.245.27
+  IP: localhost
+#  database: jijia_production
+  database: jijia_test
+#  IP: 192.168.8.19
 
 spring:
   application:
@@ -14,6 +15,11 @@ spring:
         username: root
         password: '%#$123456jijia'
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+        dbcp2:
+          validation-query: SELECT 1
+          testWhileIdle: true
+          testOnBorrow: true
+          testOnReturn: true
 
 eureka:
   instance:
@@ -21,7 +27,8 @@ eureka:
     instance-id: controller
   client:
     service-url:
-      defaultZone: http://boos3:9993/eureka/,http://boos2:9992/eureka/,http://boos1:9991/eureka/
+      defaultZone: http://boos3.com:9993/eureka/,http://boos2.com:9992/eureka/,http://boos1.com:9991/eureka/
+
 
 
 
@@ -30,3 +37,5 @@ info:
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+

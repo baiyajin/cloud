@@ -1,0 +1,26 @@
+baiyajin:
+  port: 9992
+  hostname: boos2.com
+  instance-id: boos2.com
+  defaultZone: http://boos1.com:9991/eureka/,http://boos3.com:9993/eureka/
+spring:
+  profiles:
+      active: boos2
+server:
+    port: ${baiyajin.port}
+
+eureka:
+    instance:
+        hostname: ${baiyajin.hostname}
+        prefer-ip-address: true
+        instance-id: ${baiyajin.instance-id}
+    client:
+        registerWithEureka: false
+        fetchRegistry: false
+        serviceUrl:
+            defaultZone: ${baiyajin.defaultZone}
+info:
+    app.name: $project.name$
+    company.name: baiyajin
+    build.artifactId: $project.artifactId$
+    build.version: $project.version$

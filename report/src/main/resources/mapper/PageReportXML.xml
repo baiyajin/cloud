@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baiyajin.report.mapper.PageReportMapper">
+    <!--分页查询报告-->
+    <select id="findList" parameterType="com.baiyajin.entity.bean.ReportVo" resultType="com.baiyajin.entity.bean.ReportVo">
+        SELECT
+            a.id AS "id",
+            a.`name` AS "title",
+            a.type AS "type",
+            a.dataType as "dataType",
+            a.userID,
+            a.createTime AS "createTime",
+            a.startTime as "startTime",
+            a.endTime as "endTime",
+            a.timeInterval AS "timeInterval",
+            a.materialClassID as "materialClassID",
+            a.contrastRegionID as "contrastRegionID",
+            group_concat(DISTINCT b. NAME) AS "materialName",
+            group_concat(DISTINCT c. NAME) AS "areaName"
+        FROM page_report a
+        LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
+        <where>
+            a.statusID = "qy"
+        <if test="type !=null and type != ''">
+            AND a.type = #{type}
+        </if>
+        <if test="dataType !=null and dataType != ''">
+            AND a.dataType = #{dataType}
+        </if>
+        <if test="type == null or type == ''">
+            AND (a.type = '1' or (a.type = '2' and a.userID = #{userID}))
+        </if>
+        <if test="title !=null and title != ''">
+            AND a.name LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="userID != null and userID != '' and type == 2">
+            AND a.userID = #{userID}
+        </if>
+        </where>
+        group by id
+        <if test="orderType == null or orderWay == ''">
+        ORDER BY a.createTime DESC
+        </if>
+        <if test="orderType == 1 and orderWay == 0">
+            ORDER BY a.createTime DESC
+        </if>
+        <if test="orderType == 1 and orderWay == 1">
+            ORDER BY a.createTime
+        </if>
+        <if test="orderType == 0 and orderWay == 0">
+            ORDER BY a.dataType DESC
+        </if>
+        <if test="orderType == 0 and orderWay == 1">
+            ORDER BY a.dataType
+        </if>
+        <if test="pSize != null and pSize != ''">
+            LIMIT #{pageCurrent},#{pSize}
+        </if>
+    </select>
+
+    <!--查询总数-->
+    <select id="getCount" parameterType="com.baiyajin.entity.bean.ReportVo" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM page_report a
+        WHERE
+        a.statusID = "qy"
+        <if test="type != null and type != ''">
+            AND a.type = #{type}
+        </if>
+        <if test="type == null or type == ''">
+            AND (a.type = '1' or (a.type = '2' and a.userID = #{userID}))
+        </if>
+        <if test="title !=null and title != ''">
+            AND a.name LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="userID != null and userID != '' and type == 2">
+            AND a.userID = #{userID}
+        </if>
+    </select>
+
+
+    <update id="updateRemark" parameterType="java.util.Map">
+        update page_repor_remark
+        set mark = #{mark},
+            updateTime = #{updateTime}
+        where id =#{id}
+    </update>
+
+    <select id="selectRemarkByReportId" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from page_repor_remark
+        where reportId = #{reportId}
+        and userId = #{userId}
+    </select>
+
+    <insert id="addRemark" parameterType="java.util.Map">
+        insert into page_repor_remark(id,userId,reportId,mark,createTime,updateTime)
+        values(#{id},#{userId},#{reportId},#{mark},#{createTime},#{updateTime})
+    </insert>
+
+    <select id="selectRemark" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageReport">
+    SELECT
+        m.id,
+        m.`type`,
+        m. NAME,
+        m.logo,
+        m.content,
+        ifnull(i.mark, m.mark) AS mark,
+        m.userID,
+        m.statusID,
+        m.createTime,
+        m.updateTime,
+        m.timeInterval,
+        m.materialClassID,
+        m.contrastRegionID
+    FROM
+        (
+            SELECT
+                *
+            FROM
+                page_report
+            WHERE
+                id = #{reportId}
+        ) m
+    LEFT JOIN (
+        SELECT
+            *
+        FROM
+            page_repor_remark
+        WHERE
+            userId = #{userId}
+    ) i ON m.id = i.reportId
+    </select>
+
+    <!--获取报告详情-->
+    <select id="getReportInfoById" parameterType="java.lang.String" resultType="com.baiyajin.entity.bean.ReportVo">
+        SELECT
+            a.id AS "id",
+            a.`name` AS "title",
+            a.dataType AS "dataType",
+            a.type AS "type",
+            a.contrastRegionID as "contrastRegionID",
+            a.materialClassID as "materialClassID",
+            group_concat(DISTINCT b. NAME) AS "materialName",
+            group_concat(DISTINCT c. NAME) AS "areaName",
+            a.createTime as "createTime",
+            a.timeInterval AS "timeInterval",
+            a.startTime AS "startTime",
+            a.endTime AS "endTime"
+        FROM page_report a
+        LEFT JOIN hlidx_category b ON find_in_set(b.id,a.materialClassID)
+        LEFT JOIN hlidx_areas c ON find_in_set(c.id,a.contrastRegionID)
+        WHERE a.statusID = 'qy'
+            and a.id = #{id}
+    </select>
+
+    <select id="findDataByReportId" parameterType="com.baiyajin.entity.bean.DataTempVo" resultType="com.baiyajin.entity.bean.DataTempVo">
+        SELECT
+            a.mid as "mId",
+            a.area AS "areaId",
+            a.mat_name AS "maName",
+            a.area_name AS "areaName",
+            a.price AS "price",
+            a.price/(a.tongbi + 1) AS "tbPrice",
+            a.price/(a.huanbi + 1) AS "hbPrice",
+            a.exponent AS "exponent",
+            a.huanbi AS "hb",
+            a.tongbi AS "tb",
+            b.munit	AS "munit",
+            a.mdate as "maDate",
+            a.`level` AS"levle",
+            c.pid AS "pId"
+        FROM page_material_pice a
+        LEFT JOIN hl_main_material b on b.id = a.mid
+        LEFT JOIN hlidx_category c ON c.id = a.mid
+    WHERE
+        a.is_del = '0'
+        <if test="type != null and type != ''">
+            AND a.type = #{type}
+        </if>
+        <if test="contrastRegionID != null and contrastRegionID != ''">
+            AND FIND_IN_SET(a.area,#{contrastRegionID})
+        </if>
+        <if test="materialClassID != null and materialClassID != ''">
+            AND FIND_IN_SET(a.mid,#{materialClassID})
+        </if>
+        <if test="type != null and type != '' and type == 0">
+            and month (mdate) = #{timeIntervalMonth}
+            and year(mdate) = #{timeIntervalYear}
+        </if>
+        <if test="type != null and type != '' and type == 1">
+            and quarter(mdate) = #{timeInterval}
+        </if>
+        <if test="type != null and type != '' and type == 2">
+            and year(mdate) = #{timeInterval}
+        </if>
+        GROUP BY mid,area
+    </select>
+
+    <select id="getMaName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+        a.name
+    FROM hlidx_category a
+    WHERE a.id = #{id}
+    </select>
+
+    <select id="getTrend" parameterType="com.baiyajin.entity.bean.DataTempVo" resultType="java.util.Map">
+        SELECT
+        sum(IF(a.huanBi > 0, 1, 0)) AS "rise",
+        sum(IF(a.huanBi = 0, 1, 0)) AS "unbiased",
+        sum(IF(a.huanBi &lt; 0, 1, 0)) AS "descend"
+        FROM
+        page_material_pice a
+        WHERE
+        a.type = '0'
+        AND a.is_del = '0'
+        AND FIND_IN_SET(a.area, '53')
+        AND FIND_IN_SET(a.mid,'8,9,10,11,12,13,16,17,18,19,20,21,22,37,23,24,43,28,29,30,32,33,46,45,42,47')
+        AND month (mdate) = #{timeIntervalMonth}
+        AND year(mdate) = #{timeIntervalYear}
+    </select>
+
+
+
+
+</mapper>
