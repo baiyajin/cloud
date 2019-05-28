@@ -25,7 +25,6 @@ public class PageUser {
 
   private Timestamp createTime;
   private Timestamp updateTime;
-
-
+  private String area;
 
 }

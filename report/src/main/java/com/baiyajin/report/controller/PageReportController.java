@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -266,6 +268,8 @@ public class PageReportController {
             return new Results(1,"暂无数据");
         }
         for (ReportVo r:page.getList()){
+            r.setStartTime(DateUtils.addHours(r.getStartTime(),8));
+            r.setCreateTime(DateUtils.addHours(r.getCreateTime(),8));
             r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
             r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
             r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));

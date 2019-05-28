@@ -56,7 +56,7 @@ public class PageUserController {
     @RequestMapping(value = "/login", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @Cacheable(cacheNames={"pag_login"},key = "#map.get('phone')+#map.get('password')")
+//    @Cacheable(cacheNames={"pag_login"},key = "#map.get('phone')+#map.get('password')")
     public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
         Map<String,Object> m = new HashMap<>();
         try {
@@ -65,16 +65,20 @@ public class PageUserController {
                 m.put("message","密码不能为空");
                 return m;
             }
-            if(null != map.get("phone") && "" != map.get("phone") && PhoneUtils.isPhone(map.get("phone").toString())){
-                String salt = HashSalt.encode(Long.parseLong(map.get("phone").toString()));
-                String hashSalt = HashSalt.getMD5(salt);
-                String ecPassWord = new SimpleHash("SHA-1", map.get("password").toString(), hashSalt).toString();
+            if(null != map.get("phone") && "" != map.get("phone")
+//                    && PhoneUtils.isPhone(map.get("phone").toString())
+            ){
+//                String salt = HashSalt.encode(Long.parseLong(map.get("password").toString()));
+//                String hashSalt = HashSalt.getMD5(salt);
+//                String ecPassWord = new SimpleHash("SHA-1", map.get("password").toString(), hashSalt).toString();
+                String ecPassWord = HashSalt.getMD5(map.get("password").toString());
                 /*通过手机去数据库拿密码作比对*/
                 map.remove("password");
                 List<PageUser> systemUsers = pageUserInterface.selectByMap(map);
                 if(systemUsers.size() > 0 && systemUsers.get(0).getPassword().equals(ecPassWord)){
                     m.put("message","登录成功");
                     systemUsers.get(0).setToken(JWT.createJWT(systemUsers.get(0).getId()));
+                    systemUsers.get(0).setHeadPortrait("");
                     m.put("user",systemUsers.get(0));
                     return m;
                 }else if(systemUsers.size() == 0){

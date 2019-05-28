@@ -15,6 +15,7 @@ import java.util.Map;
 @Api("前端用户")
 @RestController
 @RequestMapping("/PageUserController")
+@CrossOrigin
 public class PageUserController {
 
     @Autowired
