@@ -30,18 +30,19 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     PageAreaInterface pageAreaInterface;
     @Override
     public int receiveMaterialtPrice(Map<String,Object> map) {
-            String dataSt = map.get("data").toString();
+        String dataSt = map.get("data").toString();
 //            map.get("token").toString();
-            //  String dataSt = "\"[{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2014\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"120\",\"mdate\":\"2019-04-30},{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2011\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"100\",\"mdate\":\"2019-04-30}]\"";
-            //解析json内容
-            List<PageMaterialUpdata> list = JsonUtil.jsonToList(dataSt, PageMaterialUpdata.class);
+        //  String dataSt = "\"[{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2014\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"120\",\"mdate\":\"2019-04-30},{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2011\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"100\",\"mdate\":\"2019-04-30}]\"";
+        //解析json内容
+        List<PageMaterialUpdata> list = JsonUtil.jsonToList(dataSt, PageMaterialUpdata.class);
 //            //保存
-            this.insertBatch(list);
+        this.insertBatch(list);
 //            for (PageMaterialUpdata l : list) {
 //                baseMapper.insert(l);
 //            }
         return 0;
     }
+
 
 
 
@@ -136,9 +137,9 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     public List<PageMaterialPrice> computePrice(List<BasePrice> basePriceList,List<PageMunitUnifiedRule> ruleList,Integer matlevel,Integer areaLevel ){
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
         Map<Integer, Map<String, List<BasePrice>>> priceListMap = new HashMap<>();
-       if(matlevel==3 && areaLevel==3){
-           priceListMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC3,Collectors.groupingBy(BasePrice::getArea)));
-       }
+        if(matlevel==3 && areaLevel==3){
+            priceListMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC3,Collectors.groupingBy(BasePrice::getArea)));
+        }
         if(matlevel==2 && areaLevel==3){
             priceListMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC2,Collectors.groupingBy(BasePrice::getArea)));
         }
@@ -202,6 +203,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
 
 
+
     //计算平均价格
     public PageMaterialPrice getMaterialtAvgPrice(List<BasePrice> basePriceList,Integer id,Integer pid,String level,String type,List<PageMunitUnifiedRule> ruleList){
         //统一单位
@@ -224,15 +226,15 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
      * @return
      */
     private List<BasePrice>  munitUnified(List<BasePrice> list,List<PageMunitUnifiedRule> ruleList ){
-            //统一单位
-            for(BasePrice l:list){
-                for(PageMunitUnifiedRule rl:ruleList){
-                    if(rl.getMatchedNames().indexOf(l.getMunit())!=-1){
-                        l.setMunit(rl.getMunitName());
-                        l.setPrice(l.getPrice().multiply(rl.getCoefficient()));
-                    }
+        //统一单位
+        for(BasePrice l:list){
+            for(PageMunitUnifiedRule rl:ruleList){
+                if(rl.getMatchedNames().indexOf(l.getMunit())!=-1){
+                    l.setMunit(rl.getMunitName());
+                    l.setPrice(l.getPrice().multiply(rl.getCoefficient()));
                 }
             }
+        }
         return list;
     }
 
@@ -300,14 +302,14 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         List<PageMaterialPrice> materialtPriceListUpdateName = new ArrayList<>();
         //更新材料名称及地址名称
         for(PageMaterialPrice mp:materialtPriceListCom){
-           List<MaterialCategory> ll = materialCategoryMap.get(mp.getMid());
+            List<MaterialCategory> ll = materialCategoryMap.get(mp.getMid());
             List<PageArea> al = areaInfoListMap.get(mp.getArea());
-           if(ll.size()>0) {
-               mp.setMat_name( ll.get(0).getName());
-           }
-           if(al.size()>0){
-               mp.setArea_name(al.get(0).getName());
-           }
+            if(ll.size()>0) {
+                mp.setMat_name( ll.get(0).getName());
+            }
+            if(al.size()>0){
+                mp.setArea_name(al.get(0).getName());
+            }
             materialtPriceListUpdateName.add(mp);
         }
         //更新变动的数据
