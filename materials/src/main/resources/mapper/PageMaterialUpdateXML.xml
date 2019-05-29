@@ -153,22 +153,21 @@
         select * from hlidx_category
     </select>
 
+
+
     <select id="getPinfbPrice" resultType="com.baiyajin.entity.bean.BasePrice"  parameterType="java.util.Map">
         select c1,c2,c3,mname,munit,mid,city,area,avg(price) as price,mdate from (
-            select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mtime as mdate from hl_pinfbase m
-            right join
-            (select id,mid,city,area,price,mtime from hl_pinfb_price where year(mtime) = #{year} and month(mtime) = #{month}) i
-            on m.id = i.mid where c1 is not null
+        select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mtime as mdate from hl_pinfbase m
+        right join
+        (select id,mid,city,area,price,mtime from hl_pinfb_price where year(mtime) = #{year} and month(mtime) = #{month}) i
+        on m.id = i.mid where c1 is not null
         ) mm group by c3,area
         union all
         select c1,c2,c3,mname,munit,mid,city,area,avg(price) as price,mdate from (
-            select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mdate as mdate from hl_main_material m
-            right join
-            (select id,mid,city,area,price,mdate from hl_main_price where year(mdate) =#{year} and month(mdate) =  #{month}) i
-            on m.id = i.mid where c1 is not null
+        select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mdate as mdate from hl_main_material m
+        right join
+        (select id,mid,city,area,price,mdate from hl_main_price where year(mdate) =#{year} and month(mdate) =  #{month}) i
+        on m.id = i.mid where c1 is not null
         ) mm group by c3,area
     </select>
-
-
-
 </mapper>
