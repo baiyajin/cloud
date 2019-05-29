@@ -33,11 +33,18 @@ public class PageMaterialPrice {
 
     }
 
-    public PageMaterialPrice(PageMaterialUpdata entity){
+//    public PageMaterialPrice(PageMaterialUpdata entity){
+//        this.mat_name = entity.getMname();
+//        this.city = entity.getCity();
+//        this.area = entity.getArea();
+//       this.mdate = entity.getMdate();
+//    }
+
+    public PageMaterialPrice(BasePrice entity){
         this.mat_name = entity.getMname();
         this.city = entity.getCity();
         this.area = entity.getArea();
-       this.mdate = entity.getMdate();
+        this.mdate = new Timestamp(entity.getMdate().getTime());
     }
 
 
