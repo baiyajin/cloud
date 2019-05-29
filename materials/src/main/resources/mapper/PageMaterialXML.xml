@@ -95,10 +95,7 @@
 
 
     <select id="getMaterialsInfoByArea"  parameterType="java.util.Map" resultType="java.util.Map">
-        select
-
-          *
-        from page_material_pice
+        select * from page_material_pice
         where  is_del = 0
         <if test="area !=null and area != ''">
             and city = #{area}
@@ -158,7 +155,7 @@
                 and find_in_set(level,#{level})
             </if>
             <if test="id !=null and id != ''">
-                and find_in_set(id,#{id})
+                and id = #{id}
             </if>
         </where>
         ) m
@@ -222,7 +219,7 @@
 
 
     <select id="getMaterialCountByMap" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.MaterialCount">
-      select ANY_VALUE(id) as id,ANY_VALUE(mid) as mid,ANY_VALUE(area) as area,sum(count) as count from materialcount
+      select id,mid,area,sum(count) as count from materialcount
       <where>
           <if test="mid != null and mid != ''">
               and mid = #{mid}

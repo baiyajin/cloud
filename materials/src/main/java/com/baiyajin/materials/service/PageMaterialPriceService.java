@@ -24,9 +24,6 @@ import java.util.Map;
 public class PageMaterialPriceService extends ServiceImpl<PageMaterialPriceMapper,PageMaterialPrice> implements PageMaterialPriceInterface {
 
 
-    @Override
-    public PageMaterialPrice selectPageMaterialPrice(Map<String, Object> map) {
-        List<PageMaterialPrice> list = baseMapper.selectPageMaterialPrice(map);
-        return  list.size()>0?list.get(0):null;
-    }
+
+
 }

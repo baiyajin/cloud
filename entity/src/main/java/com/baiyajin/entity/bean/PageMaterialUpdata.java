@@ -10,10 +10,10 @@ import java.sql.Timestamp;
 @TableName("material_price_info_update")
 public class PageMaterialUpdata {
 
-    private Integer id;
+    private int id;
     private int c1;
     private int c2;
-    private Integer c3;
+    private int c3;
     private String mname;
     private String mspec;
     private String munit;
@@ -25,8 +25,6 @@ public class PageMaterialUpdata {
     private Timestamp mdate;
     private String temp;
     private int mattype;
-    private Integer state;
-    private String type;
 
     @Override
     public String toString() {

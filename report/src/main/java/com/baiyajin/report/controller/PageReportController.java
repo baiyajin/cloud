@@ -15,7 +15,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +40,8 @@ public class PageReportController {
 
     @Autowired
     private PageReportInterface pageReportInterface;
-    @Autowired
-    private PageReportRemarkInterface pageReportRemarkInterface;
+//    @Autowired
+//    private PageReportRemarkInterface pageReportRemarkInterface;
 
 
     @RequestMapping(value = "/", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
@@ -60,6 +64,7 @@ public class PageReportController {
     @RequestMapping(value = "/addReport",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
+    @CacheEvict(value="getReportInfoById",allEntries=true)// getReportInfoById 缓存
     public Object addReport (PageReport pageReport) throws ParseException {
         String token = pageReport.getToken();
         Map<String,Object> map = new HashMap<>();
@@ -130,13 +135,17 @@ public class PageReportController {
      */
     @ApiOperation(value = "删除报告" ,notes = "逻辑删除，statusId值为jy代表已删除，数据库依然存在，但是页面不显示")
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
+    @Transactional(rollbackFor = Exception.class)
     @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
     @ResponseBody
-    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value="getReportInfoById")
     public Object deleteReort(String id){
         PageReport p = pageReportInterface.selectById(id);
         if(p == null){
-            return new Results(1,"该报告不存在");
+            return new Results(1,"该报告已删除");
+        }
+        if ("1".equals(p.getType())){
+            return new Results(1,"平台报告不允许客户删除");
         }
         PageReport pageReport = new PageReport();
         pageReport.setId(id);
@@ -144,7 +153,7 @@ public class PageReportController {
         pageReport.setStatusID("jy");
         try {
             pageReportInterface.updateById(pageReport);
-            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
+//            pageReportRemarkInterface.removeByUserAndReport(id,p.getUserID());
         } catch (Exception e) {
             e.printStackTrace();
             return new Results(1,"fail");
@@ -199,19 +208,21 @@ public class PageReportController {
      * @param reportVo
      * @param pageNum
      * @param pageSize
+     * orderType  排序类型，0代表按年季月类型排序，1按照创建时间排序
+     * orderWay  排序方式，0代表降序,1代表升序
      * @return
      */
     @ApiOperation(value = "分页产需拿报告" ,notes = "分页查询，未传入pageNum和pageSize默认从第1页查，每页十条数据,num为非必填，填入以后只查询该编号的文章，num为数字," +
             "type(报告类型,1 平台发布,2 我的),不传入参数时默认为查询全部，查询我的报告时，token必填")
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)，token（非必填）,type(非必填)",value =  "pageNum:1,pageNum:5,token:15646saf",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findListByPage",method = RequestMethod.POST)
+//    @Cacheable(value ="findListByPage",key = "#reportVo.type",condition = "#reportVo.type == '1'")
     @ResponseBody
     public Object findListByPage(ReportVo reportVo,String pageNum,String pageSize){
         Page<ReportVo> p = new Page();
         PageReport pageReport = new PageReport();
         String token = reportVo.getToken();
         Claims claims = JWT.parseJWT(token);
-
         if ("2".equals(reportVo.getType())){
             if (claims == null){
                 return new Results(1,"请重新登录");
@@ -238,10 +249,11 @@ public class PageReportController {
             reportVo.setPSize(Integer.valueOf(pageSize));
             p.setPageSize(Integer.valueOf(pageSize));
             p.setPageNo(Integer.valueOf(pageNum));
-        }else {
-            reportVo.setPSize(10);
+        }
+        else {
+//            reportVo.setPSize(10);
             reportVo.setPageCurrent(PageUtils.pageNoRecord("1","10"));
-            p.setPageSize(10);
+//            p.setPageSize(10);
             p.setPageNo(1);
         }
 
@@ -254,6 +266,13 @@ public class PageReportController {
         Page<ReportVo> page = pageReportInterface.findList(p,reportVo);
         if (page == null || page.getList() == null ||page.getList().size() == 0){
             return new Results(1,"暂无数据");
+        }
+        for (ReportVo r:page.getList()){
+            r.setStartTime(DateUtils.addHours(r.getStartTime(),8));
+            r.setCreateTime(DateUtils.addHours(r.getCreateTime(),8));
+            r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
+            r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
+            r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));
         }
         page.setCount(count);
         return page;
@@ -268,104 +287,13 @@ public class PageReportController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "form-data")})
     @RequestMapping(value = "/getReportInfoById",method = RequestMethod.POST)
     @ResponseBody
-    public Object getReportById(String id,String token) throws ParseException {
-
+    public Results getReportInfoById(String id,String token) {
         Claims claims = JWT.parseJWT(token);
         if (claims == null) {
             return new Results(1, "登录失效");
         }
-        ReportVo reportVo = pageReportInterface.getReportInfoById(id);
-        if (reportVo == null) {
-            return new Results(1, "该报告不存在");
-        }
-        DataTempVo dataTempVo = new DataTempVo();
-        String[] maIds = reportVo.getMaterialClassID().split(",");
-        String[] maNames = reportVo.getMaterialName().split(",");
-//        String[] areaIds = reportVo.getContrastRegionID().split(",");
-//        String[] areaNames = reportVo.getAreaName().split(",");
-        String dataType = reportVo.getDataType();
-        if ("1".equals(dataType)) {
-            dataTempVo.setType("0");
-            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-            int year = map.get("year");
-            int month = map.get("month");
-            List<String> titleList = new ArrayList<>();
-            for (String s : maNames) {
-                titleList.add(year + "年" + month + "月," + s + "月度数据报告");
-            }
-            reportVo.setTitleList(titleList);
-        }
-        if ("2".equals(dataType)) {
-            dataTempVo.setType("1");
-            Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-            int year = map.get("year");
-            List<String> titleList = new ArrayList<>();
-            for (String s : maNames) {
-                titleList.add(year + "年第" + reportVo.getTimeInterval() + "季度" + s + "季度数据报告");
-            }
-            reportVo.setTitleList(titleList);
-        }
-        if ("3".equals(dataType)) {
-            if ("3".equals(dataType)) {
-                dataTempVo.setType("2");
-                Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-                int year = map.get("year");
-                List<String> titleList = new ArrayList<>();
-                for (String s : maNames) {
-                    titleList.add(year + "年" + s + "年度数据报告");
-                }
-                reportVo.setTitleList(titleList);
-            }
-        }
-        if (reportVo.getStartTime() != null && reportVo.getEndTime() != null){
-            reportVo.setStartTimeStr(DateFormatUtil.dateToStr(reportVo.getStartTime()));
-            reportVo.setEndTimeStr(DateFormatUtil.dateToStr(reportVo.getEndTime()));
-        }
-        dataTempVo.setMaterialClassID(reportVo.getMaterialClassID());
-        dataTempVo.setContrastRegionID(reportVo.getContrastRegionID());
-        dataTempVo.setStartTimeStr(reportVo.getStartTimeStr());
-        dataTempVo.setEndTimeStr(reportVo.getEndTimeStr());
-        List<DataTempVo> dataTempVoList = pageReportInterface.findDataByReportId(dataTempVo);
-        dataTempVo.setContrastRegionID("53");
-        List<DataTempVo> dataTempVoList2 = pageReportInterface.findDataByReportId(dataTempVo);
-        Map<String, List<DataTempVo>> mm =  dataTempVoList.stream().collect(Collectors.groupingBy(DataTempVo::getMId));
-        if (maIds != null && maIds.length > 0 && maNames != null && maNames.length > 0){
-            Map<String,Object> map2 = new HashMap<>();
-            List<Map<String,Object>> mapList = new ArrayList<>();
-            for (int i = 0; i<maIds.length; i++){
-                map2 = new HashMap<>();
-                if (mm.get(maIds[i]) != null){
-                    map2.put("maName",pageReportInterface.getMaName(maIds[i]));
-                    map2.put("mm",mm.get(maIds[i]));
-                    map2.put("mmYn",dataTempVoList2);
-                }else {
-                    map2.put("maName",pageReportInterface.getMaName(maIds[i]));
-                    map2.put("mm","暂无数据");
-                    map2.put("mmYn",dataTempVoList2);
-                }
-                if ("1".equals(dataType)) {
-                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-                    int year = map.get("year");
-                    int month = map.get("month");
-                    map2.put("title",(year + "年" + month + "月," + maNames[i] + "月度数据报告"));
-                }
-                if ("2".equals(dataType)) {
-                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-                    int year = map.get("year");
-                    map2.put("title",(year + "年第" + reportVo.getTimeInterval() + "季度" + maNames[i] + "季度数据报告"));
-                }
-                if ("3".equals(dataType)) {
-                    Map<String, Integer> map = DateFormatUtil.getYearByDate(reportVo.getEndTime());
-                    int year = map.get("year");
-                    map2.put("title",(year + "年" + maNames[i] + "年度数据报告"));
-                }
-                mapList.add(map2);
-            }
-            reportVo.setMapList(mapList);
-        }
-        return reportVo;
+        return pageReportInterface.getReportInfoById(id);
     }
-
 }
 
 

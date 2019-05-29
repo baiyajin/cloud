@@ -15,7 +15,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
@@ -42,7 +45,6 @@ public class PageHelperController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @CrossOrigin
     public Object addHelper(PageHelper pageHelper){
         return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/add",pageHelper, Object.class);
     };
@@ -57,7 +59,6 @@ public class PageHelperController {
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @CrossOrigin
     public Object delete(String id){
         return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/delete",id, Object.class);
     };
@@ -72,7 +73,6 @@ public class PageHelperController {
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @CrossOrigin
     public Object update(PageHelper pageHelper){
         return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/update",pageHelper, Object.class);
     };
@@ -87,7 +87,6 @@ public class PageHelperController {
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @CrossOrigin
     public Object publish(String id){
         return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/publish",id, Object.class);
     };
@@ -102,7 +101,6 @@ public class PageHelperController {
     @ApiImplicitParams({@ApiImplicitParam(name = "pageNum（非必填),pageSize(非必填)",value =  "pageNum:1,pageNum:5",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/findHelperByPage",method = RequestMethod.POST)
     @ResponseBody
-    @CrossOrigin
     public Object findHelperByPage(HelperVo helperVo,String pageNum,String pageSize){
         Map<String, Object> map = ReflectUtil.objcetToMap(helperVo);
         map.put("pageNum",pageNum);
@@ -119,7 +117,6 @@ public class PageHelperController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id（必填)",value =  "id:123465",dataType = "String",paramType = "body")})
     @RequestMapping(value = "/getArtInfo",method = RequestMethod.POST)
     @ResponseBody
-    @CrossOrigin
     public Object getArtInfo(String id){
         return  restTemplate.postForObject(Rest_url_prefix+"/pageHelperController/getArtInfo",id,Object.class);
     }

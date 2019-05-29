@@ -3,15 +3,14 @@ package com.baiyajin.util.u;
 import java.io.Serializable;
 import java.util.Map;
 
-public class ReturnModel implements Serializable {
+public class ReturnModel implements Serializable{
     private Boolean success;
     private String msg;
     private Object data;
 
-
     public ReturnModel(){
-
     }
+
     /**
      * 返回页面实体封装
      * @param i 返回状态，0：失败，1：成功

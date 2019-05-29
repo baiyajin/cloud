@@ -240,11 +240,7 @@ public class PageSubscriptionController {
         dataTempVo.setMaterialClassID(subscriptionVo.getMaId());
         dataTempVo.setContrastRegionID(subscriptionVo.getAreaId());
         List<DataTempVo> dataTempVoList = pageSubscriptionInterface.findDataByReportId(dataTempVo);
-//        if (dataTempVoList != null && dataTempVoList.size() > 0){
-//            dataTempVoList = DateFormatUtil.fillUp(dateList,dataTempVoList);
-//        }
         Map<String, Map<String, List<DataTempVo>>> mm =  dataTempVoList.stream().collect(Collectors.groupingBy(DataTempVo::getMId,Collectors.groupingBy(DataTempVo::getAreaId)));
-
         for(String key1:mm.keySet()){
             for(String key2:mm.get(key1).keySet()){
                 List<DataTempVo> ll =   mm.get(key1).get(key2);
@@ -253,12 +249,9 @@ public class PageSubscriptionController {
                     Map temp = mm.get(key1);
                     temp.put(key2,ll);
                     mm.put(key1,temp);
-//                    mm.get(key1).put(key2,ll);
                 }
             }
         }
-
-
         List<Map<String,Object>> mapList = new ArrayList<>();
         Map<String,Object> map2 = new HashMap<>();
         if (maIds != null && maIds.length > 0) {
@@ -268,14 +261,12 @@ public class PageSubscriptionController {
                         map2 = new HashMap<>();
                         map2.put("maName",pageReportInterface.getMaName(maIds[i]));
                         map2.put("data",mm.get(maIds[i]));
+                        mapList.add(map2);
                     }
-
                 }
-                mapList.add(map2);
+
             }
-
         }
-
         if (StringUtils.isBlank(subscriptionVo.getMaName())){
             return new Results(1,"材料为空");
         }
@@ -306,7 +297,6 @@ public class PageSubscriptionController {
             subscriptionVo.setEnTimeStr(DateFormatUtil.dateToStr(subscriptionVo.getEndTime()));
         }
         subscriptionVo.setMapList(mapList);
-//        subscriptionVo.setDataTempVoList(dataTempVoList);
         return subscriptionVo;
     }
 

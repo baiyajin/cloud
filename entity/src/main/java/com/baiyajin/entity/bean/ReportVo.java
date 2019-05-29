@@ -18,24 +18,30 @@ public class ReportVo implements Serializable {
     private String areaName;
     private String contrastRegionID;
     private String materialClassID;
-    private List<String> maNameList;
-    private List<String> maIdList;
-    private List<String> areaNameList;
-    private List<String> areaIdList;
     private List<String> titleList;
     private Date startTime;
     private String startTimeStr;
     private Date endTime;
     private String endTimeStr;
+    private String createTimeStr;
     private String timeInterval;
+
     private Date createTime;  //时间
     private String userID;
     private String token;
     private Integer pageCurrent;    //分页查询开始记录数
     private Integer pSize;
     private Page<ReportVo>  page;//分页信息
-
     private List<Map<String,Object>> mapList;
-//    private List<DataTempVo> dataTempVoList;
+
+    private String orderType; //排序类型，0代表按年季月类型排序，1按照创建时间排序
+    private String orderWay; //排序方式，0代表降序,1代表升序
+
+
+
+
+
+
+
 
 }

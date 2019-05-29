@@ -3,12 +3,65 @@
   <component name="ChangeListManager">
     <list id="1d63ad17-fa27-491a-9740-c5b15ce00880" name="Revert: Merge branches 'dev_zyh' and 'wyx' of https://github.com/baiyajin/cloud into wyx" comment="" />
     <list default="true" id="f2729519-934a-4030-8608-0eb4d6df9502" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/BasePrice.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/BasePrice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMaterialPrice.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMaterialPrice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateService.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/materials/src/main/resources/application.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialUpdateXML.xml" afterPath="$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialUpdateXML.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_7.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/ReportTimer.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_5_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_starter_2_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMaterialtUpdateController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/MaterialCategory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/Component/Timeer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialPriceXML.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/Material.java" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/Material.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/MaterialClass.java" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/MaterialClass.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageAreaController.java" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageAreaController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageHelperController.java" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageHelperController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMessageController.java" afterPath="$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMessageController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/controller/src/main/resources/application.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/DataTempVo.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/DataTempVo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/Page.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/Page.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageArea.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageArea.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMaterialUpdata.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageMaterialUpdata.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageUser.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/PageUser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/ReportVo.java" afterPath="$PROJECT_DIR$/entity/src/main/java/com/baiyajin/entity/bean/ReportVo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/MaterialsApplication.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/MaterialsApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageAreaController.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageAreaController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageMaterialController.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageMaterialController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageMaterialtUpdateController.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageMaterialtUpdateController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialPriceMapper.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialPriceMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialUpdateMapper.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialUpdateMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageAreaInterface.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageAreaInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageAreaService.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageAreaService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialPriceInterface.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialPriceInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialPriceService.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialPriceService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialService.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateInterface.java" afterPath="$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialXML.xml" afterPath="$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialXML.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/pom.xml" afterPath="$PROJECT_DIR$/report/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/ReportApplication.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/ReportApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageMessageController.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageMessageController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageReportController.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageReportController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageSubscriptionController.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/PageSubscriptionController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageMessageMapper.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageMessageMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageReportMapper.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/mapper/PageReportMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageMessageInterface.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageMessageInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageMessageService.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageMessageService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportInterface.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportService.java" afterPath="$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/service/PageReportService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/report/src/main/resources/application.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/mapper/PageMessageXML.xml" afterPath="$PROJECT_DIR$/report/src/main/resources/mapper/PageMessageXML.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/mapper/PageReportXML.xml" afterPath="$PROJECT_DIR$/report/src/main/resources/mapper/PageReportXML.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/src/main/resources/mapper/PageSubscriptionXML.xml" afterPath="$PROJECT_DIR$/report/src/main/resources/mapper/PageSubscriptionXML.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user/pom.xml" afterPath="$PROJECT_DIR$/user/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/controller/PageUserController.java" afterPath="$PROJECT_DIR$/user/src/main/java/com/baiyajin/user/controller/PageUserController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/user/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/user/src/main/resources/application.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/pom.xml" afterPath="$PROJECT_DIR$/util/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/DateFormatUtil.java" afterPath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/DateFormatUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/Results.java" afterPath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/Results.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/ReturnModel.java" afterPath="$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/ReturnModel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/boss1/target/" />
     <ignored path="$PROJECT_DIR$/controller/target/" />
@@ -39,7 +92,7 @@
       <file leaf-file-name="PageMaterialtUpdateController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageMaterialtUpdateController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="684">
+            <state relative-caret-position="0">
               <caret line="44" column="5" lean-forward="false" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
               <folding />
             </state>
@@ -49,8 +102,8 @@
       <file leaf-file-name="PageMaterialUpdateService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="62" column="5" lean-forward="true" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+            <state relative-caret-position="722">
+              <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,27 +124,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3287">
               <caret line="173" column="9" lean-forward="false" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
-              <folding>
-                <marker date="1559015005951" expanded="true" signature="289:845" ph="select m.c1,... *" />
-                <marker date="1559015005951" expanded="true" signature="414:444" ph="select * fro... hl_main_material" />
-                <marker date="1559015005951" expanded="true" signature="872:1024" ph="select c1,c2... material_price_info_update" />
-                <marker date="1559015005951" expanded="true" signature="1310:1833" ph="select m.c1,... *" />
-                <marker date="1559015005951" expanded="true" signature="1440:1465" ph="select * fro... hl_pinfbase" />
-                <marker date="1559015005951" expanded="true" signature="1860:1996" ph="select c1,c2... material_price_info_update" />
-                <marker date="1559015005951" expanded="true" signature="2774:3044" ph="select id,mi... id" />
-                <marker date="1559015005951" expanded="true" signature="2843:2986" ph="select id,mi... hl_pinfb_price" />
-                <marker date="1559015005951" expanded="true" signature="3057:3249" ph="select id,mi... hl_main_price" />
-                <marker date="1559015005951" expanded="true" signature="3262:3502" ph="select id,mi... material_price_info_update" />
-                <marker date="1559015005951" expanded="true" signature="3961:4166" ph="select * fro... page_material_pice" />
-                <marker date="1559015005951" expanded="true" signature="5240:5268" ph="select * fro... hlidx_category" />
-                <marker date="1559015005951" expanded="true" signature="5403:5806" ph="select c1,c2... id" />
-                <marker date="1559015005951" expanded="true" signature="5403:6240" ph="select c1,c2... " />
-                <marker date="1559015005951" expanded="true" signature="5490:5776" ph="select m.id,... hl_pinfbase" />
-                <marker date="1559015005951" expanded="true" signature="5613:5724" ph="select id,mi... hl_pinfb_price" />
-                <marker date="1559015005951" expanded="true" signature="5833:6240" ph="select c1,c2... id" />
-                <marker date="1559015005951" expanded="true" signature="5920:6210" ph="select m.id,... hl_main_material" />
-                <marker date="1559015005951" expanded="true" signature="6048:6158" ph="select id,mi... hl_main_price" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -99,8 +132,8 @@
       <file leaf-file-name="PageMaterialUpdateMapper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialUpdateMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -109,7 +142,7 @@
       <file leaf-file-name="Material.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/Material.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2565">
+            <state relative-caret-position="2527">
               <caret line="157" column="0" lean-forward="false" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
               <folding />
             </state>
@@ -119,8 +152,8 @@
       <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/materials/src/main/resources/application.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+            <state relative-caret-position="570">
+              <caret line="30" column="7" lean-forward="false" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -130,18 +163,8 @@
         <entry file="file://$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialXML.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="4256">
-              <caret line="224" column="117" lean-forward="false" selection-start-line="224" selection-start-column="117" selection-end-line="224" selection-end-column="117" />
-              <folding>
-                <marker date="1558697995474" expanded="true" signature="2094:2427" ph="select m.id,... *" />
-                <marker date="1558697995474" expanded="true" signature="2190:2282" ph="select * fro... hlidx_category" />
-                <marker date="1558697995474" expanded="true" signature="2548:2792" ph="select m.id,... *" />
-                <marker date="1558697995474" expanded="true" signature="2620:2665" ph="select * fro... hlidx_category" />
-                <marker date="1558697995474" expanded="true" signature="2698:2743" ph="select * fro... hlidx_category" />
-                <marker date="1558697995474" expanded="true" signature="3719:4711" ph="select * fro... page_material_pice" />
-                <marker date="1558697995474" expanded="true" signature="4764:6223" ph="select * fro... id" />
-                <marker date="1558697995474" expanded="true" signature="4788:6195" ph="select m.id *" />
-                <marker date="1558697995474" expanded="true" signature="6376:7456" ph="SELECT DATE_... page_material" />
-              </folding>
+              <caret line="224" column="30" lean-forward="false" selection-start-line="224" selection-start-column="30" selection-end-line="224" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -306,10 +329,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -343,10 +364,57 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -638,6 +706,7 @@
       <workItem from="1558919330580" duration="15777000" />
       <workItem from="1559005776106" duration="27271000" />
       <workItem from="1559100979650" duration="2035000" />
+      <workItem from="1559103114654" duration="40000" />
     </task>
     <task id="LOCAL-00001" summary="创建分支">
       <created>1557106877105</created>
@@ -851,7 +920,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="398982000" />
+    <option name="totallyTimeSpent" value="399022000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -867,32 +936,32 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18550107" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18763326" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37378114" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.283857" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16791044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16791044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2585288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997833" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -969,14 +1038,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/boss1/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/src/main/java/com/baiyajin/util/u/ReturnModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -988,10 +1049,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="12" column="14" lean-forward="false" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
-          <folding>
-            <element signature="e#583#584#0" expanded="false" />
-            <element signature="e#645#646#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1104,14 +1162,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/Component/Timeer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/Component/Timeer.java" />
     <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageAreaController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -1119,13 +1170,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMaterialtUpdateController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMaterialtUpdateController.java" />
     <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/PageMessageController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-97">
@@ -1207,7 +1252,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1257,24 +1301,14 @@
     <entry file="file://$PROJECT_DIR$/materials/src/main/resources/mapper/PageMaterialXML.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4256">
-          <caret line="224" column="117" lean-forward="false" selection-start-line="224" selection-start-column="117" selection-end-line="224" selection-end-column="117" />
-          <folding>
-            <marker date="1558697995474" expanded="true" signature="2094:2427" ph="select m.id,... *" />
-            <marker date="1558697995474" expanded="true" signature="2190:2282" ph="select * fro... hlidx_category" />
-            <marker date="1558697995474" expanded="true" signature="2548:2792" ph="select m.id,... *" />
-            <marker date="1558697995474" expanded="true" signature="2620:2665" ph="select * fro... hlidx_category" />
-            <marker date="1558697995474" expanded="true" signature="2698:2743" ph="select * fro... hlidx_category" />
-            <marker date="1558697995474" expanded="true" signature="3719:4711" ph="select * fro... page_material_pice" />
-            <marker date="1558697995474" expanded="true" signature="4764:6223" ph="select * fro... id" />
-            <marker date="1558697995474" expanded="true" signature="4788:6195" ph="select m.id *" />
-            <marker date="1558697995474" expanded="true" signature="6376:7456" ph="SELECT DATE_... page_material" />
-          </folding>
+          <caret line="224" column="30" lean-forward="false" selection-start-line="224" selection-start-column="30" selection-end-line="224" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/controller/PageMaterialtUpdateController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
+        <state relative-caret-position="0">
           <caret line="44" column="5" lean-forward="false" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
           <folding />
         </state>
@@ -1289,7 +1323,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/src/main/java/com/baiyajin/controller/control/Material.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2565">
+        <state relative-caret-position="2527">
           <caret line="157" column="0" lean-forward="false" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding />
         </state>
@@ -1307,34 +1341,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3287">
           <caret line="173" column="9" lean-forward="false" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
-          <folding>
-            <marker date="1559015005951" expanded="true" signature="289:845" ph="select m.c1,... *" />
-            <marker date="1559015005951" expanded="true" signature="414:444" ph="select * fro... hl_main_material" />
-            <marker date="1559015005951" expanded="true" signature="872:1024" ph="select c1,c2... material_price_info_update" />
-            <marker date="1559015005951" expanded="true" signature="1310:1833" ph="select m.c1,... *" />
-            <marker date="1559015005951" expanded="true" signature="1440:1465" ph="select * fro... hl_pinfbase" />
-            <marker date="1559015005951" expanded="true" signature="1860:1996" ph="select c1,c2... material_price_info_update" />
-            <marker date="1559015005951" expanded="true" signature="2774:3044" ph="select id,mi... id" />
-            <marker date="1559015005951" expanded="true" signature="2843:2986" ph="select id,mi... hl_pinfb_price" />
-            <marker date="1559015005951" expanded="true" signature="3057:3249" ph="select id,mi... hl_main_price" />
-            <marker date="1559015005951" expanded="true" signature="3262:3502" ph="select id,mi... material_price_info_update" />
-            <marker date="1559015005951" expanded="true" signature="3961:4166" ph="select * fro... page_material_pice" />
-            <marker date="1559015005951" expanded="true" signature="5240:5268" ph="select * fro... hlidx_category" />
-            <marker date="1559015005951" expanded="true" signature="5403:5806" ph="select c1,c2... id" />
-            <marker date="1559015005951" expanded="true" signature="5403:6240" ph="select c1,c2... " />
-            <marker date="1559015005951" expanded="true" signature="5490:5776" ph="select m.id,... hl_pinfbase" />
-            <marker date="1559015005951" expanded="true" signature="5613:5724" ph="select id,mi... hl_pinfb_price" />
-            <marker date="1559015005951" expanded="true" signature="5833:6240" ph="select c1,c2... id" />
-            <marker date="1559015005951" expanded="true" signature="5920:6210" ph="select m.id,... hl_main_material" />
-            <marker date="1559015005951" expanded="true" signature="6048:6158" ph="select id,mi... hl_main_price" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/mapper/PageMaterialUpdateMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1364,16 +1378,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/materials/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+        <state relative-caret-position="570">
+          <caret line="30" column="7" lean-forward="false" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/report/src/main/java/com/baiyajin/report/controller/ReportTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/materials/src/main/java/com/baiyajin/materials/service/PageMaterialUpdateService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="62" column="5" lean-forward="true" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+        <state relative-caret-position="722">
+          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
       </provider>

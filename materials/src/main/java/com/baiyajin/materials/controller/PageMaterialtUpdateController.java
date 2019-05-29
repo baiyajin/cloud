@@ -44,14 +44,5 @@ public class PageMaterialtUpdateController {
         return new ReturnModel(1);
     }
 
-    @RequestMapping(value = "/updatePrice", method = {RequestMethod.GET})
-    @Transactional(rollbackFor = Exception.class)
-    @ResponseBody
-    public void  updatePrice(){
-
-        pageMaterialUpdateInterface.updatePrice();
-    }
-
-
 
 }

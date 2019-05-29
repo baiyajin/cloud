@@ -13,15 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMaterial> implements PageMaterialInterface {
-
-
-
 
     @Autowired
     private PageMaterialClassInterface pageMaterialClassInterface;
@@ -119,7 +118,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 //        if (map.get("area")==null || map.get("area").toString().equals("")){
 //            map.put("area","53");
 //        }
-        System.out.println("查询.");
+
         if(map.get("startDate")!=null){
             Date stDate1 =  DateFormatUtil.stringToDate(map.get("startDate").toString(),"yyyy-MM");
             stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
@@ -134,29 +133,8 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 //       String areas = map.get("areas").toString();
 //
 //        map.put("areas",areas);
-        List<Map<String, Object>> list =  baseMapper.getMaterialsInfoByArea(map);
-        List<Map<String, Object>> list2 = new ArrayList<>();
-        for(Map<String, Object> m:list){
-            m.put("mdate",m.get("mdate").toString());
-            list2.add(m);
-        }
-//      list2 =  supplementDate(map,list2);
-        return  list2;
+        return  baseMapper.getMaterialsInfoByArea(map);
     }
-
-//    private  List<Map<String, Object>> supplementDate(Map<String, Object> map, List<Map<String, Object>> list){
-//        try {
-//            String stDate = map.get("startDate")==null?"2018-01":map.get("startDate").toString();
-//            String enDate = map.get("endDate")==null?DateFormatUtil.dateToString(new Date()):map.get("endDate").toString();
-//            List<String> dateList = DateFormatUtil.getYearAndMonth(stDate,enDate);
-//            list = DateFormatUtil.fillUpMap(dateList,list);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return list;
-//    }
-
 
 
     @Override

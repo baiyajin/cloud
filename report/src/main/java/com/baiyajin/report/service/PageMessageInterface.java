@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface PageMessageInterface extends IService<PageMessage> {
 
-    public Integer selectCount(String userId);
+    public Integer getCount(String userId);
 
     public List<PageMessage> getMessage(Map<String, Object> map);
 

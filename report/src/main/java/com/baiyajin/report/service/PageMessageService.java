@@ -13,10 +13,10 @@ import java.util.Map;
 @Service
 public class PageMessageService extends ServiceImpl<PageMessageMapper, PageMessage> implements PageMessageInterface {
 
-    public Integer selectCount(String userId){
+    public Integer getCount(String userId){
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("userId",userId);
-        return baseMapper.selectCount(map);
+        return baseMapper.getCount(map);
 
     }
 

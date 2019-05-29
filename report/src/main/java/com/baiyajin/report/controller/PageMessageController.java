@@ -52,7 +52,7 @@ public class PageMessageController {
 
             String userId = claims.getId();
 //           userId = "2";
-            Integer total = pageMessageInterface.selectCount(userId);
+            Integer total = pageMessageInterface.getCount(userId);
             String pageNumS = "1";
             String pageSize =  "10";
             if(map.get("pageNum")==null || map.get("pageSize")==null){
