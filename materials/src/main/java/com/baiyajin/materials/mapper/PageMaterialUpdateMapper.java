@@ -1,6 +1,8 @@
 package com.baiyajin.materials.mapper;
 
 
+import com.baiyajin.entity.bean.BasePrice;
+import com.baiyajin.entity.bean.MaterialCategory;
 import com.baiyajin.entity.bean.PageMaterialPrice;
 import com.baiyajin.entity.bean.PageMaterialUpdata;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -13,8 +15,10 @@ public interface PageMaterialUpdateMapper extends BaseMapper<PageMaterialUpdata>
 
     public List<Map<String, Object>> getMaterialtAvgPrice(Map<String, Object> map);
 
-
+    public List<MaterialCategory> getMaterialCategory();
 
     public List<PageMaterialPrice> getMaterialtPrice(Map<String, Object> map);
     public PageMaterialPrice getMaterialtPriceByFilter(Map<String, Object> map);
+
+    public List<BasePrice>getPinfbPrice(Map<String, Object> map);
 }

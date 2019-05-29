@@ -14,7 +14,7 @@ public interface PageMaterialUpdateInterface extends IService<PageMaterialUpdata
 
 //  public int saveMaterialtPrice(List<PageMaterialUpdata> list);
 
-  public List<Map<String, Object>> getMaterialtAvgPrice(Map<String, Object> map);
+//  public List<Map<String, Object>> getMaterialtAvgPrice(Map<String, Object> map);
 
   public PageMaterialPrice getMaterialtPrice(Map<String, Object> map);
 

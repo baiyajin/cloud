@@ -13,20 +13,16 @@ import java.util.List;
 
 @Data
 public class BasePrice implements Serializable {
-
-	private Integer id;
 	private Integer c1;
 	private Integer c2;
 	private Integer c3;
 	private String mname;
 	private String munit;
+	private Integer id;
 	private Integer mid;
 	private String city;
 	private String area;
 	private BigDecimal price;
 	private Date mdate;
-
-
-
 
 }
