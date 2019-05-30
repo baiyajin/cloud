@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
@@ -46,57 +47,127 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
 
 
-    @Transactional(rollbackFor = Exception.class)
-    public void  updatePrice(){
-        Integer year = 2018;
-        Integer month = 2;
 
-        updatePriceByMonth(year,month);
+    public void  updatePrice(Map<String,Object> map){
+        //材料名称列表
+        List<MaterialCategory> matInfoList = baseMapper.getMaterialCategory();
+        //获取地址信息
+        List<PageArea> areaInfoList = pageAreaInterface.selectByMap(new HashMap<>());
+        //    System.out.println("结束查询");
+        //获取单位转换规则
+        List<PageMunitUnifiedRule> ruleList = pageMunitUnifiedRuleInterface.selectByMap(new HashMap<String,Object>());
 
-//        updatePriceByMonth(2018,9);
-//        updatePriceByMonth(2018,10);
-//        updatePriceByMonth(2018,11);
-//        updatePriceByMonth(2018,12);
-//        updatePriceByMonth(2019,1);
-//        updatePriceByMonth(2019,2);
-//        updatePriceByMonth(2019,3);
+        String yearSt = map.get("year").toString();
+        String monthSt = map.get("month").toString();
 
+        String[] years = yearSt.split(",");
+        String[] months = monthSt.split(",");
+//        Integer year =Integer.parseInt(map.get("year").toString());
+//        Integer month =Integer.parseInt(map.get("month").toString());
+        System.out.println(DateFormatUtil.dateToString(new Date()));
+        for(String year:years){
+            for(String month:months){
+                updatePriceByMonth(Integer.parseInt(year),Integer.parseInt(month),matInfoList,areaInfoList,ruleList);
+                updatePriceByQuarter(Integer.parseInt(year),Integer.parseInt(month));
+                updatePriceByYear(Integer.parseInt(year));
+            }
+        }
+        System.out.println(DateFormatUtil.dateToString(new Date()));
     }
 
+    /**
+     * 处理年度数据
+     */
     @Transactional(rollbackFor = Exception.class)
-    public void  updatePriceByMonth(Integer year,Integer month){
+    public void  updatePriceByYear(Integer year){
+        Map<String,Object> map = new HashMap<>();
+        map.put("year",year);
+        //获取指定季度月平均价格及指数
+        List<PageMaterialPrice> materialPriceQuarterList = baseMapper.getPageMaterialPriceByYear(map);
+        map.clear();
+        map.put("type",2);
+        //计算好的数据列表
+        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(map);
+        //计算同环比
+        materialPriceQuarterList = dataComputer(materialPriceQuarterList,baseList);
+        System.out.println("年度数据...");
+        //保存或更新月度价格数据
+        updatePriceData(materialPriceQuarterList,baseList);
+    }
+
+    /**
+     * 处理季度数据
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void  updatePriceByQuarter(Integer year,Integer month){
+        Map<String,Object> map = new HashMap<>();
+        Integer quarter = 4;
+        if(month>0 && month <4){
+            quarter = 1;
+        }
+        if(month>=4 && month <7){
+            quarter = 2;
+        }
+        if(month>=7 && month <10){
+            quarter = 3;
+        }
+        map.put("year",year);
+        map.put("quarter",quarter);
+        //获取指定季度月平均价格及指数
+        List<PageMaterialPrice> materialPriceQuarterList = baseMapper.getPageMaterialPriceByQuarter(map);
+
+        map.clear();
+        map.put("type",1);
+        //计算好的数据列表
+        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(map);
+
+        System.out.println("------------");
+        System.out.println(baseList.size());
+        System.out.println("------------");
+        //计算同环比
+        materialPriceQuarterList = dataComputer(materialPriceQuarterList,baseList);
+        System.out.println("季度数据...");
+        //保存或更新月度价格数据
+        updatePriceData(materialPriceQuarterList,baseList);
+    }
+
+    /**
+     * 处理月度数据
+     * @param year
+     * @param month
+     * @param matInfoList
+     * @param areaInfoList
+     * @param ruleList
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void  updatePriceByMonth(Integer year,Integer month,List<MaterialCategory> matInfoList, List<PageArea> areaInfoList,
+                                    List<PageMunitUnifiedRule> ruleList){
         System.out.println("开始更新" + year + "年" + month + "月数据");
         Map<String,Object> map = new HashMap<>();
         map.put("year",year);
         map.put("month",month);
         //获取条件中年月的材料价格信息（统计到各区域c3）
-        System.out.println("开始查询");
+    //    System.out.println("开始查询");
         List<BasePrice> c3BasePriceList = baseMapper.getPinfbPrice(map);
+        System.out.println(c3BasePriceList.size());
+
         if(c3BasePriceList.size()==0){
             System.out.println("没有需要处理的数据");
             return;
         }
-        //材料名称列表
-        List<MaterialCategory> matInfoList = baseMapper.getMaterialCategory();
-        //获取地址信息
-        List<PageArea> areaInfoList = pageAreaInterface.selectByMap(new HashMap<>());
+        map.clear();
+        map.put("type",0);
         //计算好的数据列表
-        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(new HashMap<>());
-        System.out.println("结束查询");
-        //获取单位转换规则
-        List<PageMunitUnifiedRule> ruleList = pageMunitUnifiedRuleInterface.selectByMap(new HashMap<String,Object>());
-        System.out.println("开始计算");
+        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(map);
+     //   System.out.println("开始计算");
         //处理并统计各材料各区域平均价格
         List<PageMaterialPrice> basePriceList = monthAvgPrice(c3BasePriceList,ruleList);
-        System.out.println("结束计算");
-        System.out.println("更新开始");
+    //    System.out.println("结束计算");
+     //   System.out.println("更新开始");
         //保存或更新月度价格数据
         updatePrice(basePriceList,matInfoList,areaInfoList,baseList);
-        System.out.println( year + "年" + month + "月数据更新结束");
-
+       // System.out.println( year + "年" + month + "月数据更新结束");
     }
-
-
 
     /**
      * 处理并统计各材料各区域平均价格
@@ -104,6 +175,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
      * @return
      */
     public  List<PageMaterialPrice> monthAvgPrice(List<BasePrice> basePriceList,List<PageMunitUnifiedRule> ruleList){
+
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
         //统计到各区域c3并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,3));
@@ -118,11 +190,15 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         //统计到各市级c1并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,1,2));
         //统计省级c3并统一单位
-        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,3));
+        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,1));
         //统计省级c2并统一单位
-        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,2,3));
+        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,2,1));
         //统计省级c1并统一单位
-        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,1,3));
+        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,1,1));
+        System.out.println("=========================");
+        System.out.println(basePriceList.size());
+        System.out.println(pageMaterialPriceList.size());
+        System.out.println("=========================");
         return pageMaterialPriceList;
     }
 
@@ -135,6 +211,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
      * @return
      */
     public List<PageMaterialPrice> computePrice(List<BasePrice> basePriceList,List<PageMunitUnifiedRule> ruleList,Integer matlevel,Integer areaLevel ){
+
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
         Map<Integer, Map<String, List<BasePrice>>> priceListMap = new HashMap<>();
         if(matlevel==3 && areaLevel==3){
@@ -188,16 +265,24 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
             for(String key2:priceListMap.get(key1).keySet()){
                 List<BasePrice> list = priceListMap.get(key1).get(key2);
                 Integer pid = 0;
+                String city = list.get(0).getCity();
+                if(areaLevel==1){
+                    city = "0";
+                }
+                if(areaLevel==2){
+                    city = "53";
+                }
                 if(matlevel==3){
                     pid = list.get(0).getC2();
                 }
                 if(matlevel==2){
                     pid = list.get(0).getC1();
                 }
-                PageMaterialPrice pageMaterialPrice = getMaterialtAvgPrice(list,key1,pid,matlevel.toString(),"0",ruleList);
+                PageMaterialPrice pageMaterialPrice = getMaterialtAvgPrice(list,key1,key2,city,pid,matlevel.toString(),"0",ruleList);
                 pageMaterialPriceList.add(pageMaterialPrice);
             }
         }
+
         return pageMaterialPriceList;
     }
 
@@ -205,11 +290,14 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
 
     //计算平均价格
-    public PageMaterialPrice getMaterialtAvgPrice(List<BasePrice> basePriceList,Integer id,Integer pid,String level,String type,List<PageMunitUnifiedRule> ruleList){
+    public PageMaterialPrice getMaterialtAvgPrice(List<BasePrice> basePriceList,Integer id,String areaId,String city,Integer pid,String level,String type,List<PageMunitUnifiedRule> ruleList){
         //统一单位
+
         basePriceList =  munitUnified(basePriceList,ruleList);
+
         BigDecimal avg =  basePriceList.stream().map(BasePrice::getPrice)
                 .reduce(BigDecimal.ZERO,BigDecimal::add).divide(BigDecimal.valueOf(basePriceList.size()),BigDecimal.ROUND_DOWN);
+
 //mat_pid,level,type
         PageMaterialPrice pageMaterialPrice = new PageMaterialPrice(basePriceList.get(0));
         pageMaterialPrice.setMid(id);
@@ -217,6 +305,8 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         pageMaterialPrice.setLevel(level);
         pageMaterialPrice.setType(type);
         pageMaterialPrice.setPrice(avg);
+        pageMaterialPrice.setCity(city);
+        pageMaterialPrice.setArea(areaId);
         return pageMaterialPrice;
     }
 
@@ -387,6 +477,8 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
                 }
             }
         }
+
+        System.out.println("原始记录:"+pageMaterialPriceList.size());
         System.out.println("更新记录:"+upList.size());
         System.out.println("插入记录:"+inertList.size());
         if(inertList.size()>0){
@@ -442,7 +534,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
             }
             list.add(dataComputer(pageMaterialPrice,map));
         }
-
         return list;
     }
 

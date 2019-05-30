@@ -18,7 +18,7 @@ public interface PageMaterialUpdateInterface extends IService<PageMaterialUpdata
 
   public PageMaterialPrice getMaterialtPrice(Map<String, Object> map);
 
-
+  public void  updatePrice(Map<String, Object> map);
 
 
 

@@ -21,4 +21,11 @@ public interface PageMaterialUpdateMapper extends BaseMapper<PageMaterialUpdata>
     public PageMaterialPrice getMaterialtPriceByFilter(Map<String, Object> map);
 
     public List<BasePrice>getPinfbPrice(Map<String, Object> map);
+
+    public List<PageMaterialPrice> getPageMaterialPriceByQuarter(Map<String, Object> map);
+    public List<PageMaterialPrice> getPageMaterialPriceByYear(Map<String, Object> map);
+
+
+
+
 }

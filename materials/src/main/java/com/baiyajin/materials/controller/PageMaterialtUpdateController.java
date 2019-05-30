@@ -44,5 +44,16 @@ public class PageMaterialtUpdateController {
         return new ReturnModel(1);
     }
 
-
+    @RequestMapping(value = "/updatePrice", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    public ReturnModel updatePrice(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map){
+        //c1,c2,c3,mname,mspec,munit,remark,city,area,price,mdate
+        //通用材料：c1,c2,c3,mname,mspec,munit,remark,city,area,price,mtime
+        try{
+            pageMaterialUpdateInterface.updatePrice(map);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ReturnModel(0);
+        }
+        return new ReturnModel(1);
+    }
 }

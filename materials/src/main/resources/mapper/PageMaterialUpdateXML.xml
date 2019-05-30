@@ -156,18 +156,52 @@
 
 
     <select id="getPinfbPrice" resultType="com.baiyajin.entity.bean.BasePrice"  parameterType="java.util.Map">
-        select c1,c2,c3,mname,munit,mid,city,area,avg(price) as price,mdate from (
+        select ANY_VALUE(c1) as c1,ANY_VALUE(c2) as c2, ANY_VALUE(c3) as c3,ANY_VALUE(mname) as mname,ANY_VALUE(munit) as munit,ANY_VALUE(mid) as mid,ANY_VALUE(city) as city,ANY_VALUE(area) as area,avg(price) as price,ANY_VALUE(mdate)  as mdate  from (
         select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mtime as mdate from hl_pinfbase m
         right join
         (select id,mid,city,area,price,mtime from hl_pinfb_price where year(mtime) = #{year} and month(mtime) = #{month}) i
         on m.id = i.mid where c1 is not null
         ) mm group by c3,area
         union all
-        select c1,c2,c3,mname,munit,mid,city,area,avg(price) as price,mdate from (
+        select ANY_VALUE(c1) as c1,ANY_VALUE(c2) as c2, ANY_VALUE(c3) as c3,ANY_VALUE(mname) as mname,ANY_VALUE(munit) as munit,ANY_VALUE(mid) as mid,ANY_VALUE(city) as city,ANY_VALUE(area) as area,avg(price) as price,ANY_VALUE(mdate)  as mdate  from (
         select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mdate as mdate from hl_main_material m
         right join
         (select id,mid,city,area,price,mdate from hl_main_price where year(mdate) =#{year} and month(mdate) =  #{month}) i
         on m.id = i.mid where c1 is not null
         ) mm group by c3,area
     </select>
+
+
+
+    <select id="getPageMaterialPriceByQuarter" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageMaterialPrice">
+        select
+        ANY_VALUE( mid) as mid,ANY_VALUE(mat_name) as mat_name,ANY_VALUE(city) as city,ANY_VALUE(mat_pid) as mat_pid,ANY_VALUE(level) as level,ANY_VALUE(area) as area, ANY_VALUE(area_name) as area_name ,avg(price) as price,avg(exponent) as exponent,ANY_VALUE(tongbi) as tongbi,ANY_VALUE(huanbi) as huanbi,ANY_VALUE(mdate) as mdate,1 as type
+        from
+        page_material_pice
+        where year(mdate)=#{year}
+        <if test="quarter!=null and quarter!=0">
+            and quarter(mdate)= #{quarter}
+        </if>
+
+        group by mid,area,year(mdate)
+        <if test="quarter!=null and quarter!=0">
+          ,quarter(mdate)
+        </if>
+    </select>
+
+    <select id="getPageMaterialPriceByYear" parameterType="java.util.Map" resultType="com.baiyajin.entity.bean.PageMaterialPrice">
+        select
+        ANY_VALUE( mid) as mid,ANY_VALUE(mat_name) as mat_name,ANY_VALUE(city) as city,ANY_VALUE(mat_pid) as mat_pid,ANY_VALUE(level) as level,ANY_VALUE(area) as area, ANY_VALUE(area_name) as area_name ,avg(price) as price,avg(exponent) as exponent,ANY_VALUE(tongbi) as tongbi,ANY_VALUE(huanbi) as huanbi,ANY_VALUE(mdate) as mdate,2 as type
+        from
+        page_material_pice
+        where year(mdate)=#{year}
+        <if test="quarter!=null and quarter!=0">
+            and quarter(mdate)= #{quarter}
+        </if>
+        group by mid,area,year(mdate)
+        <if test="quarter!=null and quarter!=0">
+            ,quarter(mdate)
+        </if>
+    </select>
+
 </mapper>

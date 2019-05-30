@@ -13,14 +13,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMaterial> implements PageMaterialInterface {
+   private  Map<String,String> muMap = new HashMap<>();
+   private List<String> mulist = new ArrayList<>();
+    {
+
+        String muc ="12,13,23,24,43,33,42,47";
+        String[] mucArr =muc.split(",");
+        for(String mc:mucArr){
+            mulist.add(mc);
+        }
+
+        String ids = "8,9,10,11,12,13,16,17,19,20,21,22,23,24,28,29,30,32,33,37,40,42,43,46,47,45";
+        String names =  "钢筋,钢板,钢管,型钢,钢绞线,钢丝绳,水泥,砌体材料," +
+                "建筑用石,地基用材,混凝土,建筑砂浆,电力电缆,电气装备用电线电缆,非金属管,复合管,金属管,防水卷材,防水涂料,轻骨料,光纤光缆,混凝土管,其他电气材料,防水砂浆,混凝土预制桩,特种玻璃";
+
+        String mus = "吨,吨,吨,吨,千克,千克,吨,吨,立方米,立方米,立方米,立方米,米,米,米,米,吨,平方米,千克,立方米,米,米,米,吨,米,平方米";
+        String[] idArr = ids.split(",");
+        String[] nameArr = names.split(",");
+        String[] muArr = mus.split(",");
+        for(int i=0;i<idArr.length;i++){
+            muMap.put(idArr[i],muArr[i]);
+        }
+
+    }
 
     @Autowired
     private PageMaterialClassInterface pageMaterialClassInterface;
@@ -102,7 +123,22 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
             map.put("type","year");
         }*/
 
-         return this.getMaterialsInfoByYear(mapp);
+//       muMap.put();
+
+
+
+        List<Map<String,Object>> relist = this.getMaterialsInfoByYear(mapp);
+        for(Map<String,Object> m:relist){
+            m.put("munit",muMap.get(m.get("mid").toString()));
+
+           if( mulist.contains( m.get("mid").toString())){
+               BigDecimal price = new BigDecimal( m.get("price").toString());
+               BigDecimal newPrice = price.divide(new BigDecimal("1000"),BigDecimal.ROUND_DOWN);
+               m.put("price",newPrice);
+           }
+        }
+
+        return relist;
     }
 
 
@@ -133,7 +169,18 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 //       String areas = map.get("areas").toString();
 //
 //        map.put("areas",areas);
-        return  baseMapper.getMaterialsInfoByArea(map);
+
+
+        List<Map<String,Object>> relist =  baseMapper.getMaterialsInfoByArea(map);
+        for(Map<String,Object> m:relist){
+            m.put("munit",muMap.get(m.get("mid").toString()));
+            if( mulist.contains(  m.get("mid").toString())){
+                BigDecimal price = new BigDecimal( m.get("price").toString());
+                BigDecimal newPrice = price.divide(new BigDecimal("1000"),BigDecimal.ROUND_DOWN);
+                m.put("price",newPrice);
+            }
+        }
+        return relist;
     }
 
 
