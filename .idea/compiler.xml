@@ -11,6 +11,7 @@
         <module name="echarts" />
         <module name="entity" />
         <module name="materials" />
+        <module name="report" />
         <module name="user" />
         <module name="util" />
       </profile>

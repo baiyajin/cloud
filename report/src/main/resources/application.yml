@@ -19,8 +19,8 @@ spring:
     timeout: 100
   datasource:
         username: root
-        password: '%#$123456jijia'
-#        password: root
+#        password: '%#$123456jijia'
+        password: root
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
 #        defaultZone: http://127.0.0.1:9991/eureka/
 eureka:

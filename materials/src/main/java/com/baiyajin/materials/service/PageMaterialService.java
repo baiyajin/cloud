@@ -65,7 +65,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
     }
 
     @Override
-//   @Cacheable(value ="getMaterialsInfo1")
+   @Cacheable(value ="getMaterialsInfo1")
     public List<Map<String,Object>> getMaterialsInfo(Map<String,Object> map) throws ParseException {
         Map<String,Object> mapp = new HashMap<>();
 
@@ -148,7 +148,7 @@ public class PageMaterialService extends ServiceImpl<PageMaterialMapper,PageMate
 
 
     @Override
-//    @Cacheable(value ="getMaterialsInfo4")
+    @Cacheable(value ="getMaterialsInfo4")
     public List<Map<String, Object>> getMaterialsInfoByArea(Map<String, Object> map) throws ParseException {
         //默认云南
 //        if (map.get("area")==null || map.get("area").toString().equals("")){

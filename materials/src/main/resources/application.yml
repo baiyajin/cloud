@@ -50,6 +50,6 @@ info:
   build.artifactId: $project.artifactId$
   build.version: $project.version$
 
-logging:
-  level:
-     com.baiyajin.materials.mapper : debug
+#logging:
+#  level:
+#     com.baiyajin.materials.mapper : debug

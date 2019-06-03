@@ -44,10 +44,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         return 0;
     }
 
-
-
-
-
     public void  updatePrice(Map<String,Object> map){
         //材料名称列表
         List<MaterialCategory> matInfoList = baseMapper.getMaterialCategory();
@@ -72,6 +68,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
                 updatePriceByYear(Integer.parseInt(year));
             }
         }
+        System.out.println("数据处理完成！");
         System.out.println(DateFormatUtil.dateToString(new Date()));
     }
 
@@ -121,9 +118,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         //计算好的数据列表
         List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(map);
 
-        System.out.println("------------");
-        System.out.println(baseList.size());
-        System.out.println("------------");
+
         //计算同环比
         materialPriceQuarterList = dataComputer(materialPriceQuarterList,baseList);
         System.out.println("季度数据...");
@@ -149,7 +144,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         //获取条件中年月的材料价格信息（统计到各区域c3）
     //    System.out.println("开始查询");
         List<BasePrice> c3BasePriceList = baseMapper.getPinfbPrice(map);
-        System.out.println(c3BasePriceList.size());
 
         if(c3BasePriceList.size()==0){
             System.out.println("没有需要处理的数据");
@@ -177,8 +171,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     public  List<PageMaterialPrice> monthAvgPrice(List<BasePrice> basePriceList,List<PageMunitUnifiedRule> ruleList){
 
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
-
-        System.out.println("=========================");   //统计到各区域c3并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,3));
         //统计到各区域c2并统一单位
         pageMaterialPriceList.addAll( computePrice(basePriceList,ruleList,2,3));
@@ -191,14 +183,20 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         //统计到各市级c1并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,1,2));
         //统计省级c3并统一单位
-        pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,1));
+       pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,1));
         //统计省级c2并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,2,1));
         //统计省级c1并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,1,1));
-        System.out.println(basePriceList.size());
-        System.out.println(pageMaterialPriceList.size());
-        System.out.println("=========================");
+
+
+
+
+//        pageMaterialPriceList = computePrice(basePriceList,ruleList,3,1);
+//        for(PageMaterialPrice ll:pageMaterialPriceList){
+//            System.out.println(ll);
+//        }
+
         return pageMaterialPriceList;
     }
 
@@ -235,27 +233,31 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         }
         Map<Integer,List<BasePrice>> priceMap = new HashMap<>();
 
-        Map<String,List<BasePrice>> tempMap =  new HashMap<>();
+
         if(matlevel==3 && areaLevel==1){
             priceMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC3));
             for(Integer key:priceMap.keySet()){
-                tempMap.clear();
+                Map<String,List<BasePrice>> tempMap =  new HashMap<>();
                 tempMap.put("53",priceMap.get(key));
                 priceListMap.put(key,tempMap);
             }
         }
         if(matlevel==2 && areaLevel==1){
             priceMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC2));
+
+
             for(Integer key:priceMap.keySet()){
-                tempMap.clear();
+                Map<String,List<BasePrice>> tempMap =  new HashMap<>();
                 tempMap.put("53",priceMap.get(key));
                 priceListMap.put(key,tempMap);
             }
+
+
         }
         if(matlevel==1 && areaLevel==1){
             priceMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC1));
             for(Integer key:priceMap.keySet()){
-                tempMap.clear();
+                Map<String,List<BasePrice>> tempMap =  new HashMap<>();
                 tempMap.put("53",priceMap.get(key));
                 priceListMap.put(key,tempMap);
             }
@@ -282,7 +284,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
                 pageMaterialPriceList.add(pageMaterialPrice);
             }
         }
-
         return pageMaterialPriceList;
     }
 
@@ -292,13 +293,10 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     //计算平均价格
     public PageMaterialPrice getMaterialtAvgPrice(List<BasePrice> basePriceList,Integer id,String areaId,String city,Integer pid,String level,String type,List<PageMunitUnifiedRule> ruleList){
         //统一单位
-
         basePriceList =  munitUnified(basePriceList,ruleList);
-
         BigDecimal avg =  basePriceList.stream().map(BasePrice::getPrice)
                 .reduce(BigDecimal.ZERO,BigDecimal::add).divide(BigDecimal.valueOf(basePriceList.size()),BigDecimal.ROUND_DOWN);
 
-//mat_pid,level,type
         PageMaterialPrice pageMaterialPrice = new PageMaterialPrice(basePriceList.get(0));
         pageMaterialPrice.setMid(id);
         pageMaterialPrice.setMat_pid(pid.toString());
@@ -329,52 +327,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     }
 
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public void  updatePrice_bak(){
-//        //获取待处理数据列表（需要更新的价格材料）
-//        List<PageMaterialUpdata>  list = getPendingDisposalList();
-//        System.out.println("开始数据更新");
-//        if(list.size()==0) {
-//            System.out.println("没有需要更新的数据");
-//            System.out.println("数据更新结束");
-//            return;
-//        }
-////        List<PageMaterialUpdata>  newList = new ArrayList<>();
-//        //获取相关材料列表并统计计算各材料各区域平均价格(原始数据，月度)
-//        //材料名称列表
-//        List<MaterialCategory> matInfoList = baseMapper.getMaterialCategory();
-//        //获取地址信息
-//        List<PageArea> areaInfoList = pageAreaInterface.selectByMap(new HashMap<>());
-//        //单位统一规则
-//        List<PageMunitUnifiedRule> ruleList = pageMunitUnifiedRuleInterface.selectByMap(new HashMap<String,Object>());
-//        //查询价格数据
-//        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(new HashMap<>());
-//       Map<String, List<PageMaterialPrice>> baseListMap = baseList.stream().collect(Collectors.groupingBy(PageMaterialPrice::getType));
-//
-//        for(PageMaterialUpdata l:list){
-//            System.out.println("开始月度更新");
-//            List<PageMaterialPrice>  materialtPriceList = getMaterialtPriceList(l,"0",ruleList);
-//            //更新月度
-//            updatePrice(materialtPriceList,matInfoList,areaInfoList,baseListMap.get("0"));
-//            System.out.println("结束月度更新");
-//            System.out.println("开始季度更新");
-//            //更新季度
-//            List<PageMaterialPrice>  materialtPriceListQuarter = getMaterialtPriceList(l,"1",ruleList);
-//            System.out.println(materialtPriceListQuarter.size());
-//            updatePrice(materialtPriceListQuarter,matInfoList,areaInfoList,baseListMap.get("1"));
-//            System.out.println("结束季度更新");
-//
-//            System.out.println("开始年度更新");
-//            //更新年度
-//            List<PageMaterialPrice>  materialtPriceListYear = getMaterialtPriceList(l,"2",ruleList);
-//            updatePrice(materialtPriceListYear,matInfoList,areaInfoList,baseListMap.get("2"));
-//            System.out.println("结束年度更新");
-//            l.setState(1);
-//        }
-//        System.out.println("数据更新结束");
-//        //更新状态为已处理
-//        this.updateBatchById(list);
-//    }
 
     /**
      * 更新月度数据
@@ -394,12 +346,15 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         for(PageMaterialPrice mp:materialtPriceListCom){
             List<MaterialCategory> ll = materialCategoryMap.get(mp.getMid());
             List<PageArea> al = areaInfoListMap.get(mp.getArea());
+            Date date = DateFormatUtil.setDate(mp.getMdate(),5,2);
+            mp.setMdate(new Timestamp(date.getTime()));
             if(ll.size()>0) {
                 mp.setMat_name( ll.get(0).getName());
             }
             if(al.size()>0){
                 mp.setArea_name(al.get(0).getName());
             }
+
             materialtPriceListUpdateName.add(mp);
         }
         //更新变动的数据
@@ -408,36 +363,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
 
 
-
-
-//    /**
-//     * 更新季度数据
-//     */
-//    public void updatePriceQuarter(List<PageMaterialPrice>  materialtPriceList,PageMaterialUpdata uPageMaterialUpdata){
-//        Map<String,Object> baseSelMap  = new HashMap<>();
-//        baseSelMap.put("type",1);
-//        System.out.println("开始查询---");
-//        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(baseSelMap);
-//        System.out.println("结束查询---");
-//        List<PageMaterialPrice> ll = dataComputer(materialtPriceList,baseList);
-//        //更新变动的数据
-//        updatePriceData(ll,baseList);
-//    }
-//
-//    /**
-//     * 更新年度数据
-//     */
-//    public void updatePriceYear(List<PageMaterialPrice>  materialtPriceList,PageMaterialUpdata uPageMaterialUpdata){
-//        Map<String,Object> baseSelMap  = new HashMap<>();
-//        baseSelMap.put("type",2);
-//        System.out.println("开始查询---");
-//        List<PageMaterialPrice> baseList = pageMaterialPriceInterface.selectByMap(baseSelMap);
-//        System.out.println("结束查询---");
-//        List<PageMaterialPrice> ll = dataComputer(materialtPriceList,baseList);
-//
-//        //更新变动的数据
-//        updatePriceData(ll,baseList);
-//    }
 
     /**
      * 更新价格数据
