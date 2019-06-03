@@ -147,10 +147,10 @@ public class PageMaterialController {
         map.put("level","1");
         map.put("type","0");
         map.put("area","53");
-//        map.put("startDate","2019-03");
-//        map.put("endDate","2019-03");
-        map.put("startDate",DateFormatUtil.dateToString(new Date(),"yyyy-MM"));
-        map.put("endDate",DateFormatUtil.dateToString(new Date(),"yyyy-MM"));
+        map.put("startDate","2019-03");
+        map.put("endDate","2019-03");
+//        map.put("startDate",DateFormatUtil.dateToString(new Date(),"yyyy-MM"));
+//        map.put("endDate",DateFormatUtil.dateToString(new Date(),"yyyy-MM"));
         return pageMaterialInterface.getMaterialsInfo(map);
     }
 

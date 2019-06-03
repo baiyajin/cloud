@@ -14,6 +14,7 @@ import java.util.List;
 @Api("材料类")
 @RestController
 @RequestMapping("/PageMaterialClassController")
+@CrossOrigin
 public class MaterialClass {
 
     @Autowired

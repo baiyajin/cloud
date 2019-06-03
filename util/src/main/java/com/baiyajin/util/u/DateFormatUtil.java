@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DateFormatUtil {
 
@@ -18,7 +17,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 设置日期时间
-	 * 
+	 *
 	 * @param date
 	 *            需要设置的时间
 	 * @param field
@@ -36,7 +35,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 字符串转日期（默认字符串格式："yyyy-MM-dd HH:mm:ss"）
-	 * 
+	 *
 	 * @param dateString
 	 *            字符串
 	 * @return
@@ -52,7 +51,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 字符串转日期
-	 * 
+	 *
 	 * @param dateString
 	 *            字符串
 	 * @param format
@@ -68,7 +67,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 日期转字符串
-	 * 
+	 *
 	 * @param date
 	 * @return （默认字符串格式："yyyy-MM-dd HH:mm:ss"）
 	 */
@@ -78,7 +77,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 日期转字符串
-	 * 
+	 *
 	 * @param date
 	 * @param formatString:日期字符串格式
 	 * @return
@@ -97,7 +96,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 日期计算
-	 * 
+	 *
 	 * @param date
 	 * @param type（1：年，2月，3周，5天，10小时，12分，13秒）
 	 * @param val
@@ -113,7 +112,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 日期计算并返回string
-	 * 
+	 *
 	 * @param date
 	 *            （日期格式默认为"yyyy-MM-dd HH:mm:ss"）
 	 * @param type
@@ -128,7 +127,7 @@ public class DateFormatUtil {
 
 	/**
 	 * 日期计算并返回string
-	 * 
+	 *
 	 * @param date
 	 * @param format:日期格式
 	 * @param type
@@ -304,7 +303,6 @@ public class DateFormatUtil {
 
 		int s = c.get(c.MONTH)+1;
 
-		System.out.println(s);
 
 		return null;
 	}
@@ -364,22 +362,6 @@ public class DateFormatUtil {
 	}
 
 
-
-
-	public static void main(String[] args) throws ParseException {
-
-	/*	Date stDate1 =  DateFormatUtil.stringToDate("2019-04","yyyy-mm");
-		stDate1 =  DateFormatUtil.setDate(stDate1,5,1);
-
-		System.out.println(DateFormatUtil.dateToString(stDate1));*/
-		Map<String,Date> map = getDateByQuarter(3,2019);
-		System.out.println(dateToString(map.get("startDate")));
-		System.out.println(dateToString(map.get("endDate")));
-
-
-	}
-
-
 	public static  List<String>  getYearAndMonth (String beginDate,String endDate) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Calendar cal = Calendar.getInstance();
@@ -393,6 +375,11 @@ public class DateFormatUtil {
 		}
 		return  a;
 	}
+
+
+
+
+
 
 	public static long get_D_Plaus_1(Calendar c) {
 		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
@@ -414,6 +401,7 @@ public class DateFormatUtil {
 						break;
 					}
 				}
+
 				if (flg) {
 					DataTempVo dataTempVo = new DataTempVo();
 					dataTempVo.setMaDate(s);
@@ -421,14 +409,95 @@ public class DateFormatUtil {
 					dataTempVo.setMId(mm.getMId());
 					dataTempVo.setAreaName(mm.getAreaName());
 					dataTempVo.setMaName(mm.getMaName());
+
+
+
 					dataTempVoList.add(dataTempVo);
+
 				}
 			}
 		}
-			DateFormatUtil.listSort2(dataTempVoList);
-			return dataTempVoList;
-		}
+		DateFormatUtil.listSort2(dataTempVoList);
+		return dataTempVoList;
+	}
 
+
+	public static  List<Map<String,Object>> fillUpMap(List<String> list, List<Map<String,Object>> entityList) throws ParseException {
+		List<Map<String,Object>> dataTempVoList = new ArrayList<>();
+		dataTempVoList.addAll(entityList);
+		Map<String,Object> mm =  new HashMap<String,Object>();
+		if (list != null && list.size() > 0){
+			boolean flg = true;
+			for (String s:list){
+				for (Map<String,Object> m : entityList){
+					mm.clear();
+					mm.putAll(m);
+					String mDate = "";
+					if(m.get("mdate")!=null) {
+						mDate = DateFormatUtil.dateToString(DateFormatUtil.stringToDate(m.get("mdate").toString()), "YYYY-MM");
+					}
+					flg = true;
+					if (s.equals(mDate)){
+						flg = false;
+						mm.clear();
+						mm.putAll(m);
+						break;
+					}
+				}
+				if (flg){
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.putAll(mm);
+					map.put("mdate",s);
+					map.put("price",0.00);
+					map.put("huanbi",0.00);
+					map.put("tongbi",0.00);
+					map.put("exponent",0.00);
+					dataTempVoList.add(map);
+				}
+			}
+			listSort(dataTempVoList,"mdate");
+		}
+		return dataTempVoList;
+	}
+
+	public static  List<Map<String,Object>> fillUpMapasmdate(List<String> list, List<Map<String,Object>> entityList) throws ParseException {
+		List<Map<String,Object>> dataTempVoList = new ArrayList<>();
+		dataTempVoList.addAll(entityList);
+		Map<String,Object> mm =  new HashMap<String,Object>();
+		if (list != null && list.size() > 0){
+			boolean flg = true;
+			for (String s:list){
+				for (Map<String,Object> m : entityList){
+					mm.clear();
+					mm.putAll(m);
+					String mDate = "";
+					if(m.get("asmdate")!=null) {
+						mDate = DateFormatUtil.dateToString(DateFormatUtil.stringToDate(m.get("asmdate").toString()), "YYYY-MM");
+					}
+					flg = true;
+					if (s.equals(mDate)){
+						flg = false;
+						mm.clear();
+						mm.putAll(m);
+						break;
+					}
+				}
+				if (flg){
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.putAll(mm);
+					map.put("asmdate",s);
+					map.put("price",0.00);
+					map.put("huanbi",0.00);
+					map.put("tongbi",0.00);
+					map.put("exponent",0.00);
+					dataTempVoList.add(map);
+				}
+			}
+
+			listSort(dataTempVoList,"asmdate");
+		}
+		return dataTempVoList;
+	}
 
 	public static void listSort2(List<DataTempVo> list) {
 		Collections.sort(
@@ -440,4 +509,98 @@ public class DateFormatUtil {
 					}
 				});
 	}
+
+
+
+
+
+
+	public static void listSort(List<Map<String, Object>> list,String type) {
+		Collections.sort(
+				list, new Comparator<Map<String, Object>>() {
+					public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+						String mdate1 = o1.get(type).toString() ;//mdate1是从你list里面拿出来的一个
+						String mdate2 =o2.get(type).toString() ; //mdate2是从你list里面拿出来的第二个
+						return mdate1.compareTo(mdate2);
+					}
+				});
+	}
+
+
+
+
+	/**
+	 * 日期季度相减
+	 * @param number
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date computeQuarterSub(int number,Date date) throws ParseException {
+		return computeQuarterAdd(number * -1,date);
+	}
+
+	/**
+	 * 日期季度相加
+	 * @param number
+	 * @param date
+	 */
+	public static Date computeQuarterAdd(int number,Date date) throws ParseException {
+		Integer monthNmber = number * 3;
+		String aa = DateFormatUtil.dateComputeToString(date,2,monthNmber);
+		return DateFormatUtil.stringToDate(aa);
+	}
+
+
+	public static Date computeYearAdd(int number,Date date) throws ParseException {
+		String aa = DateFormatUtil.dateComputeToString(date,1,number);
+		return DateFormatUtil.stringToDate(aa);
+	}
+
+	public static Date computeYearSub(int number,Date date) throws ParseException {
+		return DateFormatUtil.computeYearAdd(number*-1,date);
+	}
+
+	/**
+	 * 获取当前日期所属年度的第一天
+	 * @param quarter
+	 * @param date
+	 * @return
+	 */
+	public static String getYearFristDay(Date date)  {
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(date);
+		Integer year =cal.get(Calendar.YEAR);
+		return year + "-01-01 00:00:00";
+	}
+
+	/**
+	 * 获取当前日期所属季度的第一天
+	 * @param quarter
+	 * @param date
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String getQuarterFristDay(String date) throws ParseException {
+		return getQuarterFristDay(stringToDate(date));
+	}
+
+	/**
+	 * 获取当前日期所属季度的第一天
+	 * @param quarter
+	 * @param date
+	 * @return
+	 */
+	public static String getQuarterFristDay(Date date)  {
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(date);
+		Integer quarter = getQuarter(date);
+		Map<String,String> DateMap = new HashMap<>();
+		DateMap.put("Frist_1",cal.get(Calendar.YEAR)+"-01-01 00:00:00");
+		DateMap.put("Frist_2",cal.get(Calendar.YEAR)+"-04-01 00:00:00");
+		DateMap.put("Frist_3",cal.get(Calendar.YEAR)+"-07-01 00:00:00");
+		DateMap.put("Frist_4",cal.get(Calendar.YEAR)+"-10-01 00:00:00");
+		return DateMap.get("Frist_"+quarter);
+	}
+
 }

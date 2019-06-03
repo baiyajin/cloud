@@ -177,7 +177,8 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     public  List<PageMaterialPrice> monthAvgPrice(List<BasePrice> basePriceList,List<PageMunitUnifiedRule> ruleList){
 
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
-        //统计到各区域c3并统一单位
+
+        System.out.println("=========================");   //统计到各区域c3并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,3));
         //统计到各区域c2并统一单位
         pageMaterialPriceList.addAll( computePrice(basePriceList,ruleList,2,3));
@@ -195,7 +196,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,2,1));
         //统计省级c1并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,1,1));
-        System.out.println("=========================");
         System.out.println(basePriceList.size());
         System.out.println(pageMaterialPriceList.size());
         System.out.println("=========================");

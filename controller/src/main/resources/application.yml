@@ -2,7 +2,7 @@ server:
   port: 9220
 
 web:
-#  IP: 182.247.245.27
+  #IP: 182.247.245.27
   IP: localhost
 #  database: jijia_production
   database: jijia_test
@@ -13,7 +13,8 @@ spring:
     name: controller
   datasource:
         username: root
-        password: '%#$123456jijia'
+        password: root
+        #password: '%#$123456jijia'
         url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
         dbcp2:
           validation-query: SELECT 1
@@ -27,7 +28,7 @@ eureka:
     instance-id: controller
   client:
     service-url:
-      defaultZone: http://boos3.com:9993/eureka/,http://boos2.com:9992/eureka/,http://boos1.com:9991/eureka/
+      defaultZone: http://127.0.0.1:9991/eureka/
 
 
 

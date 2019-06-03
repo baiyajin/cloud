@@ -27,6 +27,7 @@ import java.util.Map;
 
 @Api("订阅")
 @Controller
+@CrossOrigin
 @RequestMapping("/PageSubscriptionController")
 public class PageSubscriptionController {
 
