@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
-//@EnableCaching
+@EnableCaching
 @MapperScan(value = "com.baiyajin.materials.mapper")
 @SpringBootApplication
 public class MaterialsApplication {

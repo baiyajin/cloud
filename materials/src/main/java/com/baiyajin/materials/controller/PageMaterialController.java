@@ -34,9 +34,7 @@ import java.util.stream.Collectors;
 public class PageMaterialController {
 
 
-    public PageMaterialController(){
-        System.out.println("c...........");
-    }
+
 
     @Autowired
     private PageMaterialInterface pageMaterialInterface;
@@ -112,10 +110,7 @@ public class PageMaterialController {
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
     public List<MaterialAndClass> getMaterialsClass(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
-
-
         return pageMaterialInterface.getMaterialsClass(map);
-
     }
 
     //	"type":"1","pid":"0",, "area":"530112000000", "stratDate":"2019-01-01", "endDate":"2019-04-02"
@@ -343,7 +338,14 @@ public class PageMaterialController {
         List<Map<String,Object>> reList = new ArrayList<Map<String,Object>>();
         Integer qyarterAf = 0;
         for(Map<String,Object> map:list){
-            Date date = DateFormatUtil.stringToDate(map.get(dateSt).toString(),"yyyy-MM");
+            Date date = null;
+            if(map.get(dateSt) instanceof Long){
+                date = new Date(Long.parseLong(map.get(dateSt).toString()));
+                String datest = DateFormatUtil.dateToString(date,"yyyy-MM");
+                date = DateFormatUtil.stringToDate(map.get(dateSt).toString(),"yyyy-MM");
+            }else{
+                date = DateFormatUtil.stringToDate(map.get(dateSt).toString(),"yyyy-MM");
+            }
             Integer qyarter = DateFormatUtil.getQuarter(date);
 //            System.out.println(DateFormatUtil.dateToString(date));
             if(reList==null || qyarter!=qyarterAf){

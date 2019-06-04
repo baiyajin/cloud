@@ -204,4 +204,14 @@
         </if>
     </select>
 
+
+
+    <insert id="saveUpdatelog" parameterType="java.util.Map" >
+        insert into material_price_update_log(year,month)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.year},#{item.month})
+        </foreach>
+    </insert>
+
 </mapper>

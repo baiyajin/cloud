@@ -4,13 +4,16 @@ package com.baiyajin.materials.service;
 
 import com.baiyajin.entity.bean.*;
 import com.baiyajin.materials.mapper.PageMaterialUpdateMapper;
+import com.baiyajin.util.u.CustomException;
 import com.baiyajin.util.u.DateFormatUtil;
+import com.baiyajin.util.u.HashSalt;
 import com.baiyajin.util.u.JsonUtil;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.xml.crypto.Data;
 import java.math.BigDecimal;
@@ -22,27 +25,83 @@ import java.util.stream.Collectors;
 @Service
 public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMapper,PageMaterialUpdata> implements PageMaterialUpdateInterface {
 
-    private static final String token = null;
+    private static final String tokenPrefix = "jiJia_";
+    private static final String tokenSuffix = "_detectingSystem";
     @Autowired
     private PageMunitUnifiedRuleInterface pageMunitUnifiedRuleInterface;
     @Autowired
     private  PageMaterialPriceInterface pageMaterialPriceInterface;
     @Autowired
     PageAreaInterface pageAreaInterface;
+    @Autowired
+    PinfbPriceInterface pinfbPriceInterface;
+    @Autowired
+    MainPriceInterface mainPriceInterface;
+
+
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int receiveMaterialtPrice(Map<String,Object> map) {
-        String dataSt = map.get("data").toString();
-//            map.get("token").toString();
-        //  String dataSt = "\"[{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2014\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"120\",\"mdate\":\"2019-04-30},{c1\":\"1\",\"c2\":\"12\",\"c3\":\"51\",\"mname\":\"钢绞线（钢丝束）\",\"mspec\":\"1×7-12.7-1860-GB/T5224-2011\",\"munit\":\"kg\",\"remark\":\"\",\"city\",\"area\":\"53\",\"price\":\"100\",\"mdate\":\"2019-04-30}]\"";
-        //解析json内容
-        List<PageMaterialUpdata> list = JsonUtil.jsonToList(dataSt, PageMaterialUpdata.class);
-//            //保存
-        this.insertBatch(list);
-//            for (PageMaterialUpdata l : list) {
-//                baseMapper.insert(l);
-//            }
+        String data = map.get("data").toString();
+        String token = map.get("token").toString();
+        String matType = map.get("matType").toString();
+        //校验token
+        String serToken = tokenPrefix + data  +tokenSuffix;
+        String serTokenMD5 = HashSalt.getMD5(serToken);
+//        if(!serTokenMD5.equals(token.toLowerCase())){
+//            throw new CustomException("token错误","-2");
+//        }
+        Calendar calendar = Calendar.getInstance();
+        if(matType.equals("0")){
+            List<MainPrice> list = JsonUtil.jsonToList(data, MainPrice.class);
+            mainPriceInterface.insertBatch(list);
+            Set<String> yearAndMonthSet = new HashSet<>();
+            List<Map<String,Object>> dateList = new ArrayList<>();
+            //年月去重
+            for(MainPrice l:list){
+                calendar.setTime(l.getMdate());
+                yearAndMonthSet.add(calendar.get(Calendar.YEAR)+","+(calendar.get(Calendar.MONTH)+1));
+            }
+            //记录需要计算的年月，写到日志表
+            for(String st:yearAndMonthSet){
+                Map<String,Object> dateMap = new HashMap<>();
+                dateMap.put("year",st.split(",")[0]);
+                dateMap.put("month",st.split(",")[1]);
+                dateList.add(dateMap);
+            }
+            baseMapper.saveUpdatelog(dateList);
+        }
+        if(matType.equals("1")){
+            List<PinfbPrice> list = JsonUtil.jsonToList(data, PinfbPrice.class);
+            pinfbPriceInterface.insertBatch(list);
+            Set<String> yearAndMonthSet = new HashSet<>();
+            List<Map<String,Object>> dateList = new ArrayList<>();
+            //年月去重
+            for(PinfbPrice l:list){
+                calendar.setTime(l.getMtime());
+                yearAndMonthSet.add(calendar.get(Calendar.YEAR)+","+(calendar.get(Calendar.MONTH)+1));
+            }
+            //记录需要计算的年月，写到日志表
+            for(String st:yearAndMonthSet){
+                Map<String,Object> dateMap = new HashMap<>();
+                dateMap.put("year",st.split(",")[0]);
+                dateMap.put("month",st.split(",")[1]);
+                dateList.add(dateMap);
+            }
+            baseMapper.saveUpdatelog(dateList);
+        }
         return 0;
     }
+
+    /**
+     * 更新数据
+     */
+    public void updatePrice(){
+        //查询未处理的月份
+    }
+
+
 
     public void  updatePrice(Map<String,Object> map){
         //材料名称列表

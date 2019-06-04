@@ -2,6 +2,7 @@ package com.baiyajin.materials.controller;
 
 
 import com.baiyajin.materials.service.PageMaterialUpdateInterface;
+import com.baiyajin.util.u.CustomException;
 import com.baiyajin.util.u.ReturnModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +36,13 @@ public class PageMaterialtUpdateController {
     public ReturnModel receiveMaterialtPrice(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map){
         //c1,c2,c3,mname,mspec,munit,remark,city,area,price,mdate
         //通用材料：c1,c2,c3,mname,mspec,munit,remark,city,area,price,mtime
-      try{
+      try {
           pageMaterialUpdateInterface.receiveMaterialtPrice(map);
+      }catch (CustomException e){
+          e.printStackTrace();
+          ReturnModel re = new ReturnModel(0);
+          re.setMsg(e.getMessage());
+          return re;
       }catch (Exception e){
           e.printStackTrace();
           return new ReturnModel(0);
