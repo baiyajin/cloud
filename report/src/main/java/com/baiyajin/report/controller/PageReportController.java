@@ -15,8 +15,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -267,14 +265,30 @@ public class PageReportController {
         if (page == null || page.getList() == null ||page.getList().size() == 0){
             return new Results(1,"暂无数据");
         }
+        System.out.println(page.getList().get(0).getCreateTime());
+
+//        List<ReportVo> templist = page.getList();
+//        List<ReportVo> templist2 = new ArrayList<>();
+//        for(ReportVo r:templist){
+//            r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
+//            r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
+//            r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));
+//            templist2.add(r);
+//        }
+//        page.setList(templist2);
+//        System.out.println(page.getList().get(0).getCreateTime());
+//        System.out.println(page.getList().get(0).getAreaName());
+//        System.out.println("=====================");
+
         for (ReportVo r:page.getList()){
-            r.setStartTime(DateUtils.addHours(r.getStartTime(),8));
-            r.setCreateTime(DateUtils.addHours(r.getCreateTime(),8));
             r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
             r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
             r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));
+
+            System.out.println(r.getCreateTimeStr());
         }
         page.setCount(count);
+        System.out.println(page.getList().get(0).getCreateTimeStr());
         return page;
     }
 
