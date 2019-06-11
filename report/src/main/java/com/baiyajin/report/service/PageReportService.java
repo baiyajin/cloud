@@ -86,7 +86,6 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
         String dataType = reportVo.getDataType();
         String type = reportVo.getType();
         Map<String, Integer> map = new HashMap<>();
-
         if ("1".equals(dataType)) {
             dataTempVo.setType("0");
             try {
@@ -182,6 +181,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
         dataTempVo.setContrastRegionID("53");
         List<DataTempVo> dataTempVoList2 = baseMapper.findDataByReportId(dataTempVo);
         Map<String, List<DataTempVo>> mm =  dataTempVoList.stream().collect(Collectors.groupingBy(DataTempVo::getMId));
+//        List<String> titleListNew = new ArrayList<>();
         if (maIds != null && maIds.length > 0 && maNames != null && maNames.length > 0){
             Map<String,Object> map2 = new HashMap<>();
             List<Map<String,Object>> mapList = new ArrayList<>();
@@ -205,6 +205,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
                     int year = map.get("year");
                     int month = map.get("month");
                     map2.put("title",(year + "年" + month + "月," + maNames[i] + "月度数据报告"));
+//                    titleListNew.add(year + "年" + month + "月," + maNames[i] + "月度数据报告");
                 }
                 if ("2".equals(dataType)) {
                     try {
@@ -214,6 +215,7 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
                     }
                     int year = map.get("year");
                     map2.put("title",(year + "年第" + reportVo.getTimeInterval() + "季度" + maNames[i] + "季度数据报告"));
+//                    titleListNew.add(year + "年第" + reportVo.getTimeInterval() + "季度" + maNames[i] + "季度数据报告");
                 }
                 if ("3".equals(dataType)) {
                     try {
@@ -223,9 +225,11 @@ public class PageReportService extends ServiceImpl<PageReportMapper, PageReport>
                     }
                     int year = map.get("year");
                     map2.put("title",(year + "年" + maNames[i] + "年度数据报告"));
+//                    titleListNew.add(year + "年" +  maNames[i] + "年度数据报告");
                 }
                 mapList.add(map2);
             }
+//            reportVo.setTitleList(titleListNew);
             reportVo.setMapList(mapList);
         }
         return  new Results(0, "查询成功",reportVo);

@@ -43,54 +43,57 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int receiveMaterialtPrice(Map<String,Object> map) {
-        String data = map.get("data").toString();
-        String token = map.get("token").toString();
-        String matType = map.get("matType").toString();
-        //校验token
-        String serToken = tokenPrefix + data  +tokenSuffix;
-        String serTokenMD5 = HashSalt.getMD5(serToken);
+//        String data = map.get("data").toString();
+//        String token = map.get("token").toString();
+//        String matType = map.get("matType").toString();
+//        //校验token
+//        String serToken = tokenPrefix + data  +tokenSuffix;
+//        String serTokenMD5 = HashSalt.getMD5(serToken);
+//        System.out.println(serTokenMD5);
 //        if(!serTokenMD5.equals(token.toLowerCase())){
 //            throw new CustomException("token错误","-2");
 //        }
-        Calendar calendar = Calendar.getInstance();
-        if(matType.equals("0")){
-            List<MainPrice> list = JsonUtil.jsonToList(data, MainPrice.class);
-            mainPriceInterface.insertBatch(list);
-            Set<String> yearAndMonthSet = new HashSet<>();
-            List<Map<String,Object>> dateList = new ArrayList<>();
-            //年月去重
-            for(MainPrice l:list){
-                calendar.setTime(l.getMdate());
-                yearAndMonthSet.add(calendar.get(Calendar.YEAR)+","+(calendar.get(Calendar.MONTH)+1));
-            }
-            //记录需要计算的年月，写到日志表
-            for(String st:yearAndMonthSet){
-                Map<String,Object> dateMap = new HashMap<>();
-                dateMap.put("year",st.split(",")[0]);
-                dateMap.put("month",st.split(",")[1]);
-                dateList.add(dateMap);
-            }
-            baseMapper.saveUpdatelog(dateList);
-        }
-        if(matType.equals("1")){
-            List<PinfbPrice> list = JsonUtil.jsonToList(data, PinfbPrice.class);
-            pinfbPriceInterface.insertBatch(list);
-            Set<String> yearAndMonthSet = new HashSet<>();
-            List<Map<String,Object>> dateList = new ArrayList<>();
-            //年月去重
-            for(PinfbPrice l:list){
-                calendar.setTime(l.getMtime());
-                yearAndMonthSet.add(calendar.get(Calendar.YEAR)+","+(calendar.get(Calendar.MONTH)+1));
-            }
-            //记录需要计算的年月，写到日志表
-            for(String st:yearAndMonthSet){
-                Map<String,Object> dateMap = new HashMap<>();
-                dateMap.put("year",st.split(",")[0]);
-                dateMap.put("month",st.split(",")[1]);
-                dateList.add(dateMap);
-            }
-            baseMapper.saveUpdatelog(dateList);
-        }
+//        Calendar calendar = Calendar.getInstance();
+//        if(matType.equals("0")){
+//            List<MainPrice> list = JsonUtil.jsonToList(data, MainPrice.class);
+//            mainPriceInterface.insertBatch(list);
+//            Set<String> yearAndMonthSet = new HashSet<>();
+//            List<Map<String,Object>> dateList = new ArrayList<>();
+//            //年月去重
+//            for(MainPrice l:list){
+//                calendar.setTime(l.getMdate());
+//                yearAndMonthSet.add(calendar.get(Calendar.YEAR)+","+(calendar.get(Calendar.MONTH)+1));
+//            }
+//            //记录需要计算的年月，写到日志表
+//            for(String st:yearAndMonthSet){
+//                Map<String,Object> dateMap = new HashMap<>();
+//                dateMap.put("year",st.split(",")[0]);
+//                dateMap.put("month",st.split(",")[1]);
+//                dateList.add(dateMap);
+//            }
+//            baseMapper.saveUpdatelog(dateList);
+//        }
+//        if(matType.equals("1")){
+//            List<PinfbPrice> list = JsonUtil.jsonToList(data, PinfbPrice.class);
+//            pinfbPriceInterface.insertBatch(list);
+//            Set<String> yearAndMonthSet = new HashSet<>();
+//            List<Map<String,Object>> dateList = new ArrayList<>();
+//            //年月去重
+//            for(PinfbPrice l:list){
+//                calendar.setTime(l.getMtime());
+//                yearAndMonthSet.add(calendar.get(Calendar.YEAR)+","+(calendar.get(Calendar.MONTH)+1));
+//            }
+//            //记录需要计算的年月，写到日志表
+//            for(String st:yearAndMonthSet){
+//                Map<String,Object> dateMap = new HashMap<>();
+//                dateMap.put("year",st.split(",")[0]);
+//                dateMap.put("month",st.split(",")[1]);
+//                dateList.add(dateMap);
+//            }
+//            baseMapper.saveUpdatelog(dateList);
+//        }
+        updatePrice();
+
         return 0;
     }
 
@@ -99,10 +102,19 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
      */
     public void updatePrice(){
         //查询未处理的月份
+        List<Map<String,Object>> logList = baseMapper.selectUpdateLog();
+        System.out.println(logList);
+        //整理需要处理的年月
+
+
+        //开始计算更新数据
     }
 
 
-
+    /**
+     * 计算更新数据
+     * @param map
+     */
     public void  updatePrice(Map<String,Object> map){
         //材料名称列表
         List<MaterialCategory> matInfoList = baseMapper.getMaterialCategory();

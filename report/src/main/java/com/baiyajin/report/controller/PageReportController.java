@@ -62,7 +62,7 @@ public class PageReportController {
     @RequestMapping(value = "/addReport",method = RequestMethod.POST)
     @Transactional(rollbackFor = Exception.class)
     @ResponseBody
-    @CacheEvict(value="getReportInfoById",allEntries=true)// getReportInfoById 缓存
+    //@CacheEvict(value="getReportInfoById",allEntries=true)// getReportInfoById 缓存
     public Object addReport (PageReport pageReport) throws ParseException {
         String token = pageReport.getToken();
         Map<String,Object> map = new HashMap<>();
@@ -119,6 +119,8 @@ public class PageReportController {
 
         try {
             pageReportInterface.insert(pageReport);
+            //异步调用详情方法，间接添加到redis
+            new Thread(()-> {pageReportInterface.getReportInfoById(id);}).start();
         } catch (Exception e) {
             e.printStackTrace();
             return new Results(1,"fail");
@@ -136,7 +138,7 @@ public class PageReportController {
     @Transactional(rollbackFor = Exception.class)
     @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
     @ResponseBody
-    @CacheEvict(value="getReportInfoById")
+//    @CacheEvict(value="getReportInfoById")
     public Object deleteReort(String id){
         PageReport p = pageReportInterface.selectById(id);
         if(p == null){
@@ -265,30 +267,12 @@ public class PageReportController {
         if (page == null || page.getList() == null ||page.getList().size() == 0){
             return new Results(1,"暂无数据");
         }
-        System.out.println(page.getList().get(0).getCreateTime());
-
-//        List<ReportVo> templist = page.getList();
-//        List<ReportVo> templist2 = new ArrayList<>();
-//        for(ReportVo r:templist){
-//            r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
-//            r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
-//            r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));
-//            templist2.add(r);
-//        }
-//        page.setList(templist2);
-//        System.out.println(page.getList().get(0).getCreateTime());
-//        System.out.println(page.getList().get(0).getAreaName());
-//        System.out.println("=====================");
-
         for (ReportVo r:page.getList()){
             r.setStartTimeStr(DateFormatUtil.dateToString(r.getStartTime(),"yyyy-MM-dd"));
             r.setEndTimeStr(DateFormatUtil.dateToString(r.getEndTime(),"yyyy-MM-dd"));
             r.setCreateTimeStr(DateFormatUtil.dateToString(r.getCreateTime(),"yyyy-MM-dd"));
-
-            System.out.println(r.getCreateTimeStr());
         }
         page.setCount(count);
-        System.out.println(page.getList().get(0).getCreateTimeStr());
         return page;
     }
 

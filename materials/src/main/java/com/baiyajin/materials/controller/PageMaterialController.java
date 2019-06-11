@@ -226,6 +226,7 @@ public class PageMaterialController {
             Collections.reverse(lad);
             mmlist.put(key,lad);
         }
+
         return new ReturnModel( 1,mmlist);
     }
 
@@ -260,11 +261,21 @@ public class PageMaterialController {
 
         for(String key:mmlist.keySet()){
             List<Map<String,Object>> lad = mmlist.get(key);
+            List<Map<String,Object>> lad2 = new ArrayList<>();
             DateFormatUtil.listSort(lad,"mdate");
             Collections.reverse(lad);
-            mmlist.put(key,lad);
+            for(Map<String,Object> lm:lad){
+                if(lm.get("mdate") instanceof Long){
+                    Date date = new Date(Long.parseLong(lm.get("mdate").toString()));
+                    String datest = DateFormatUtil.dateToString(date,"yyyy-MM");
+                    lm.put("mdate",datest);
+                    lad2.add(lm);
+                }else{
+                    lad2.add(lm);
+                }
+            }
+            mmlist.put(key,lad2);
         }
-
         return new ReturnModel( 1,mmlist);
     }
 
@@ -309,7 +320,8 @@ public class PageMaterialController {
             return returnModel;
         }
 
-        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+//        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        Date endDate = new Date();
         //计算最近几个季度的日期（quarterNumber-1包含当前季度）
         Date startDate = DateFormatUtil.computeQuarterSub(quarterNumber-1,endDate);
         //获取当前日期所属季度的第一天
@@ -342,10 +354,12 @@ public class PageMaterialController {
             if(map.get(dateSt) instanceof Long){
                 date = new Date(Long.parseLong(map.get(dateSt).toString()));
                 String datest = DateFormatUtil.dateToString(date,"yyyy-MM");
-                date = DateFormatUtil.stringToDate(map.get(dateSt).toString(),"yyyy-MM");
+                date = DateFormatUtil.stringToDate(datest,"yyyy-MM");
+                map.put(dateSt,datest);
             }else{
                 date = DateFormatUtil.stringToDate(map.get(dateSt).toString(),"yyyy-MM");
             }
+
             Integer qyarter = DateFormatUtil.getQuarter(date);
 //            System.out.println(DateFormatUtil.dateToString(date));
             if(reList==null || qyarter!=qyarterAf){
@@ -356,6 +370,7 @@ public class PageMaterialController {
                 reList.remove(reList.size()-1);
                 reList.add(map);
             }
+
         }
         return reList;
     }
@@ -377,7 +392,8 @@ public class PageMaterialController {
             return returnModel;
         }
 
-        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        Date endDate = new Date();
+//        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
         //计算最近几个季度的日期（quarterNumber-1包含当前季度）
         Date startDate = DateFormatUtil.computeYearSub(yearNumber-1,endDate);
         //获取当前日期所属季度的第一天
@@ -394,8 +410,20 @@ public class PageMaterialController {
 
         for(String key:mmlist.keySet()){
             List<Map<String,Object>> lad = mmlist.get(key);
+            List<Map<String,Object>> lad2 = new ArrayList<>();
             DateFormatUtil.listSort(lad,"mdate");
             Collections.reverse(lad);
+            for(Map<String,Object> lm:lad){
+                if(lm.get("mdate") instanceof Long){
+                   Date date = new Date(Long.parseLong(lm.get("mdate").toString()));
+                    String datest = DateFormatUtil.dateToString(date,"yyyy-MM");
+                    lm.put("mdate",datest);
+                    lad2.add(lm);
+                }else{
+                    lad2.add(lm);
+                }
+            }
+            mmlist.put(key,lad2);
 //            mmlist.put(key,supplementDate(map,mmlist.get(key)));
         }
         return new ReturnModel( 1,mmlist);

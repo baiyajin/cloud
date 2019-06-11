@@ -214,4 +214,9 @@
         </foreach>
     </insert>
 
+    <select id="selectUpdateLog" resultType="java.util.Map">
+        select * from material_price_update_log
+    </select>
+
+
 </mapper>

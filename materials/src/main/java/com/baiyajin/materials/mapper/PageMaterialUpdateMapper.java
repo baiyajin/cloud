@@ -27,5 +27,7 @@ public interface PageMaterialUpdateMapper extends BaseMapper<PageMaterialUpdata>
 
     public int saveUpdatelog(List<Map<String, Object>> list);
 
+    public  List<Map<String, Object>>  selectUpdateLog();
+
 
 }

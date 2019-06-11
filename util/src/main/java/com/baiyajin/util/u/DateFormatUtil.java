@@ -434,7 +434,12 @@ public class DateFormatUtil {
 					mm.putAll(m);
 					String mDate = "";
 					if(m.get("mdate")!=null) {
-						mDate = DateFormatUtil.dateToString(DateFormatUtil.stringToDate(m.get("mdate").toString()), "YYYY-MM");
+						if(m.get("mdate") instanceof Long){
+							Date date =  new Date(Long.parseLong(m.get("mdate").toString()));
+							mDate =DateFormatUtil.dateToString(date,"yyyy-MM");
+						}else{
+							mDate = DateFormatUtil.dateToString(DateFormatUtil.stringToDate(m.get("mdate").toString()), "yyyy-MM");
+						}
 					}
 					flg = true;
 					if (s.equals(mDate)){

@@ -6,6 +6,7 @@ web:
   #IP: 182.247.245.27
   IP: 127.0.0.1
   database: jijia_test
+  #database: matdemo
 
 
 spring:
@@ -19,8 +20,8 @@ spring:
 #    timeout: 100
   datasource:
     username: root
-    #password: root
-    password: '%#$123456jijia'
+    password: root
+    #password: '%#$123456jijia'
     url: jdbc:mysql://${web.IP}:3306/${web.database}?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
   redis:
     database: 0
@@ -49,7 +50,7 @@ info:
   company.name: baiyajin
   build.artifactId: $project.artifactId$
   build.version: $project.version$
-#
-#logging:
-#  level:
-#     com.baiyajin.materials.mapper : debug
+
+logging:
+  level:
+     com.baiyajin.materials.mapper : debug
