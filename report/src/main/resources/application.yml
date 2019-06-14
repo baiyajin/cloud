@@ -3,7 +3,7 @@ server:
 
 web:
   #IP: 182.247.245.27
-#  database: jijia_production
+  #database: jijia_production
   database: jijia_test
   IP: localhost
   redisIP: localhost

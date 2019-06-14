@@ -224,6 +224,7 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
         for(List<BasePrice> c4BasePrice:c4BasePriceListMap.values()){
             c3BasePriceList.addAll(munitUnified(c4BasePrice,ruleList));
         }
+
         map.clear();
         map.put("type",0);
         //计算好的数据列表
@@ -232,8 +233,8 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
       //   System.out.println("开始计算");
         //处理并统计各材料各区域平均价格
         List<PageMaterialPrice> basePriceList = monthAvgPrice(c3BasePriceList,ruleList);
-    //    System.out.println("结束计算");
-     //   System.out.println("更新开始");
+         //System.out.println("结束计算");
+         //System.out.println("更新开始");
         //保存或更新月度价格数据
         updatePrice(basePriceList,matInfoList,areaInfoList,baseList);
        // System.out.println( year + "年" + month + "月数据更新结束");
@@ -309,7 +310,6 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
      * @return
      */
     public  List<PageMaterialPrice> monthAvgPrice(List<BasePrice> basePriceList,List<PageMunitUnifiedRule> ruleList){
-
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
         //统计到各区域c3并统一单位
         pageMaterialPriceList.addAll(computePrice(basePriceList,ruleList,3,3));
@@ -346,6 +346,8 @@ public class PageMaterialUpdateService extends ServiceImpl<PageMaterialUpdateMap
 
         List<PageMaterialPrice> pageMaterialPriceList = new ArrayList<>();
         Map<Integer, Map<String, List<BasePrice>>> priceListMap = new HashMap<>();
+
+
         if(matlevel==3 && areaLevel==3){
             priceListMap = basePriceList.stream().collect(Collectors.groupingBy(BasePrice::getC3,Collectors.groupingBy(BasePrice::getArea)));
         }

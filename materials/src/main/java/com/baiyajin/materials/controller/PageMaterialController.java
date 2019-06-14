@@ -41,7 +41,7 @@ public class PageMaterialController {
     private PageAreaInterface pageAreaInterface;
 
     public Date getRecentlyDate() throws ParseException {
-        return DateFormatUtil.stringToDate("2019-05-31 23:59:59");
+        return DateFormatUtil.stringToDate("2019-03-31 23:59:59");
     }
 
     /**
@@ -247,8 +247,8 @@ public class PageMaterialController {
             e.printStackTrace();
             return returnModel;
         }
-
-        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        Date endDate =getRecentlyDate();
+//        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
         //计算最近几个季度的日期（quarterNumber-1包含当前季度）
         Date startDate = DateFormatUtil.computeYearSub(yearNumber-1,endDate);
         //获取当前日期所属季度的第一天
@@ -513,6 +513,7 @@ public class PageMaterialController {
             reMap.put("all", materialCountAll);
 
         }catch (Exception e){
+            e.printStackTrace();
             return new ReturnModel(0,null);
         }
 
@@ -577,6 +578,7 @@ public class PageMaterialController {
             if(!areas.equals("")){
                 areas = areas.substring(1);
             }
+            System.out.println("----------------");
             map.put("area",areas);
         }
         return getMaterialsInfoByAllCities(map);
@@ -635,8 +637,8 @@ public class PageMaterialController {
             e.printStackTrace();
             return returnModel;
         }
-
-        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        Date endDate = getRecentlyDate();
+//        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
         //计算最近几个季度的日期（quarterNumber-1包含当前季度）
         Date startDate = DateFormatUtil.computeQuarterSub(quarterNumber-1,endDate);
         //获取当前日期所属季度的第一天
@@ -684,8 +686,8 @@ public class PageMaterialController {
             e.printStackTrace();
             return returnModel;
         }
-
-        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        Date endDate = getRecentlyDate();
+//        Date endDate = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
         //计算最近几个季度的日期（quarterNumber-1包含当前季度）
         Date startDate = DateFormatUtil.computeYearSub(yesrNumber-1,endDate);
         //获取当前日期所属季度的第一天
