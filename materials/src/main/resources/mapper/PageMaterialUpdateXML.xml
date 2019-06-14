@@ -161,14 +161,14 @@
         right join
         (select id,mid,city,area,price,mtime from hl_pinfb_price where year(mtime) = #{year} and month(mtime) = #{month}) i
         on m.id = i.mid where c1 is not null
-        ) mm group by c3,area
+        ) mm group by mid,area
         union all
         select ANY_VALUE(c1) as c1,ANY_VALUE(c2) as c2, ANY_VALUE(c3) as c3,ANY_VALUE(mname) as mname,ANY_VALUE(munit) as munit,ANY_VALUE(mid) as mid,ANY_VALUE(city) as city,ANY_VALUE(area) as area,avg(price) as price,ANY_VALUE(mdate)  as mdate  from (
         select m.id,c1,c2,c3,mname,munit,mid,city,area,price,mdate as mdate from hl_main_material m
         right join
         (select id,mid,city,area,price,mdate from hl_main_price where year(mdate) =#{year} and month(mdate) =  #{month}) i
         on m.id = i.mid where c1 is not null
-        ) mm group by c3,area
+        ) mm group by mid,area
     </select>
 
 

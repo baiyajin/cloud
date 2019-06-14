@@ -1,10 +1,8 @@
 package com.baiyajin.materials.controller;
 
 
-import com.baiyajin.entity.bean.MaterialAndClass;
-import com.baiyajin.entity.bean.MaterialCount;
-import com.baiyajin.entity.bean.MaterialVo;
-import com.baiyajin.entity.bean.PageMaterial;
+import com.baiyajin.entity.bean.*;
+import com.baiyajin.materials.service.PageAreaInterface;
 import com.baiyajin.materials.service.PageMaterialInterface;
 import com.baiyajin.util.u.*;
 import io.swagger.annotations.Api;
@@ -39,11 +37,11 @@ public class PageMaterialController {
     @Autowired
     private PageMaterialInterface pageMaterialInterface;
 
-    @RequestMapping(value = "/", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
-    @Transactional(rollbackFor = Exception.class)
-    @ResponseBody
-    public List<Map<String,Object>> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) {
-        return null;
+    @Autowired
+    private PageAreaInterface pageAreaInterface;
+
+    public Date getRecentlyDate() throws ParseException {
+        return DateFormatUtil.stringToDate("2019-05-31 23:59:59");
     }
 
     /**
@@ -141,13 +139,16 @@ public class PageMaterialController {
     public List<Map<String,Object>> getMaterialsInfoByRecent(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String,Object> map) throws ParseException {
         map.put("level","1");
         map.put("type","0");
-        map.put("area","53");
-        map.put("startDate","2019-03");
-        map.put("endDate","2019-03");
-//        map.put("startDate",DateFormatUtil.dateToString(new Date(),"yyyy-MM"));
-//        map.put("endDate",DateFormatUtil.dateToString(new Date(),"yyyy-MM"));
+        if(map.get("area")==null){
+            map.put("area","53");
+        }
+//        map.put("startDate","2019-03");
+//        map.put("endDate","2019-03");
+        map.put("startDate",DateFormatUtil.dateToString(getRecentlyDate(),"yyyy-MM"));
+        map.put("endDate",DateFormatUtil.dateToString(getRecentlyDate(),"yyyy-MM"));
         return pageMaterialInterface.getMaterialsInfo(map);
     }
+
 
 
 
@@ -494,17 +495,23 @@ public class PageMaterialController {
     public ReturnModel getMaterialCount( @RequestBody Map<String, Object> map) {
         Map<String, Object> reMap = new HashMap<>();
         try {
-            map.put("area", "530100000000");
+            if(map.get("area")==null){
+                map.put("area", "530100000000");
+            }
+
             MaterialCount kmMaterialCount = pageMaterialInterface.getMaterialCount(map);
             map.remove("area");
 
             MaterialCount otherMaterialCount = pageMaterialInterface.getMaterialCount(map);
             otherMaterialCount.setCount(otherMaterialCount.getCount()-kmMaterialCount.getCount());
+
             map.put("mid", 0);
             MaterialCount materialCountAll = pageMaterialInterface.getMaterialCount(map);
+
             reMap.put("km", kmMaterialCount);
             reMap.put("other", otherMaterialCount);
             reMap.put("all", materialCountAll);
+
         }catch (Exception e){
             return new ReturnModel(0,null);
         }
@@ -534,7 +541,7 @@ public class PageMaterialController {
         }
 
 //        Date date = new Date();
-        Date date = DateFormatUtil.stringToDate("2019-03-31 23:59:59");
+        Date date = getRecentlyDate();
         Date stDate = DateFormatUtil.dateCompute(date,2,monthNumber * -1);
         stDate = DateFormatUtil.setDate(stDate,5,1);
         map.put("startDate",DateFormatUtil.dateToString(stDate,"yyyy-MM"));
@@ -548,6 +555,32 @@ public class PageMaterialController {
 
 
 
+    /**
+     * 获取市级区域信息
+     * @param map
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/getMaterialsInfoByAllArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByAllArea( @RequestBody Map<String, Object> map) throws ParseException {
+
+        if(map.get("area")!=null){
+            String city = map.get("area").toString();
+            Map<String,Object> cityMap =  new HashMap<String,Object>();
+            cityMap.put("pid",city);
+            List<PageArea> pageAreaList = pageAreaInterface.selectByMap(cityMap);
+            String areas ="";
+            for(PageArea area:pageAreaList){
+                areas += ","+area.getId();
+            }
+            if(!areas.equals("")){
+                areas = areas.substring(1);
+            }
+            map.put("area",areas);
+        }
+        return getMaterialsInfoByAllCities(map);
+    }
 
 
     /**

@@ -13,8 +13,5 @@ public class PageMunitUnifiedRule {
     private String munitName;
     private String matchedNames;
     private BigDecimal coefficient;
-
-
-
-
+    private Integer type;
 }

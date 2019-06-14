@@ -159,6 +159,13 @@ public class Material {
     }
 
 
+    @RequestMapping(value = "/getMaterialsInfoByAllArea", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ReturnModel getMaterialsInfoByAllArea( @RequestBody Map<String, Object> map) throws ParseException {
+        return restTemplate.postForObject(Rest_url_prefix + "/PageMaterialController/getMaterialsInfoByAllAreas", map, ReturnModel.class);
+    }
+
+
     /**
      * 获取材料封装
      *
