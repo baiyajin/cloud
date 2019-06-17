@@ -3,6 +3,7 @@
  */
 package com.baiyajin.entity.bean;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -24,5 +25,27 @@ public class BasePrice implements Serializable {
 	private String area;
 	private BigDecimal price;
 	private Date mdate;
+
+	@TableField(exist = false)
+	private BigDecimal exponent;
+
+	public BasePrice(){
+
+	}
+
+	public BasePrice(BasePrice entiy){
+		this.c1=entiy.getC1();
+		this.c2=entiy.getC2();
+		this.c3=entiy.getC3();
+		this.mname=entiy.getMname();
+		this.munit=entiy.getMunit();
+		this.id=entiy.getId();
+		this.mid=entiy.getMid();
+		this.city=entiy.getCity();
+		this.area=entiy.getArea();
+		this.price=entiy.getPrice();
+		this.mdate=entiy.getMdate();
+		this.exponent=entiy.getExponent();
+	}
 
 }
